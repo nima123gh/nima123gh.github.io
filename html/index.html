@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>For My Love</title>
+  <style>
+                @font-face {
+                    font-family: 'reybold';
+                    src: url('/fonts/rey/Ray-Black.woff2') format('woff2');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'rey';
+                    src: url('/fonts/rey/Ray-Bold.woff2') format('woff2');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'reylight';
+                    src: url('/fonts/rey/Ray-Light.woff2') format('woff2');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'reymedium';
+                    src: url('/fonts/rey/Ray-Medium.woff2') format('woff2');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+    :root{--bg1:#ffdde1;--bg2:#ee9ca7;--header-color:#6b0f4b;--text-color:#333}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:"Segoe UI",system-ui,-apple-system,Segoe UI Symbol,Arial,sans-serif; overflow-x:hidden}
+    body{background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text-color);text-align:center;overflow:hidden;background-attachment:fixed; background-size: cover;overflow-x: hidden}
+
+    /* LOCK SCREEN */
+    .lock-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35));backdrop-filter:blur(4px);z-index:9999}
+    .lock-card{background:rgba(255,255,255,0.95);color:var(--header-color);padding:28px;border-radius:14px;min-width:320px;max-width:420px;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
+    .lock-card h3{margin:0 0 8px;font-size:1.4rem}
+    .lock-card p{margin:0 0 14px;font-size:0.95rem;color:#666}
+    .lock-input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #eee;font-size:1rem;outline:none}
+    .lock-btn{margin-top:12px;width:100%;padding:10px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--header-color),#ff77aa);color:#fff;font-weight:600;cursor:pointer}
+    .lock-note{font-size:0.85rem;color:#999;margin-top:8px}
+
+    /* MAIN CONTENT */
+    header{padding:48px 20px}
+    h1{font-size:2.6rem;margin:0 0 8px;color:var(--header-color)}
+    header p{margin:0;color:var(--text-color)}
+
+    /* Minimal floating circles */
+    .hearts{position:fixed;inset:0;pointer-events:none;z-index:0}
+    .heart{position:absolute;width:14px;height:14px;background:rgba(255,255,255,0.7);border-radius:50%;animation:float linear infinite}
+    @keyframes float{from{transform:translateY(110vh);opacity:1}to{transform:translateY(-20vh);opacity:0}}
+
+    .section{padding:36px 20px;position:relative;z-index:1}
+    .section h2{color:var(--header-color)}
+    .gallery img{width:250px;height:460px;object-fit:cover;margin:10px;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,0.25);transition:transform .28s}
+    .gallery img:hover{transform:scale(1.06)}
+
+    .secret{margin-top:18px;padding:12px 22px;border-radius:24px;border:none;background:#fff;color:var(--header-color);cursor:pointer;font-weight:700;overflow-x: hidden}
+    #hiddenMessage{margin-top:16px;font-size:1.15rem;display:none}
+
+    @media (max-width:480px){h1{font-size:2rem}.gallery img{width:250px;height:360px}}
+  </style>
+</head>
+<body>
+  <div class="lock-overlay" id="lockOverlay" aria-hidden="false">
+    <div class="lock-card" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+      <h3 id="lockTitle">This page is private</h3>
+      <p>Enter the password I gave you to open this site.</p>
+      <input id="pwd" class="lock-input" type="password" placeholder="Enter password" autocomplete="off" />
+      <button class="lock-btn" id="unlockBtn">Unlock</button>
+      <div class="lock-note">Hint: change the password in the code before you share.</div>
+      <div id="lockError" style="color:#d13;margin-top:8px;display:none;font-size:0.9rem"></div>
+    </div>
+  </div>
+
+  <div class="hearts" id="hearts"></div>
+
+  <header>
+    <h1 style="font-family: reybold;">💕 سلاممممممم عشق من 💕</h1>
+    <p style="font-family: rey;">💞این سایت رو برات درست کردم تا بگم چقدررررر دوست دارم</p>
+  </header>
+
+  <section class="section">
+    <h2>Our Memories</h2>
+    <div class="gallery">
+        <img src="/images/1.PNG" alt="Memory 1">
+        <img src="/images/2.PNG" alt="Memory 2">
+        <img src="/images/3.PNG" alt="Memory 3">
+        <img src="/images/4.PNG" alt="Memory 4">
+        <img src="/images/5.PNG" alt="Memory 5">
+        <img src="/images/6.PNG" alt="Memory 6">
+        <img src="/images/7.PNG" alt="Memory 7">
+        <img src="/images/8.PNG" alt="Memory 8">
+        <img src="/images/9.PNG" alt="Memory 9">
+        <img src="/images/10.PNG" alt="Memory 10">
+        <img src="/images/11.PNG" alt="Memory 11">
+        <img src="/images/12.PNG" alt="Memory 12">
+        <img src="/images/13.PNG" alt="Memory 13">
+        <img src="/images/14.PNG" alt="Memory 14">
+        <img src="/images/15.PNG" alt="Memory 15">
+        <img src="/images/16.PNG" alt="Memory 16">
+        <img src="/images/17.PNG" alt="Memory 17">
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 style="font-family: reybold;"> 🤓 یه پیام عاشقانه </h2>
+    <p style="font-family: rey;">عسل حقیقت ، هرروزی که میگذره ، عشقم بهت بیشتر میشه و این جادویی که توی چشمات داری منو دیوونه میکنه . من همیشه اینو بهت گفتم ، واقعا واقعا واقعا تورو من از هر ادمی تو زندگیم بیشتر دوست دارم💕 . و میخواستم بگم <br>
+   عاااااااااااااااااااااااشختمممممممممممممممم 
+    </p>
+  </section>
+
+<section class="section">
+  <h2>For Your Eyes Only</h2>
+  <button class="secret" id="surpriseBtn">Click for a Surprise</button>
+  <div id="surpriseMessage" style="position:relative;margin-top:16px;font-size:1.5rem;color:#ff1f85;display:none;opacity:0;text-shadow:0 0 12px #ff77aa,0 0 18px #ff1f85;transition:opacity 1s;">
+    عسلم، تو جون منی ❤️✨
+
+        <div class="gallery">
+        <img src="/images/ss.PNG" alt="Memory 1">
+    </div>
+  </div>
+  <div id="particleContainer"></div>
+</section>
+
+
+  <script>
+    const storedHash = 'aG90apW2+DbX1wVnwwLD+eu17g3vPRIg7p1OnzT14TE=';
+
+    async function hashBase64(text) {
+      const enc = new TextEncoder();
+      const data = enc.encode(text);
+      const digest = await crypto.subtle.digest('SHA-256', data);
+      const bytes = new Uint8Array(digest);
+      let binary = '';
+      for (let i=0;i<bytes.byteLength;i++) binary += String.fromCharCode(bytes[i]);
+      return btoa(binary);
+    }
+
+    document.getElementById('unlockBtn').addEventListener('click', tryUnlock);
+    document.getElementById('pwd').addEventListener('keydown', e => { if(e.key==='Enter') tryUnlock(); });
+
+    async function tryUnlock(){
+      const input = document.getElementById('pwd').value || '';
+      document.getElementById('lockError').style.display = 'none';
+      const h = await hashBase64(input.trim());
+      if (h === storedHash) {
+        document.getElementById('lockOverlay').style.display = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        document.getElementById('lockError').style.display = 'block';
+      }
+    }
+
+    function reveal(){ document.getElementById('hiddenMessage').style.display = 'block'; }
+
+    function createHeart(){
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random()*100 + 'vw';
+      heart.style.width = (8 + Math.random()*10) + 'px';
+      heart.style.height = heart.style.width;
+      heart.style.animationDuration = (4 + Math.random()*6) + 's';
+      document.getElementById('hearts').appendChild(heart);
+      setTimeout(()=>heart.remove(), 12000);
+    }
+    setInterval(createHeart, 400);
+    
+
+
+
+    document.getElementById('surpriseBtn').addEventListener('click', () => {
+  const msg = document.getElementById('surpriseMessage');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.opacity = 1, 50);
+
+  const container = document.getElementById('particleContainer');
+  container.style.position = 'fixed';
+  container.style.inset = 0;
+  container.style.pointerEvents = 'none';
+  container.style.zIndex = 500;
+
+  // ایجاد 80 ستاره و قلب ریز
+  for(let i=0; i<80; i++){
+    const particle = document.createElement('div');
+    const size = 6 + Math.random()*8;
+    particle.style.width = particle.style.height = size + 'px';
+    particle.style.position = 'absolute';
+    particle.style.left = Math.random()*100 + 'vw';
+    particle.style.top = '-10px';
+    particle.style.background = Math.random() > 0.7 ? '#ff1f85' : 'gold';
+    particle.style.borderRadius = '50%';
+    particle.style.opacity = 0.8;
+    particle.style.transform = `rotate(${Math.random()*360}deg)`;
+    container.appendChild(particle);
+
+    const duration = 3000 + Math.random()*2000;
+    particle.animate([
+      { transform: `translateY(0) rotate(0deg)` },
+      { transform: `translateY(100vh) rotate(${Math.random()*720}deg)` }
+    ], { duration: duration, easing: 'ease-out' });
+
+    setTimeout(() => particle.remove(), duration);
+  }
+
+  // لرزش ملایم صفحه
+  let i = 0;
+  const shakeInterval = setInterval(() => {
+    document.body.style.transform = `translate(${(Math.random()-0.5)*100}px, ${(Math.random()-0.5)*100}px)`;
+    i++;
+    if(i>15) {
+      clearInterval(shakeInterval);
+      document.body.style.transform = 'translate(0,0)';
+    }
+  }, 40);
+});
+
+  </script>
+</body>
+</html>
