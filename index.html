@@ -32,6 +32,18 @@
                     font-weight: normal;
                     font-style: normal;
                 }
+
+
+    .eventrozdokhtarurl:visited {
+      text-decoration: none;
+    }
+    .eventrozdokhtarurl:hover {
+      text-decoration: none;
+    }
+    .eventrozdokhtarurl:active {
+      text-decoration: none;
+    }
+
     :root{--bg1:#ffdde1;--bg2:#ee9ca7;--header-color:#6b0f4b;--text-color:#333}
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:"Segoe UI",system-ui,-apple-system,Segoe UI Symbol,Arial,sans-serif; overflow-x:hidden}
@@ -63,6 +75,69 @@
 
     .secret{margin-top:18px;padding:12px 22px;border-radius:24px;border:none;background:#fff;color:var(--header-color);cursor:pointer;font-weight:700;overflow-x: hidden}
     #hiddenMessage{margin-top:16px;font-size:1.15rem;display:none}
+                
+    .event-card {
+      --bg1: #0f2027;
+      --bg2: #203a43;
+      --bg3: #2c5364;
+  background: linear-gradient(1deg, var(--bg1), var(--bg2), var(--bg3));
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 500px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.event-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.event-card h3 {
+  margin-top: 0;
+  color: var(--header-color);
+  font-size: 1.4rem;
+}
+.event-card p {
+  color: var(--text-color);
+  margin: 8px 0;
+}
+.event-date {
+  font-family: reybold;
+  font-size: 25px;
+}
+.heart2 {
+  font-size: 100px;
+  color: #80d1f4;
+}
+.birthday-event {
+  position: relative;
+  border-radius: 25px;
+  overflow: hidden;
+  margin: 40px auto;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 500px;
+  box-shadow: 0 0 40px rgba(255, 200, 255, 0.2);
+  background: linear-gradient(-45deg, #8b5cf6, #ec4899, #fcd34d, #f472b6);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+  padding-bottom: 40px;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+
+
 
     @media (max-width:480px){h1{font-size:2rem}.gallery img{width:250px;height:360px}}
   </style>
@@ -85,6 +160,41 @@
     <h1 style="font-family: reybold;">💕 سلاممممممم عشق من 💕</h1>
     <p style="font-family: rey;">💞این سایت رو برات درست کردم تا بگم چقدررررر دوست دارم</p>
   </header>
+  
+
+<section class="section" id="events">
+  <h2 style="font-size: 40px; font-family: reybold;">🎉 ایونت ها 🎉</h2>
+  <div class="event-card">
+    <h3 style="font-family: reybold;font-size: 35px;font-weight: bold;color:#ffd6ff;padding-top: 30px;text-shadow: 0 0 40px #ffc9ff">ایونت : روز دختر</h3>
+    <p style="font-family: rey;font-size: 20px;color:#ffd6ff;padding-top: 30px;text-shadow: 0 0 40px #ffc9ff">سلام عسل جون من . برات یه سایت ساختم برای تبریک روز دختر 💕 برای دیدنش بزن رو قلبم که داره برات میزنه </p>
+      <p class="event-date" style="color:#ffd6ff;padding-top: 30px;text-shadow: 0 0 100px #ffc9ff">📅 مهر 19</p>
+      <a href="/html/rozdokhtar.html" class="eventrozdokhtarurl"><span style="animation: pulse 0.5s infinite; font-family: reybold; text-decoration:none;" class="heart2">&#x2764</span></a>
+    </div>
+    
+<div class="event-card birthday-event">
+  <h3 style="font-family: reybold; font-size: 35px; font-weight: bold; color:#fff; padding-top: 30px; text-shadow: 0 0 40px #ffc9ff;">
+    ایونت : تولد 
+  </h3>
+
+  <p style="font-family: rey; font-size: 20px; color:#fff; padding-top: 30px; text-shadow: 0 0 40px #ffc9ff;">
+    نزدیک تولدت شده عسلی 💕 یه سورپرایز برات دارم که روز تولدت فعال میشه!  
+    آماده باش چون قراره کلی ذوق کنییییییییی
+  </p>
+  <p style="font-family: rey; font-size: 20px; color:#fff; padding-top: 0px; text-shadow: 0 0 40px #ffc9ff;">🎂</p>
+  
+
+  <p class="event-date" style="color:#fff; padding-top: 30px; text-shadow: 0 0 100px #ffc9ff;">
+    📅 آبان 8 (به زودی...)
+  </p>
+
+  <div style="padding-top: 25px;">
+    <span style="font-family: reybold; font-size: 40px; color:#fff; animation: pulse 1s infinite; text-shadow: 0 0 60px #ffc9ff;">
+      ⏳
+    </span>
+  </div>
+</div>
+</section>
+
 
   <section class="section">
     <h2>Our Memories</h2>
