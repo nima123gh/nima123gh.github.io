@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>روز دختر ✨</title>
+  <style>
+                @font-face {
+                    font-family: 'reybold';
+                    src: url('/fonts/rey/Ray-Black.woff2') format('woff2');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'rey';
+                    src: url('/fonts/rey/Ray-Bold.woff2') format('woff2');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'reylight';
+                    src: url('/fonts/rey/Ray-Light.woff2') format('woff2');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'reymedium';
+                    src: url('/fonts/rey/Ray-Medium.woff2') format('woff2');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+    :root {
+      --bg1: #0f2027;
+      --bg2: #203a43;
+      --bg3: #2c5364;
+      --accent: #ffd6ff;
+      --glow: #a29bfe;
+      --text: #f3eaff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Quicksand", system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      color: var(--text);
+      text-align: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 5s ease;
+    }
+
+    header {
+      padding: 70px 20px 20px;
+    }
+    h1 {
+      font-size: 2.6rem;
+      color: var(--accent);
+      text-shadow: 0 0 15px var(--glow), 0 0 30px var(--accent);
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      animation: glowPulse 3s infinite alternate;
+    }
+    p.subtitle {
+      font-size: 1.1rem;
+      opacity: 0.85;
+    }
+
+    .sky {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .star, .shooting {
+      position: absolute;
+      user-select: none;
+      opacity: 0.9;
+    }
+    .star {
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      from { transform: translateY(110vh) scale(1); opacity: 1; }
+      to { transform: translateY(-20vh) scale(0.7); opacity: 0; }
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 30px 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.05);
+      animation: fadeInUp 1.2s ease;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card h2 {
+      color: var(--accent);
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 12px var(--glow);
+    }
+    .card p {
+      line-height: 1.7;
+      font-size: 1.05rem;
+      color: var(--text);
+      opacity: 0.9;
+    }
+
+    .btn {
+      margin-top: 18px;
+      padding: 12px 28px;
+      background: linear-gradient(90deg, var(--glow), var(--accent));
+      color: #2c2c2c;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px var(--glow);
+    }
+    .btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 25px var(--accent);
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 10px var(--glow), 0 0 20px var(--accent); }
+      50% { text-shadow: 0 0 20px var(--accent), 0 0 40px var(--glow); }
+    }
+
+    /* Click ripple */
+    .ripple {
+      position: fixed;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      pointer-events: none;
+      transform: scale(0);
+      animation: rippleAnim 0.8s ease-out forwards;
+      z-index: 999;
+    }
+    @keyframes rippleAnim {
+      to {
+        transform: scale(10);
+        opacity: 0;
+      }
+    }
+
+    /* shooting star */
+    .shooting {
+      width: 2px;
+      height: 80px;
+      background: linear-gradient(to bottom, white, transparent);
+      animation: shoot 1.2s ease-out forwards;
+    }
+    @keyframes shoot {
+      from { transform: translate(0, 0) rotate(45deg); opacity: 1; }
+      to { transform: translate(300px, 300px) rotate(45deg); opacity: 0; }
+    }
+
+    /* Music Button */
+    #musicBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 0 12px rgba(255,255,255,0.2);
+      transition: transform 0.3s;
+    }
+    #musicBtn:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="sky" id="sky"></div>
+
+  <header>
+    <h1 style="animation: glowPulse 1s infinite alternate;">🌙 روز دختر مبارکت کوچولو 🌙</h1>
+    <p class="subtitle" style="padding-top: 50px;font-family: rey; font-size: 25px;">روز دختر مبارکت عسلم . شاید درست نباشه این روزو بهت تبریک بگم چون بنظرم</p>
+    <p class="subtitle" style="padding-top: 10px;font-family: rey; font-size: 25px;">✨💕 تو آدم نیستی فرشته ای </p>
+  </header>
+
+  <div class="content">
+    <div class="card">
+      <h2 style="font-size: 30px;font-family: reybold;">پیامی برای دختر کوچولوی من عسل خانوم حقیقت</h2>
+      <p style="font-family: reylight;font-size: 20px;">
+        عسل ، ارزش وجود تو برای من خیلی خیلی فراتر از کلماته که بخوام بیانشون 
+        کنم ولی دوست دارم که بدونی چقدر برای من مهمی و چقدر برای من با ارزشی . عسل جون من ، تو تنها دلیل
+        زنده بودن منی ، تنها دلیلی هستی که بخوام زنده بمونم ، دوست دارم چشماتو ببینم ، دوست دارم خنده هاتو ببینم 
+        حتی بعضی وقتا دوست دارم حرص خوردنتو ببینم . تو توی زندگیه من مهم ترینی و من یک دل نه بلکه صد دل عاشخت شدم. تو تنها کسی
+        هستی که موقع ناراحتیم و افسردگیم با اینکه خیلی اذیتت کردم بازم برای من پناهگاه شدی و بازم بهم فرصت اینو دادی
+        .عشقمو بهت نشون بدم بازم دلداریم دادی و تکیه گاهم شدی و همه جوره کمک کردی که حالم بهتر شه
+      </p>
+      <p style="font-family: rey;">عسل من خیلی عاشقتم</p>
+    </div>
+
+    <div class="card">
+      <h2>🌌 یه پیام کاملا مخفیانه</h2>
+      <p id="msg" style="padding-top: 15px; padding-bottom: 15px;">🌠 رو دکمه پایین بزن تا پیاممو ببینیییی </p>
+      <button class="btn" id="revealBtn">Reveal</button>
+    </div>
+  </div>
+
+  <footer style="font-family: reylight;padding-bottom: 15px;">برای تو 💜</footer>
+  <div id="musicBtn">🎵</div>
+
+  <audio id="bgMusic" loop>
+    <source src="/music/Novan - Mosaken (128).mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // floating stars
+    function createStar(){
+      const symbols = ['⭐','🌙','💫','✨','🌟'];
+      const el = document.createElement('div');
+      el.className = 'star';
+      el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+      el.style.left = Math.random()*100 + 'vw';
+      el.style.fontSize = (14 + Math.random()*20) + 'px';
+      el.style.animationDuration = (5 + Math.random()*6) + 's';
+      el.style.opacity = 0.6 + Math.random()*0.4;
+      document.getElementById('sky').appendChild(el);
+      setTimeout(()=>el.remove(), 10000);
+    }
+    setInterval(createStar, 300);
+
+    // Shooting stars
+    function shootingStar(){
+      const s = document.createElement('div');
+      s.className = 'shooting';
+      s.style.top = Math.random()*50 + 'vh';
+      s.style.left = Math.random()*80 + 'vw';
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(), 1200);
+    }
+    setInterval(shootingStar, 7000);
+
+    // Click ripple
+    document.addEventListener('click', e=>{
+      const ripple = document.createElement('div');
+      ripple.className = 'ripple';
+      ripple.style.left = `${e.clientX}px`;
+      ripple.style.top = `${e.clientY}px`;
+      document.body.appendChild(ripple);
+      setTimeout(()=>ripple.remove(), 800);
+    });
+
+    // Reveal message
+    const btn = document.getElementById('revealBtn');
+    const msg = document.getElementById('msg');
+    btn.addEventListener('click', () => {
+      msg.innerHTML = "🌙💖 من جونمو برات میدم عسلم 💕 روزت مبارک ";
+      btn.style.display = 'none';
+      msg.animate([
+        { opacity: 0, transform: 'scale(0.9)' },
+        { opacity: 1, transform: 'scale(1)' }
+      ], { duration: 900, easing: 'ease-out' });
+    });
+
+    // Music toggle
+    const musicBtn = document.getElementById('musicBtn');
+    const music = document.getElementById('bgMusic');
+    let playing = false;
+    musicBtn.addEventListener('click', ()=>{
+      if(!playing){
+        music.play();
+        musicBtn.textContent = "⏸️";
+      } else {
+        music.pause();
+        musicBtn.textContent = "🎵";
+      }
+      playing = !playing;
+    });
+  </script>
+</body>
+</html>
