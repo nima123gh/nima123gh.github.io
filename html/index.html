@@ -140,6 +140,39 @@
 
 
     @media (max-width:480px){h1{font-size:2rem}.gallery img{width:250px;height:360px}}
+
+
+
+
+
+
+
+
+
+.apology-event {
+  position: relative;
+  border-radius: 25px;
+  overflow: hidden;
+  margin: 40px auto;
+  width: 40%;
+  max-width: 500px;
+  background: linear-gradient(-15deg, #ff009d, #ff3bb4, #000000, #ffb7ee);
+  background-size: 400% 400%;
+  animation: gradientShift 7s ease infinite;
+  box-shadow: 0 0 35px rgba(255, 150, 200, 0.3);
+  padding-bottom: 40px;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
   </style>
 </head>
 <body>
@@ -162,14 +195,41 @@
   </header>
   
 
-<section class="section" id="events">
-  <h2 style="font-size: 40px; font-family: reybold;">🎉 ایونت ها 🎉</h2>
-  <div class="event-card">
+  <section class="section" id="events">
+    <h2 style="font-size: 40px; font-family: reybold;">🎉 ایونت ها 🎉</h2>
+
+    
+    <div class="event-card apology-event">
+      <h3 style="font-family: reybold; font-size: 35px; font-weight: bold; color:#ffffff; padding-top: 30px; text-shadow: 0 0 40px #ff9cff;">
+        ایونت : معذرت خواهی 
+      </h3>
+    
+      <p style="font-family: rey; font-size: 20px; color:#ffffff; padding-top: 30px; text-shadow: 0 0 40px #ff9cff;">
+        عسل من ، من امروز کار بدی کردم که باعث شده خیلی ناراحت شی واسه همین خودمو موظف دونستم واست کاری کنم که شده یک درصد از ناراحتیت کم شه ...
+      </p>
+      <p style="font-family: rey; font-size: 20px; color:#ffffff;">
+         لطفا بزن روی قلب
+      </p>
+    
+      <p class="event-date" style="color:#ffffff; padding-top: 30px; text-shadow: 0 0 100px #ff9cff;">
+        📅 همین حالا
+      </p>
+    
+      <div style="padding-top: 25px;">
+        <a href="/html/ozrkhahi.html"><span style="text-decoration:none; font-family: reybold; font-size: 40px; color:#ffd6ff; animation: pulse 1s infinite; text-shadow: 0 0 60px #ff9cff;">
+          💖
+        </span></a>
+      </div>
+    </div>
+  
+  
+    <div class="event-card">
     <h3 style="font-family: reybold;font-size: 35px;font-weight: bold;color:#ffd6ff;padding-top: 30px;text-shadow: 0 0 40px #ffc9ff">ایونت : روز دختر</h3>
     <p style="font-family: rey;font-size: 20px;color:#ffd6ff;padding-top: 30px;text-shadow: 0 0 40px #ffc9ff">سلام عسل جون من . برات یه سایت ساختم برای تبریک روز دختر 💕 برای دیدنش بزن رو قلبم که داره برات میزنه </p>
       <p class="event-date" style="color:#ffd6ff;padding-top: 30px;text-shadow: 0 0 100px #ffc9ff">📅 مهر 19</p>
-      <a href="/html/rozdokhtar.html" class="eventrozdokhtarurl"><span style="animation: pulse 0.5s infinite; font-family: reybold; text-decoration:none;" class="heart2">&#x2764</span></a>
+      <a href="/html/rozdokhtar.html" class="eventrozdokhtarurl"><span style="animation: pulse 0.5s infinite; font-family: reybold; text-decoration:none; " class="heart2">&#x2764</span></a>
     </div>
+
     
 <div class="event-card birthday-event">
   <h3 style="font-family: reybold; font-size: 35px; font-weight: bold; color:#fff; padding-top: 30px; text-shadow: 0 0 40px #ffc9ff;">
