@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOR ASAL 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Sacramento&display=swap" rel="stylesheet">
+<style>
+                @font-face {
+                    font-family: 'CapsuleBlack';
+                    src: url('/fonts/font100/Capsule-Black.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'Colak';
+                    src: url('/fonts/font100/Colak.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'DastNevis';
+                    src: url('/fonts/font100/DastNevis.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'RastinBold';
+                    src: url('/fonts/font100/Digi\ Rastin\ Bold.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                @font-face {
+                    font-family: 'Kaghaz';
+                    src: url('/fonts/font100/Kaghaz.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                @font-face {
+                    font-family: 'LeilaBold';
+                    src: url('/fonts/font100/Leila-Bold[@fontrayegan].ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                @font-face {
+                    font-family: 'LeilaExtraBold';
+                    src: url('/fonts/font100/Leila-ExtraBold[@fontrayegan].ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                @font-face {
+                    font-family: 'LeilaRegular';
+                    src: url('/fonts/font100//Leila-Regular2[@fontrayegan].ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+:root{
+  --accent: #FF7AA2;
+  --accent2: #FFB4D1;
+  --text: #3a2b2f;
+  --glass: rgba(255,255,255,0.55);
+}
+
+/* Base styles */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Montserrat', sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
+  position:relative;
+  min-height:100vh;
+  background: #fff6f8;
+}
+
+/* Animated gradient background with pseudo element */
+body::before{
+  content:"";
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: linear-gradient(270deg, #ffdee9, #ffb4d1, #ffe0f0, #ff7aa2);
+  background-size: 800% 800%;
+  z-index:-2;
+  animation: gradientAnim 10s ease infinite;
+}
+
+@keyframes gradientAnim{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+/* Unique styles for music button */
+.musicBtn {
+  border: none;
+  background: linear-gradient(90deg, #FF7AA2, #FFB4D1);
+  color: white;
+  font-size: 20px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 20px;
+}
+
+.musicBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255,122,162,0.3);
+}
+
+.musicBtn.playing {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+/* Floating blobs */
+.blob{
+  position:fixed;
+  border-radius:50%;
+  filter: blur(70px);
+  opacity:0.15;
+  z-index:-1;
+  animation: floatBlob infinite linear;
+}
+
+.blob1{width:250px;height:250px;background:#FF7AA2;top:10%;left:5%;animation-duration:10;}
+.blob2{width:350px;height:350px;background:#FFB4D1;bottom:5%;right:10%;animation-duration:20s;}
+.blob3{width:200px;height:200px;background:#FFD9EC;top:50%;left:75%;animation-duration:15s;}
+
+@keyframes floatBlob{
+  0%{transform: translateY(0px) rotate(0deg);}
+  50%{transform: translateY(30px) rotate(20deg);}
+  100%{transform: translateY(0px) rotate(0deg);}
+}
+
+/* Sections */
+section{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:40px 20px;
+  position:relative;
+  z-index:1;
+}
+
+h1,h2,h3{margin:0;}
+h1{font-size:clamp(36px,6vw,60px);}
+h2{font-size:clamp(24px,4vw,40px);}
+h3{font-size:clamp(18px,3vw,28px);}
+p{max-width:700px;line-height:1.6;margin:16px 0;color:var(--text);}
+.button{
+  padding:12px 24px;
+  border-radius:12px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+  background: linear-gradient(90deg,var(--accent),var(--accent2));
+  color:white;
+  margin-top:20px;
+  transition: transform .15s ease;
+}
+.button:active{transform:scale(.97);}
+img{
+  max-width:90%;
+  border-radius:14px;
+  margin-top:24px;
+  box-shadow:0 8px 30px rgba(120,80,100,0.12);
+}
+.card{
+  background:var(--glass);
+  padding:24px;
+  border-radius:18px;
+  backdrop-filter: blur(6px);
+  max-width:700px;
+  margin-top:24px;
+  position:relative;
+  z-index:2;
+}
+hr{
+  width:60px;
+  height:3px;
+  background: var(--accent);
+  border:none;
+  margin:32px auto;
+  border-radius:2px;
+  opacity:0.6;
+}
+
+/* Floating hearts */
+.floating-heart{
+  position:absolute;
+  width:20px;
+  height:20px;
+  background: linear-gradient(135deg,var(--accent),var(--accent2));
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 70% 57%, 79% 91%, 50% 70%, 21% 91%, 30% 57%, 2% 35%, 39% 35%);
+  opacity:0.8;
+  animation: float linear infinite;
+}
+
+.gallery img{width:250px;height:460px;object-fit:cover;margin:10px;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,0.25);transition:transform .28s}
+
+.gallery img:hover{transform:scale(1.06)}
+
+@media (max-width:480px){h1{font-size:2rem}.gallery img{width:250px;height:360px}}
+
+@keyframes float{
+  0%{transform:translateY(100vh) scale(0.6);}
+  50%{transform:translateY(50vh) rotate(10deg) scale(1);}
+  100%{transform:translateY(-20vh) scale(0.8);}
+}
+
+
+#circleGame {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+  border-radius: 20px;
+  margin: 40px auto;
+  max-width: 900px;
+  overflow: hidden;
+}
+
+#circleGame h2 { font-size: clamp(28px,5vw,50px); margin-bottom: 10px; }
+#circleGame p { font-size: clamp(16px,3vw,22px); margin-bottom: 10px; }
+#score { font-size: 20px; font-weight: bold; margin-bottom: 20px; }
+
+#gameArea {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+}
+
+.gameCircle, .badCircle {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  animation: floatCircle 4s linear forwards;
+}
+
+.gameCircle {
+  background: linear-gradient(135deg, #ff004c, #FFB4D1);
+}
+
+.badCircle {
+  background: black;
+}
+
+@keyframes floatCircle {
+  0% { transform: translateY(0) scale(0.6); opacity:1; }
+  50% { transform: translateY(-50px) scale(1); opacity:0.8; }
+  100% { transform: translateY(-150px) scale(1.2); opacity:0; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating blobs -->
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<!-- Section 1 -->
+<section style="font-family: LeilaBold;">
+  <h1 style="padding-bottom: 30px; font-family: Kaghaz; font-size: 40px;">🙏 عسلم ببخشید 🙏 </h1>
+  <h3 style=" font-family: LeilaBold; font-size: 22px; ">یسری حرف دارم باهات که دوست دارم بخونی</h3>
+  <p style="font-family: RastinBold; font-size: 16px;">بزن رو این دکمه پایینی</p>
+  <button style="font-family: RastinBold;" class="button" id="revealBtn">کلیک کن</button>
+  <div class="card" id="surpriseCard" style="display:none;">
+    <h2 style="font-family: Kaghaz; text-align: right; font-size: 30px;">پیامی به عسلم</h2>
+    <p style="line-height: 50px; padding-top: 30px; font-size: 25px;">سلام عسل ،میخواستم با این موضوع شروع کنم که بگم بزرگترین ترس من از وقتی وارد زندگیم شدی ، ترس از دست دادنته و فکر میکنم امروز واقعا اشتباه بزرگی کردم که شاید حستو نسبت به خودم کم کرده باشه پس میخوام با تمام وجودم ازت عذر خواهی کنم  </p>
+    <p style="line-height: 50px; padding-top: 30px; font-size: 25px;">کارم کاملا اشتباه بود و اصلا نمیخواستم به این فکر کنی که واست ارزش قاعل نیستم چون از خانوادم هم بیشتر برات ارزش قاعلم و نمیخوام از دستت بدم و  لطفا باهام آشتی کن چون واقعا قلبم تحمل دوریتو نداره</p>
+    <p style="font-family: RastinBold; font-size: 18px; text-align: right;">عاشق تو ، نیما —</p>
+  </div>
+</section>
+
+
+<section>
+  <h2 style="font-family: Kaghaz; font-size: 37px;">💓 عکسای باهمدیگمون</h2>
+  <p style=" font-family: LeilaBold; font-size: 22px; line-height: 40px; padding-top: 25px;">این چنتا عکسه که سعی کردم نزدیک به خوابایی که دیدم در بیارم و شبیه تصوراتم با تو باشه</p>
+    <div class="gallery">
+        <img src="/images/25.jpg" alt="Memory 5">
+        <img src="/images/21.jpg" alt="Memory 1">
+        <img src="/images/26.jpg" alt="Memory 6">
+        <img src="/images/22.jpg" alt="Memory 2">
+        <img src="/images/23.jpg" alt="Memory 3">
+        <img src="/images/24.jpg" alt="Memory 4">
+    </div>
+</section>
+
+<section id="music">
+  <h2 style="font-family: Kaghaz; font-size: 30px;">🎵 آهنگ آشتی کنون</h2>
+  <p style=" font-family: LeilaBold; font-size: 22px; line-height: 40px; padding-top: 25px;">لطفا روی دکمه پایین بزن تا آهنگ پخش بشه </p>
+  <audio id="birthdayAudio" src="/music/Arshiyas - Divoone Ghalbam.mp3" preload="auto"></audio>
+  <button style="font-family: RastinBold; font-size: 17px;" class="musicBtn" id="playBtn">▶️ پخش آهنگ</button>
+</section>
+
+
+<section id="circleGame">
+  <h2 style="font-family: Kaghaz; font-size: 30px;">🔴 دایره هارو بگیر</h2>
+  <p style=" font-family: LeilaBold; font-size: 22px; line-height: 40px; padding-top: 25px;">عسلم این دایره ها عشقه ما بهم هست و این دایره سیاه های موانعیه که مارو از هم دور میکنه</p>
+  <p style="font-family: RastinBold; font-size: 17px;" >دوست دارم با این بازی یخرده باعث شم اعصابت اروم بشه</p>
+  <div id="score" style="font-family: Kaghaz; font-size: 35px;">امتیاز : 0</div>
+  <div id="gameArea"></div>
+</section>
+
+
+<script>
+// Music play/pause toggle (affects only this button)
+const audio = document.getElementById('birthdayAudio');
+const musicBtn = document.getElementById('playBtn');
+
+musicBtn.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play();
+    musicBtn.textContent = "⏸️ قطع آهنگ";
+    musicBtn.classList.add('playing');
+  } else {
+    audio.pause();
+    musicBtn.textContent = "▶️ پخش آهنگ";
+    musicBtn.classList.remove('playing');
+  }
+});
+
+
+document.getElementById('revealBtn').addEventListener('click', ()=>{
+  document.getElementById('surpriseCard').style.display='block';
+  for(let i=0;i<25;i++){
+    const heart = document.createElement('div');
+    heart.className='floating-heart';
+    heart.style.left=Math.random()*100+'vw';
+    heart.style.animationDuration=(5+Math.random()*5)+'s';
+    heart.style.width=(15+Math.random()*15)+'px';
+    heart.style.height=heart.style.width;
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),10000);
+  }
+});
+
+
+const gameArea = document.getElementById('gameArea');
+const scoreDisplay = document.getElementById('score');
+let score = 0;
+let spawnInterval = 800; // initial spawn interval in ms
+let gameLoop;
+
+// Function to spawn circles
+function spawnCircle() {
+  const isBad = Math.random() < 0.2; // 20% chance for black circle
+  const circle = document.createElement('div');
+  circle.className = isBad ? 'badCircle' : 'gameCircle';
+  circle.style.left = Math.random() * (gameArea.clientWidth - 30) + 'px';
+  circle.style.top = Math.random() * (gameArea.clientHeight - 30) + 'px';
+  gameArea.appendChild(circle);
+
+  circle.addEventListener('click', () => {
+    if(isBad){
+      score = Math.max(0, score - 1);
+    } else {
+      score++;
+      adjustSpeed(); // check if speed needs to increase
+    }
+    scoreDisplay.textContent = "امتیاز : " + score;
+    circle.remove();
+  });
+
+  setTimeout(() => circle.remove(), 4000);
+}
+
+// Function to adjust speed based on score
+function adjustSpeed() {
+  if(score >= 100) spawnInterval = 10;
+  else if(score >= 80) spawnInterval = 100;
+  else if(score >= 30) spawnInterval = 200;
+  else if(score >= 12) spawnInterval = 300;
+  else if(score >= 5) spawnInterval = 700;
+  restartGameLoop();
+}
+
+// Clear and restart interval
+function restartGameLoop() {
+  clearInterval(gameLoop);
+  gameLoop = setInterval(spawnCircle, spawnInterval);
+}
+
+// Start game loop
+gameLoop = setInterval(spawnCircle, spawnInterval);
+</script>
+
+</body>
+</html>
