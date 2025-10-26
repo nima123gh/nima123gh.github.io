@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Happy Birthday — Pac-Love</title>
+
+<!-- Tailwind for layout/styling (CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- GSAP for animations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<style>
+  :root{
+    --accent:#0a84ff;
+    --muted:#6b7280;
+    --card-shadow:0 10px 30px rgba(16,24,40,0.08);
+  }
+  body{
+    margin:0;
+    font-family:-apple-system,"SF Pro Text","SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,system-ui;
+    -webkit-font-smoothing:antialiased;
+    background: linear-gradient(180deg,#fff,#fbfcff);
+    color:#0f172a;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .fade-in{ opacity:0; transform:translateY(8px); }
+  .pac-container{ box-shadow:var(--card-shadow); border-radius:18px; background:rgba(255,255,255,0.95); padding:18px; }
+  .confetti{ position:absolute; pointer-events:none; width:10px; height:14px; border-radius:2px; will-change:transform,opacity; }
+  .float-wrap{ position:absolute; inset:0; pointer-events:none; overflow:visible; }
+  #gameCanvas{ display:block; width:100%; height:auto; border-radius:12px; background:#fff; touch-action:none; }
+  .dpad button{ width:56px; height:56px; border-radius:12px; background:rgba(255,255,255,0.95); border:1px solid rgba(15,23,42,0.05); box-shadow:0 6px 18px rgba(2,6,23,0.06); font-size:20px; }
+  .segmented button{ padding:8px 14px; border-radius:12px; border:1px solid rgba(15,23,42,0.06); background:white; }
+  .segmented .active{ background:linear-gradient(180deg,#f7f9ff,#fff); box-shadow:0 6px 18px rgba(10,20,60,0.06); }
+  canvas{ image-rendering:auto; }
+</style>
+</head>
+<body>
+
+<!-- floating decorations -->
+<div id="floatingElements" class="float-wrap" aria-hidden="true"></div>
+<div id="confettiRoot"></div>
+
+<header class="max-w-5xl mx-auto px-6 py-12 text-center">
+  <h1 class="text-4xl sm:text-5xl md:text-6xl font-semibold fade-in">Happy Birthday, <span id="herName">Anna</span> 🎂</h1>
+  <p class="mt-4 text-gray-500 text-lg fade-in">You make every day brighter — this one is yours.</p>
+</header>
+
+<main class="max-w-6xl mx-auto px-6 pb-20 space-y-10">
+  <section class="bg-white rounded-2xl p-6 pac-container fade-in">
+    <h2 class="text-2xl font-medium">A Love Note</h2>
+    <p class="mt-3 text-gray-600">I love your laugh, your heart, and the way you make ordinary moments feel like magic. Happy birthday — I love you.</p>
+  </section>
+
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 fade-in">
+    <div class="bg-white rounded-2xl p-6 pac-container">
+      <h3 class="text-lg font-medium mb-3">Memories</h3>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="h-40 bg-gray-100 rounded-xl"></div>
+        <div class="h-40 bg-gray-100 rounded-xl"></div>
+        <div class="h-40 bg-gray-100 rounded-xl"></div>
+        <div class="h-40 bg-gray-100 rounded-xl"></div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 pac-container">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-medium">Pac-Love Game</h3>
+          <p class="text-gray-500 text-sm mt-1">Choose difficulty, then collect all pellets. Avoid ghosts!</p>
+        </div>
+        <div class="text-sm text-gray-500">Score: <span id="scoreDisplay">0</span></div>
+      </div>
+
+      <!-- Difficulty segmented control -->
+      <div class="mt-4 segmented inline-flex bg-transparent border rounded-xl overflow-hidden">
+        <button id="easyBtn" class="active">Easy</button>
+        <button id="medBtn">Medium</button>
+        <button id="hardBtn">Hard</button>
+      </div>
+
+      <!-- Game card -->
+      <div class="mt-5 pac-container p-4">
+        <canvas id="gameCanvas" width="760" height="520" aria-label="Pac-Man mini game"></canvas>
+
+        <div class="mt-4 flex items-center justify-between">
+          <div class="text-sm text-gray-600"><span id="gameState">Ready</span></div>
+          <div class="flex items-center gap-3">
+            <button id="startGame" class="px-4 py-2 rounded-2xl bg-white border shadow">Start</button>
+            <button id="resetGame" class="px-4 py-2 rounded-2xl bg-white border shadow">Reset</button>
+          </div>
+        </div>
+
+        <!-- D-pad -->
+        <div class="mt-4 grid grid-cols-3 gap-2 justify-center dpad">
+          <div></div>
+          <div class="flex justify-center"><button id="btnUp">▲</button></div>
+          <div></div>
+          <div class="flex justify-center"><button id="btnLeft">◀</button></div>
+          <div class="flex justify-center"><button id="btnDown">▼</button></div>
+          <div class="flex justify-center"><button id="btnRight">▶</button></div>
+        </div>
+
+        <div class="mt-3 text-center text-gray-600" id="gameMessages"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white rounded-2xl p-8 pac-container text-center fade-in">
+    <div class="text-lg">Love,</div>
+    <div class="mt-3 text-2xl font-semibold" id="closingName">Sam ❤️</div>
+  </section>
+</main>
+
+<footer class="max-w-6xl mx-auto px-6 pb-12 text-center text-sm text-gray-400 fade-in">
+  Made with love and a tiny surprise.
+</footer>
+
+<script>
+/* =========================
+   Personalization
+   ========================= */
+const HER_NAME = "Anna"; // set her name
+const YOUR_NAME = "Sam";  // set your name
+document.getElementById('herName').textContent = HER_NAME;
+document.getElementById('closingName').textContent = YOUR_NAME + ' ❤️';
+
+/* GSAP intro */
+window.addEventListener('load', ()=> {
+  gsap.to('.fade-in', {duration:0.8, opacity:1, y:0, stagger:0.08, ease:'power3.out'});
+  createFloatingDecor();
+  launchConfettiGentle();
+});
+
+/* Floating decorations */
+function createFloatingDecor(){
+  const wrap = document.getElementById('floatingElements');
+  const shapes = ['🎈','💖','💗','💕'];
+  for(let i=0;i<12;i++){
+    const el = document.createElement('div');
+    el.style.position='absolute';
+    el.style.left = (Math.random()*95)+'%';
+    el.style.top = (60 + Math.random()*30) + '%';
+    el.style.fontSize = (16 + Math.random()*28) + 'px';
+    el.style.opacity = 0.95;
+    el.innerText = shapes[i % shapes.length];
+    wrap.appendChild(el);
+    gsap.to(el, {y: -160 - Math.random()*80, x: Math.random()*80-40, duration:10 + Math.random()*8, repeat:-1, yoyo:true, ease:'sine.inOut', delay: Math.random()*3});
+  }
+}
+
+/* Gentle confetti */
+function launchConfettiGentle(){
+  const root = document.getElementById('confettiRoot');
+  const colors = ['#FF6B6B','#FFB86B','#FFD166','#8BD3FF','#C7F9CC','#F6C6EA'];
+  const pieces = 18;
+  for(let i=0;i<pieces;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = (Math.random()*100) + '%';
+    c.style.top = (-10 - Math.random()*40) + '%';
+    c.style.background = colors[i % colors.length];
+    root.appendChild(c);
+    gsap.to(c, { y: window.innerHeight + 220 + Math.random()*200, rotation: Math.random()*720, duration:6 + Math.random()*8, ease:'power1.out', delay: Math.random()*2, onComplete: ()=> c.remove() });
+  }
+  setTimeout(launchConfettiGentle, 8000 + Math.random()*4000);
+}
+
+/* =========================
+   Game: multiple difficulties
+   ========================= */
+
+/*
+  Difficulty settings:
+   - Easy: small map (19x13), 1 ghost, slow
+   - Medium: medium map (25x17), 2 ghosts, medium speed
+   - Hard: large map (31x21), 3 ghosts, faster speed
+*/
+
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d', { alpha: false });
+
+const scoreEl = document.getElementById('scoreDisplay');
+const stateEl = document.getElementById('gameState');
+const msgEl = document.getElementById('gameMessages');
+
+const startBtn = document.getElementById('startGame');
+const resetBtn = document.getElementById('resetGame');
+
+const easyBtn = document.getElementById('easyBtn');
+const medBtn = document.getElementById('medBtn');
+const hardBtn = document.getElementById('hardBtn');
+
+const btnUp = document.getElementById('btnUp');
+const btnDown = document.getElementById('btnDown');
+const btnLeft = document.getElementById('btnLeft');
+const btnRight = document.getElementById('btnRight');
+
+let DIFFICULTY = 'easy'; // default
+
+// Maze templates (strings represent rows):
+const MAZES = {
+  easy: {
+    cols: 19, rows: 13,
+    template: [
+"1111111111111111111",
+"1000000000100000001",
+"1011110110101111101",
+"1000000100001000001",
+"1011101111101110101",
+"1000100000001000101",
+"1110111011101110111",
+"1000000000000000001",
+"1011101111101110101",
+"1000000100001000001",
+"1011110101101111101",
+"1000000000100000001",
+"1111111111111111111"
+    ],
+    ghosts: 1,
+    speed: 160
+  },
+
+  medium: {
+    cols: 25, rows: 17,
+    template: [
+"1111111111111111111111111",
+"1000000000100000000010001",
+"1011110110101111101110101",
+"1000000100001000001000101",
+"1011101111101110101110101",
+"1000100000001000100000101",
+"1110111011101110111011101",
+"1000000000000000000000001",
+"1011101111101110111110101",
+"1000000100001000001000101",
+"1011110101101111101111101",
+"1000000000100000000000001",
+"1011101111101110101110101",
+"1000000100001000100000101",
+"1011110110101111101110101",
+"1000000000100000000010001",
+"1111111111111111111111111"
+    ],
+    ghosts: 2,
+    speed: 120
+  },
+
+  hard: {
+    cols: 31, rows: 21,
+    template: [
+"1111111111111111111111111111111",
+"1000000000100000000001000000001",
+"1011110110101111101110101111101",
+"1000000100001000001000100000101",
+"1011101111101110101110101110101",
+"1000100000001000100000100000101",
+"1110111011101110111011101110111",
+"1000000000000000000000000000001",
+"1011101111101110111110111110101",
+"1000000100001000001000100000101",
+"1011110101101111101111101111101",
+"1000000000100000000000000000001",
+"1011101111101110101110101110101",
+"1000100000001000100000100000101",
+"1011110110101111101110101111101",
+"1000000000100000000001000000001",
+"1011101111101110111110111110101",
+"1000000100001000001000100000101",
+"1011110101101111101111101111101",
+"1000000000100000000000000000001",
+"1111111111111111111111111111111"
+    ],
+    ghosts: 3,
+    speed: 90
+  }
+};
+
+// Ghost color palette (distinct, subtle)
+const GHOST_COLORS = ['#FF6B6B', '#6BB1FF', '#FF9ACB'];
+
+// Game state
+let grid = [];
+let COLS = 19, ROWS = 13;
+let cellW = 36, cellH = 36;
+let pac = { x:1, y:1, dir:0, next:0 };
+let ghosts = []; // array of {x,y,dir,color}
+let running = false;
+let score = 0;
+let pellets = 0;
+let lastMove = 0;
+let MOVE_INTERVAL = 160; // ms; changes per difficulty
+
+// helper for canvas fit
+function fitCanvas(){
+  const parentW = canvas.parentElement.clientWidth;
+  const targetW = Math.max(320, Math.min(980, parentW - 2));
+  canvas.width = targetW;
+  // keep ratio rows/cols
+  canvas.height = Math.round(targetW * (ROWS / COLS));
+  if (canvas.height < 240) canvas.height = 240;
+  cellW = canvas.width / COLS;
+  cellH = canvas.height / ROWS;
+}
+
+// initialize grid from template
+function initGridFromTemplate(template, cols, rows){
+  grid = [];
+  pellets = 0;
+  for(let r=0;r<rows;r++){
+    const row = [];
+    const line = template[r];
+    for(let c=0;c<cols;c++){
+      const ch = line[c] || '1';
+      if (ch === '1') row.push(1); else { row.push(2); pellets++; }
+    }
+    grid.push(row);
+  }
+}
+
+// spawn pac and ghosts safe positions
+function placeEntitiesForDifficulty(diff){
+  // pac spawn near top-left open area
+  pac = { x:1, y:1, dir:0, next:0 };
+  // remove pellet on pac and ghost spawn
+  if(grid[pac.y] && grid[pac.y][pac.x] !== undefined) grid[pac.y][pac.x] = 0;
+
+  ghosts = [];
+  const numGhosts = diff.ghosts;
+  // pick central region for ghosts
+  const cx = Math.floor(COLS/2), cy = Math.floor(ROWS/2);
+  // offsets to place multiple ghosts
+  const offsets = [ [0,0], [1,0], [-1,0], [0,1], [0,-1] ];
+  for(let i=0;i<numGhosts;i++){
+    let gx = cx + offsets[i][0];
+    let gy = cy + offsets[i][1];
+    // if that spot is wall, find nearest free tile
+    if(!grid[gy] || grid[gy][gx]===1){
+      outer: for(let r=1;r<Math.max(COLS,ROWS);r++){
+        for(let dy=-r; dy<=r; dy++){
+          for(let dx=-r; dx<=r; dx++){
+            const nx = cx+dx, ny = cy+dy;
+            if(nx>=0 && nx<COLS && ny>=0 && ny<ROWS && grid[ny][nx] !== 1){
+              gx = nx; gy = ny; break outer;
+            }
+          }
+        }
+      }
+    }
+    ghosts.push({ x: gx, y: gy, dir: (i%4), color: GHOST_COLORS[i % GHOST_COLORS.length] });
+    if(grid[gy] && grid[gy][gx] !== undefined) grid[gy][gx] = 0;
+  }
+}
+
+// set difficulty (updates COLS/ROWS, grid, ghosts, speeds)
+function setDifficulty(level){
+  DIFFICULTY = level;
+  // style segmented control
+  [easyBtn, medBtn, hardBtn].forEach(btn => btn.classList.remove('active'));
+  if(level==='easy') easyBtn.classList.add('active');
+  if(level==='medium') medBtn.classList.add('active');
+  if(level==='hard') hardBtn.classList.add('active');
+
+  const def = (level==='easy' ? MAZES.easy : level==='medium' ? MAZES.medium : MAZES.hard);
+  COLS = def.cols; ROWS = def.rows;
+  MOVE_INTERVAL = def.speed;
+  initGridFromTemplate(def.template, COLS, ROWS);
+  placeEntitiesForDifficulty(def);
+  score = 0; pellets = countPellets(); updateScore();
+  running = false;
+  stateEl.textContent = 'Ready';
+  msgEl.textContent = '';
+  fitCanvas();
+  drawScene();
+}
+
+// count pellets currently in grid
+function countPellets(){
+  let c = 0;
+  for(let r=0;r<ROWS;r++) for(let x=0;x<COLS;x++) if(grid[r] && grid[r][x]===2) c++;
+  return c;
+}
+
+// draw helpers
+function drawRounded(x,y,w,h,r=6){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+function drawScene(){
+  // background
+  ctx.fillStyle = '#fbfcff';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // walls
+  ctx.fillStyle = '#e9eef8';
+  const pad = Math.min(cellW, cellH) * 0.12;
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      if(grid[r] && grid[r][c] === 1){
+        const x = c*cellW + pad/2, y = r*cellH + pad/2;
+        const w = cellW - pad, h = cellH - pad;
+        drawRounded(x,y,w,h,Math.min(12, pad*2));
+        ctx.fill();
+      }
+    }
+  }
+
+  // pellets
+  ctx.fillStyle = '#6b7280';
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      if(grid[r] && grid[r][c] === 2){
+        const cx = (c + 0.5)*cellW, cy = (r + 0.5)*cellH;
+        const rad = Math.max(1.6, Math.min(cellW, cellH) * 0.07);
+        ctx.beginPath(); ctx.arc(cx,cy,rad,0,Math.PI*2); ctx.fill();
+      }
+    }
+  }
+
+  // pac (rounded chomping)
+  const px = (pac.x + 0.5)*cellW, py = (pac.y + 0.5)*cellH;
+  const pr = Math.min(cellW, cellH) * 0.36;
+  const mouth = 0.22 + 0.08 * Math.sin(performance.now() / 90);
+  ctx.save();
+  ctx.translate(px, py);
+  const ang = [0, Math.PI/2, Math.PI, -Math.PI/2][pac.dir] || 0;
+  ctx.rotate(ang);
+  ctx.beginPath();
+  ctx.fillStyle = '#FFD166';
+  ctx.moveTo(0,0);
+  ctx.arc(0,0,pr, mouth*Math.PI, (2-mouth)*Math.PI);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  // ghosts
+  for(const g of ghosts){
+    const gx = (g.x + 0.5)*cellW, gy = (g.y + 0.5)*cellH;
+    const gr = Math.min(cellW, cellH) * 0.36;
+    // head
+    ctx.beginPath();
+    ctx.fillStyle = g.color;
+    ctx.arc(gx, gy - gr*0.18, gr*0.7, Math.PI, 0);
+    ctx.rect(gx - gr*0.7, gy - gr*0.18, gr*1.4, gr*1.0);
+    ctx.fill();
+    // eyes
+    ctx.beginPath();
+    ctx.fillStyle = '#fff';
+    ctx.arc(gx - gr*0.25, gy - gr*0.05, gr*0.14, 0, Math.PI*2);
+    ctx.arc(gx + gr*0.18, gy - gr*0.05, gr*0.14, 0, Math.PI*2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = '#333';
+    ctx.arc(gx - gr*0.25 + 2, gy - gr*0.03, gr*0.06, 0, Math.PI*2);
+    ctx.arc(gx + gr*0.18 + 2, gy - gr*0.03, gr*0.06, 0, Math.PI*2);
+    ctx.fill();
+  }
+}
+
+// movement helpers
+const DIRS = { 0:[1,0], 1:[0,1], 2:[-1,0], 3:[0,-1] };
+function tileWalkable(x,y){
+  return x >= 0 && x < COLS && y >= 0 && y < ROWS && grid[y] && grid[y][x] !== 1;
+}
+function tryChangeDir(entity, dir){
+  const d = DIRS[dir];
+  if(tileWalkable(entity.x + d[0], entity.y + d[1])){
+    entity.dir = dir; return true;
+  }
+  return false;
+}
+function moveEntity(entity){
+  const d = DIRS[entity.dir];
+  if(tileWalkable(entity.x + d[0], entity.y + d[1])){
+    entity.x += d[0]; entity.y += d[1]; return true;
+  }
+  return false;
+}
+
+// ghost behavior: random walk with occasional bias toward pac
+function stepGhost(g){
+  // collect options
+  const opts = [];
+  for(let d=0; d<4; d++){
+    const nx = g.x + DIRS[d][0], ny = g.y + DIRS[d][1];
+    if(tileWalkable(nx, ny)) opts.push(d);
+  }
+  if(opts.length === 0) return;
+  // bias towards pac 50% of time
+  if(Math.random() < 0.5){
+    let best = opts[0], bestd = Infinity;
+    for(const d of opts){
+      const nx = g.x + DIRS[d][0], ny = g.y + DIRS[d][1];
+      const dist = Math.hypot(nx - pac.x, ny - pac.y);
+      if(dist < bestd){ bestd = dist; best = d; }
+    }
+    g.dir = best;
+  } else {
+    // choose random, prefer not to reverse unless necessary
+    const nonrev = opts.filter(d => (d + 2) % 4 !== g.dir);
+    g.dir = nonrev.length ? nonrev[Math.floor(Math.random()*nonrev.length)] : opts[Math.floor(Math.random()*opts.length)];
+  }
+  moveEntity(g);
+}
+
+// main loop
+function gameLoop(now){
+  drawScene();
+  if(!running){ requestAnimationFrame(gameLoop); return; }
+
+  if(now - lastMove >= MOVE_INTERVAL){
+    // pac movement: attempt next direction then move
+    if(pac.next !== undefined && pac.next !== pac.dir){
+      tryChangeDir(pac, pac.next);
+    }
+    moveEntity(pac);
+
+    // collect pellet
+    if(grid[pac.y] && grid[pac.y][pac.x] === 2){
+      grid[pac.y][pac.x] = 0;
+      score += 10;
+      pellets--;
+      scoreEl.textContent = score;
+      if(pellets <= 0){
+        running = false;
+        stateEl.textContent = 'You Win!';
+        msgEl.textContent = 'You collected all the pellets — love wins! ❤️';
+        gsap.to(canvas, { scale:1.02, duration:0.25, yoyo:true, repeat:2 });
+      }
+    }
+
+    // ghosts step (each may step every tick; on higher difficulty movement is faster due to MOVE_INTERVAL)
+    for(const g of ghosts) stepGhost(g);
+
+    // collision check
+    for(const g of ghosts){
+      if(g.x === pac.x && g.y === pac.y){
+        running = false;
+        stateEl.textContent = 'Try Again';
+        msgEl.textContent = 'Oh no — the ghost got you. Try again!';
+        gsap.to(canvas, { x:-6, duration:0.04, yoyo:true, repeat:8, onComplete: ()=> gsap.set(canvas, { x:0 }) });
+      }
+    }
+
+    lastMove = now;
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+
+// controls
+window.addEventListener('keydown', e => {
+  const m = { ArrowRight:0, ArrowDown:1, ArrowLeft:2, ArrowUp:3, d:0, s:1, a:2, w:3 };
+  if(m[e.key] !== undefined){
+    pac.next = m[e.key];
+    e.preventDefault();
+    if(!running){ startGame(); }
+  }
+});
+btnUp.addEventListener('click', ()=> { pac.next = 3; if(!running) startGame(); });
+btnDown.addEventListener('click', ()=> { pac.next = 1; if(!running) startGame(); });
+btnLeft.addEventListener('click', ()=> { pac.next = 2; if(!running) startGame(); });
+btnRight.addEventListener('click', ()=> { pac.next = 0; if(!running) startGame(); });
+
+// swipe for mobile
+let touchStart = null;
+canvas.addEventListener('touchstart', (ev) => {
+  if(ev.touches.length > 1) return;
+  const t = ev.touches[0];
+  touchStart = { x: t.clientX, y: t.clientY, t: performance.now() };
+});
+canvas.addEventListener('touchend', (ev) => {
+  if(!touchStart) return;
+  const t = ev.changedTouches[0];
+  const dx = t.clientX - touchStart.x, dy = t.clientY - touchStart.y;
+  if(Math.abs(dx) < 20 && Math.abs(dy) < 20){
+    if(!running) startGame();
+    touchStart = null; return;
+  }
+  if(Math.abs(dx) > Math.abs(dy)) pac.next = dx > 0 ? 0 : 2;
+  else pac.next = dy > 0 ? 1 : 3;
+  if(!running) startGame();
+  touchStart = null;
+});
+
+// start/reset buttons
+function startGame(){
+  if(running) return;
+  running = true; stateEl.textContent = 'Playing'; msgEl.textContent = '';
+  lastMove = performance.now();
+  requestAnimationFrame(gameLoop);
+}
+function resetGame(){
+  setDifficulty(DIFFICULTY);
+}
+startBtn.addEventListener('click', startGame);
+resetBtn.addEventListener('click', resetGame);
+
+// difficulty buttons
+easyBtn.addEventListener('click', ()=> setDifficulty('easy'));
+medBtn.addEventListener('click', ()=> setDifficulty('medium'));
+hardBtn.addEventListener('click', ()=> setDifficulty('hard'));
+
+// utility
+function updateScore(){ scoreEl.textContent = score; }
+
+// initial difficulty setup
+function setDifficulty(level){
+  DIFFICULTY = level;
+  // segmented styles
+  [easyBtn, medBtn, hardBtn].forEach(b => b.classList.remove('active'));
+  if(level==='easy') easyBtn.classList.add('active');
+  if(level==='medium') medBtn.classList.add('active');
+  if(level==='hard') hardBtn.classList.add('active');
+
+  const def = (level==='easy') ? MAZES.easy : (level==='medium') ? MAZES.medium : MAZES.hard;
+  COLS = def.cols; ROWS = def.rows; MOVE_INTERVAL = def.speed;
+  initGridFromTemplate(def.template, COLS, ROWS);
+  placeEntitiesForDifficulty(def);
+  score = 0;
+  pellets = countPellets();
+  updateScore();
+  running = false;
+  stateEl.textContent = 'Ready';
+  msgEl.textContent = '';
+  fitCanvas();
+  drawScene();
+}
+
+// helpers used earlier but hoisted here
+function initGridFromTemplate(template, cols, rows){
+  grid = []; pellets = 0;
+  for(let r=0;r<rows;r++){
+    const row = [];
+    const line = template[r] || '';
+    for(let c=0;c<cols;c++){
+      const ch = line[c] || '1';
+      if(ch === '1') row.push(1); else { row.push(2); pellets++; }
+    }
+    grid.push(row);
+  }
+}
+function placeEntitiesForDifficulty(diff){
+  pac = { x:1, y:1, dir:0, next:0 };
+  if(grid[pac.y] && grid[pac.y][pac.x] !== undefined) grid[pac.y][pac.x] = 0;
+
+  ghosts = [];
+  const num = diff.ghosts;
+  const cx = Math.floor(COLS/2), cy = Math.floor(ROWS/2);
+  const offsets = [ [0,0], [1,0], [-1,0], [0,1], [0,-1], [2,0] ];
+  for(let i=0;i<num;i++){
+    let gx = cx + (offsets[i] ? offsets[i][0] : i), gy = cy + (offsets[i] ? offsets[i][1] : 0);
+    if(!grid[gy] || grid[gy][gx] === 1){
+      outer: for(let r=1;r<Math.max(COLS,ROWS);r++){
+        for(let dy=-r; dy<=r; dy++){
+          for(let dx=-r; dx<=r; dx++){
+            const nx = cx+dx, ny = cy+dy;
+            if(nx>=0 && nx<COLS && ny>=0 && ny<ROWS && grid[ny][nx] !== 1){
+              gx = nx; gy = ny; break outer;
+            }
+          }
+        }
+      }
+    }
+    ghosts.push({ x: gx, y: gy, dir: (i%4), color: GHOST_COLORS[i % GHOST_COLORS.length] });
+    if(grid[gy] && grid[gy][gx] !== undefined) grid[gy][gx] = 0;
+  }
+}
+
+// quick pellet count
+function countPellets(){
+  let c=0;
+  for(let r=0;r<ROWS;r++) for(let j=0;j<COLS;j++) if(grid[r] && grid[r][j]===2) c++;
+  return c;
+}
+
+// initialize default difficulty and start render loop
+setDifficulty('easy');
+requestAnimationFrame(gameLoop);
+
+// accessibility focus styles
+document.querySelectorAll('button').forEach(b => {
+  b.addEventListener('focus', ()=> b.style.boxShadow = '0 8px 28px rgba(10,20,40,0.08)');
+  b.addEventListener('blur', ()=> b.style.boxShadow = '');
+});
+
+// window resize handling
+window.addEventListener('resize', ()=> {
+  fitCanvas();
+  drawScene();
+});
+
+</script>
+</body>
+</html>
