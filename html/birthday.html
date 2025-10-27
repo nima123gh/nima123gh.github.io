@@ -244,7 +244,7 @@
 .envelope {
   position: relative;
   bottom: -50px;
-  width: 900px;
+  width: 600px;
   height: 300px;
   background: #fefefe;
   border-radius: 6px;
@@ -360,6 +360,87 @@
   transform: translate(-50%, -80%) rotate(5deg);
 }
 
+
+
+
+
+
+
+
+
+
+/* ---- container ---- */
+.rose-section { display:flex; justify-content:center; padding:28px 12px; }
+.rose-card {
+  width: 320px;
+  max-width: 92%;
+  background: linear-gradient(180deg, #ffffff, #fbfbff);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 18px 50px rgba(12,20,40,0.08);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  cursor: pointer;
+  user-select:none;
+  transition: transform .25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.rose-card:active { transform: translateY(2px) scale(0.998); }
+.rose-hint {
+  font-size:12px;
+  color:#9aa3b2;
+  background: rgba(255,255,255,0.6);
+  padding:6px 10px;
+  border-radius:12px;
+  box-shadow:0 6px 16px rgba(10,20,40,0.04);
+}
+
+/* stage sizing */
+.rose-stage { width:200px; height:300px; display:flex; align-items:center; justify-content:center; }
+.rose-text { text-align:center; }
+.rose-text h3 { margin:0; font-size:20px; color:#0f172a; }
+.rose-text .sub { margin:0; font-size:13px; color:#6b7280; }
+
+/* sparkle styles (SVG uses circles created by JS) */
+.spark { opacity:0; }
+
+/* accessibility focus */
+.rose-card:focus { outline: 3px solid rgba(10, 132, 255, 0.039); outline-offset:2px; }
+
+/* responsive tweaks */
+@media (max-width:420px) {
+  .rose-card { width: 92%; padding:12px; border-radius:14px; }
+  .rose-stage { width:170px; height:240px; }
+}
+
+/* ↓ Arrow container */
+.scroll-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.arrow-icon {
+  width: 60px;
+  height: 60px;
+  color: #a0a0a0;
+  opacity: 0.8;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.arrow-icon:hover {
+  color: #000;
+  opacity: 1;
+}
+
+@media (max-width: 480px) {
+  .arrow-icon {
+    width: 48px;  /* scale down for mobile */
+    height: 48px;
+  }
+}
 </style>
 </head>
 <body>
@@ -435,6 +516,19 @@
       </div>
     </div>
   </section>
+
+
+
+<!-- Down Arrow Scroll Hint -->
+<div class="scroll-arrow">
+  <svg viewBox="0 0 24 24" class="arrow-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M12 16.5l-7-7 1.41-1.42L12 13.67l5.59-5.59L19 9.5z" fill="currentColor"/>
+  </svg>
+</div>
+
+
+
+
 <!-- 🎥 Video Memories Section -->
 <section class="bg-white rounded-2xl p-8 pac-container fade-in text-center">
   <h2 class="text-2xl font-medium mb-4">🎥 Video Memories</h2>
@@ -448,6 +542,108 @@
     </video>
   </div>
 </section>
+
+
+
+
+
+
+
+
+<!-- Down Arrow Scroll Hint -->
+<div class="scroll-arrow">
+  <svg viewBox="0 0 24 24" class="arrow-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M12 16.5l-7-7 1.41-1.42L12 13.67l5.59-5.59L19 9.5z" fill="currentColor"/>
+  </svg>
+</div>
+
+
+
+
+
+
+<!-- Interactive Blooming Rose (stylized-realistic) -->
+<section id="interactive-rose-section" aria-label="Gratitude and rose" class="rose-section">
+  <div class="rose-card" role="button" aria-pressed="false" tabindex="0" id="roseCard">
+    <div class="rose-hint">Click to Bloom</div>
+
+    <!-- SVG Rose -->
+    <div class="rose-stage">
+      <svg id="roseSVG" viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <radialGradient id="petalLight" cx="40%" cy="30%" r="90%">
+            <stop offset="0%" stop-color="#ff7aa6"/>
+            <stop offset="55%" stop-color="#e93b5a"/>
+            <stop offset="100%" stop-color="#9b1d3b"/>
+          </radialGradient>
+          <linearGradient id="petalShade" x1="0" x2="1">
+            <stop offset="0%" stop-color="#ff9bb6"/>
+            <stop offset="100%" stop-color="#b91d47"/>
+          </linearGradient>
+          <linearGradient id="stemGrad" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#2ea24a"/>
+            <stop offset="100%" stop-color="#1b6b2a"/>
+          </linearGradient>
+          <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feBlend in="SourceGraphic" in2="blur"/>
+          </filter>
+        </defs>
+
+        <!-- Stem -->
+        <g id="stemGroup" transform="translate(150,220)">
+          <rect id="stem" x="-6" y="0" width="12" height="160" rx="6" fill="url(#stemGrad)" />
+          <!-- Leaves (initially small) -->
+          <path id="leafL" d="M-10 70 C-55 40 -55 110 -10 90" fill="#3aa64a" opacity="0" />
+          <path id="leafR" d="M10 100 C55 70 55 140 10 120" fill="#3aa64a" opacity="0" />
+        </g>
+
+        <!-- Bud group positioned above stem -->
+        <g id="bud" transform="translate(150,160)">
+          <!-- Outer petals (rotated into place when bloom) -->
+          <g id="outerPetals" opacity="0" transform="scale(0.3)">
+            <path class="pet" d="M0,0 C-28,-38 -40,-88 0,-120 C40,-88 28,-38 0,0" fill="url(#petalLight)" />
+            <path class="pet" d="M0,0 C-20,-38 -20,-78 0,-110 C20,-78 20,-38 0,0" transform="rotate(22)" fill="url(#petalShade)" />
+            <path class="pet" d="M0,0 C-12,-30 -12,-60 0,-80 C12,-60 12,-30 0,0" transform="rotate(-18)" fill="url(#petalShade)" />
+            <path class="pet" d="M0,0 C-10,-26 -10,-50 0,-68 C10,-50 10,-26 0,0" transform="rotate(44)" fill="url(#petalLight)" />
+            <path class="pet" d="M0,0 C-10,-26 -10,-50 0,-68 C10,-50 10,-26 0,0" transform="rotate(-42)" fill="url(#petalLight)" />
+          </g>
+
+          <!-- Inner petals (center) -->
+          <g id="innerPetals" opacity="0" transform="scale(0.2)">
+            <path class="inner" d="M0,0 C-6,-18 -6,-36 0,-48 C6,-36 6,-18 0,0" fill="#ff2b6b"/>
+            <path class="inner" d="M0,0 C-8,-24 -8,-48 0,-64 C8,-48 8,-24 0,0" transform="rotate(15)" fill="#ff3b6f"/>
+            <path class="inner" d="M0,0 C-8,-24 -8,-48 0,-64 C8,-48 8,-24 0,0" transform="rotate(-15)" fill="#ff3b6f"/>
+          </g>
+
+          <!-- small glossy center -->
+          <circle id="gloss" cx="0" cy="-24" r="6" fill="#fff" opacity="0.0" />
+        </g>
+
+        <!-- sparkle particles container -->
+        <g id="sparkles" transform="translate(150,120)"></g>
+      </svg>
+    </div>
+
+    <!-- caption / message area -->
+    <div class="rose-text">
+      <h3>Thank you, Asal</h3>
+      <p class="sub">Click the rose to bloom — I’ll be waiting for our dinner.</p>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- Down Arrow Scroll Hint -->
+<div class="scroll-arrow">
+  <svg viewBox="0 0 24 24" class="arrow-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M12 16.5l-7-7 1.41-1.42L12 13.67l5.59-5.59L19 9.5z" fill="currentColor"/>
+  </svg>
+</div>
+
 
 
 
@@ -468,7 +664,6 @@
     </div>
   </div>
 </section>
-
 
 
 
@@ -657,9 +852,7 @@ document.querySelector('.progress').addEventListener('click', (e) => {
 
 /* initialize to first track (don't autoplay unless user clicks) */
 const firstIndex = PLAYLIST.findIndex(s => s.src);
-if(firstIndex >= 0) {
-  switchToIndex(firstIndex, true); // "true" triggers autoplay
-}
+if(firstIndex >= 0) switchToIndex(firstIndex, false);
 
 
 /* small UX touches */
@@ -915,5 +1108,283 @@ envelope.addEventListener('click', () => {
 });
 
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script>
+(() => {
+  const roseCard = document.getElementById('roseCard');
+  const roseSVG = document.getElementById('roseSVG');
+  const outerPetals = document.querySelector('#outerPetals');
+  const innerPetals = document.querySelector('#innerPetals');
+  const gloss = document.getElementById('gloss');
+  const stem = document.getElementById('stem');
+  const leafL = document.getElementById('leafL');
+  const leafR = document.getElementById('leafR');
+  const sparklesGroup = document.getElementById('sparkles');
+  const hint = roseCard.querySelector('.rose-hint');
+
+  let state = 'closed'; // 'closed', 'bloomed', 'closing'
+  let swayAnim = null;
+
+  // small helper to create sparkle circles
+  function spawnSpark(x, y, color) {
+    const ns = 'http://www.w3.org/2000/svg';
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', x);
+    c.setAttribute('cy', y);
+    c.setAttribute('r', 2.5);
+    c.setAttribute('fill', color);
+    c.classList.add('spark');
+    sparklesGroup.appendChild(c);
+    anime({
+      targets: c,
+      opacity: [1, 0],
+      translateX: () => (Math.random() - 0.5) * 60,
+      translateY: () => -60 - Math.random() * 40,
+      scale: [0.6, 1.4],
+      rotate: Math.random() * 360,
+      duration: 800 + Math.random() * 600,
+      easing: 'easeOutQuad',
+      complete: () => c.remove()
+    });
+  }
+
+  // blooms sequence
+  function bloom() {
+    if (state === 'bloomed') return;
+    state = 'blooming';
+    roseCard.setAttribute('aria-pressed', 'true');
+    hint.style.opacity = 0;
+
+    // stem gentle grow/shine
+    anime.timeline()
+      .add({
+        targets: stem,
+        scaleY: [0.6, 1],
+        duration: 500,
+        easing: 'easeOutCubic',
+        transformOrigin: '50% 100%'
+      })
+      // leaves pop
+      .add({
+        targets: [leafL, leafR],
+        opacity: [0, 1],
+        translateY: [10, 0],
+        duration: 450,
+        easing: 'easeOutBack',
+        offset: '-=200'
+      })
+      // outer petals expand and rotate into place
+      .add({
+        targets: outerPetals,
+        opacity: [0, 1],
+        scale: [0.3, 1],
+        rotate: [-10, 0],
+        duration: 900,
+        easing: 'easeOutBack',
+      })
+      // inner petals pop
+      .add({
+        targets: innerPetals,
+        opacity: [0, 1],
+        scale: [0.25, 1],
+        duration: 700,
+        easing: 'easeOutElastic(1, .7)',
+        offset: '-=400'
+      })
+      // glossy center
+      .add({
+        targets: gloss,
+        opacity: [0, 0.95],
+        scale: [0.2, 1],
+        duration: 420,
+        easing: 'easeOutQuad',
+        offset: '-=500',
+      })
+      // micro-sparkles burst
+      .add({
+        duration: 1,
+        complete: function() {
+          const colors = ['#FFD166', '#FF8BA1', '#FFF3BA'];
+          for (let i = 0; i < 12; i++) {
+            setTimeout(() => {
+              spawnSpark((Math.random() - 0.5) * 60, -5 + Math.random() * 20, colors[Math.floor(Math.random() * colors.length)]);
+            }, i * 60);
+          }
+        }
+      })
+      .add({
+        duration: 100,
+        complete: startSway
+      })
+      .finished.then(() => { state = 'bloomed'; });
+  }
+
+  // reverse (close) gracefully
+  function close() {
+    if (state !== 'bloomed') return;
+    state = 'closing';
+    roseCard.setAttribute('aria-pressed', 'false');
+
+    // stop sway
+    if (swayAnim) { swayAnim.pause(); swayAnim = null; }
+
+    anime.timeline()
+      .add({
+        targets: [gloss],
+        opacity: [1, 0],
+        duration: 260,
+        easing: 'easeInQuad'
+      })
+      .add({
+        targets: innerPetals,
+        opacity: [1, 0],
+        scale: [1, 0.25],
+        duration: 500,
+        easing: 'easeInBack',
+        offset: '-=120'
+      })
+      .add({
+        targets: outerPetals,
+        opacity: [1, 0],
+        scale: [1, 0.25],
+        duration: 600,
+        easing: 'easeInBack',
+        offset: '-=380'
+      })
+      .add({
+        targets: [leafL, leafR],
+        opacity: [1, 0],
+        translateY: [0, 10],
+        duration: 350,
+        easing: 'easeInQuad',
+        offset: '-=250'
+      })
+      .add({
+        targets: stem,
+        scaleY: [1, 0.6],
+        duration: 420,
+        easing: 'easeInCubic',
+        offset: '-=140'
+      })
+      .finished.then(() => {
+        hint.style.opacity = 1;
+        state = 'closed';
+      });
+  }
+
+  // gentle sway after bloom
+  function startSway() {
+    if (swayAnim) swayAnim.pause();
+    swayAnim = anime({
+      targets: '#roseSVG',
+      rotate: [
+        { value: -2.5, duration: 2200, easing: 'easeInOutSine' },
+        { value: 2.5, duration: 2200, easing: 'easeInOutSine' }
+      ],
+      direction: 'alternate',
+      loop: true,
+      translateY: [{ value: -2, duration: 2200 }, { value: 2, duration: 2200 }],
+    });
+  }
+
+  // click / touch / keyboard handler (toggle)
+  function toggleBloom() {
+    if (state === 'closed') bloom();
+    else if (state === 'bloomed') close();
+  }
+
+  // accessibility: Enter/Space to toggle
+  roseCard.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleBloom();
+    }
+  });
+
+  // click / tap
+  roseCard.addEventListener('click', (e) => {
+    // small pointer animation (scale)
+    anime({
+      targets: roseCard,
+      scale: [1, 0.98, 1],
+      duration: 220,
+      easing: 'easeOutQuad'
+    });
+    toggleBloom();
+  }, { passive: true });
+
+  // also support long-press / touch to create gentle sparkles while touching
+  let touchInterval = null;
+  roseCard.addEventListener('touchstart', () => {
+    touchInterval = setInterval(() => {
+      spawnSpark((Math.random() - 0.5) * 60, -20 + Math.random() * 30, '#FFF3BA');
+    }, 180);
+  }, { passive: true });
+
+  roseCard.addEventListener('touchend', () => {
+    clearInterval(touchInterval);
+    touchInterval = null;
+  });
+
+  // on hover, small responsive light tilt (desktop)
+  roseCard.addEventListener('mousemove', (ev) => {
+    if (window.matchMedia('(hover: none)').matches) return;
+    const rect = roseCard.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (ev.clientX - cx) / rect.width;
+    const dy = (ev.clientY - cy) / rect.height;
+    anime({
+      targets: roseCard,
+      rotateX: -dy * 6,
+      rotateY: dx * 6,
+      duration: 400,
+      easing: 'easeOutQuad'
+    });
+  });
+
+  roseCard.addEventListener('mouseleave', () => {
+    anime({ targets: roseCard, rotateX: 0, rotateY: 0, duration: 600, easing: 'easeOutElastic(1, .6)' });
+  });
+
+  // pre-generate tiny ambient sparkles to float gently (background loop)
+  setInterval(() => {
+    if (state === 'bloomed') {
+      spawnSpark((Math.random() - 0.5) * 80, -10 + Math.random() * 30, '#FFD166');
+    }
+  }, 1400);
+
+  // Slight entrance animation for the card
+  anime({
+    targets: '.rose-card',
+    translateY: [12, 0],
+    opacity: [0, 1],
+    duration: 900,
+    easing: 'easeOutCubic'
+  });
+
+})();
+</script>
+<script>
+// gentle bouncing animation
+anime({
+  targets: '.scroll-arrow',
+  translateY: [
+    { value: -6, duration: 800, easing: 'easeInOutSine' },
+    { value: 0, duration: 800, easing: 'easeInOutSine' }
+  ],
+  loop: true,
+  direction: 'alternate'
+});
+
+// optional: scroll to next section when clicked
+document.querySelectorAll('.scroll-arrow').forEach(arrow => {
+  arrow.addEventListener('click', () => {
+    window.scrollBy({ top: 300, behavior: 'smooth' });
+  });
+});
+
+</script>
+
 </body>
 </html>
