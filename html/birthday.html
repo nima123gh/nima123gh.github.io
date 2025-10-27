@@ -49,11 +49,147 @@
   .progress{height:6px;background:rgba(15,23,42,0.06);border-radius:6px;overflow:hidden;min-width: 210px;}
   .progress .bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#8b5cf6);border-radius:6px}
   @media(max-width:640px){.album-art{width:56px;height:56px}.dpad button{width:44px;height:44px;font-size:18px}.track-item{min-width:92px}.progress{min-width: 240px;}.control-btn{transform: translate(-240px, 70px); font-size: 15px; margin: -3px;}.playlist-bar{ padding-bottom: 50px; } body{padding-bottom:110px}}
+  
+  /* ==== Video Player Styling ==== */
+.video-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(16, 24, 40, 0.1);
+  background: #000;
+}
+
+.memory-video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.memory-video:hover {
+  transform: scale(1.02);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.25);
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .video-wrapper {
+    border-radius: 14px;
+  }
+  .memory-video {
+    border-radius: 14px;
+  }
+}
+
+
+
+/* ==== Confetti Styling ==== */
+#confetti-container {
+  position: fixed;
+  top: -30px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1; /* stays behind all content */
+}
+
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 14px;
+  background-color: var(--color);
+  opacity: 0.9;
+  border-radius: 2px;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+/* ==== Gallery Image Styling ==== */
+.memory-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
+  justify-items: center;
+}
+
+.memory-gallery img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover; /* Ensures images fill their boxes nicely */
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.memory-gallery img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.memory-gallery img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+}
+
+@media(max-width:640px) {
+  .memory-gallery img { height: 180px; }
+}
+
+/* Lightbox styling */
+.lightbox {
+  position: fixed;
+  top: -40px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 15, 15, 0.229);
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 95%;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+
+#closeLightbox {
+  position: absolute;
+  top: -1px;
+  right: 10px;
+  font-size: 40px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+.hidden { display: none; }
+
+@media(max-width:640px) {
+ .lightbox{
+  height: 50%;
+}
+}
 </style>
 </head>
 <body>
 
 <!-- decorations -->
+ <div id="confetti-container"></div>
 <div id="floatingElements" class="float-wrap" aria-hidden="true"></div>
 <div id="confettiRoot"></div>
 
@@ -72,12 +208,17 @@
     <div class="bg-white rounded-2xl p-6 pac-container">
       <h3 class="text-lg font-medium mb-3">Memories</h3>
       <div class="grid grid-cols-2 gap-3">
-        <div class="h-40 bg-gray-100 rounded-xl"></div>
-        <div class="h-40 bg-gray-100 rounded-xl"></div>
-        <div class="h-40 bg-gray-100 rounded-xl"></div>
-        <div class="h-40 bg-gray-100 rounded-xl"></div>
+        <div class="memory-gallery"><img src="/images/g1.png" alt="Memory 1"></div>
+        <div class="memory-gallery"><img src="/images/g2.png" alt="Memory 1"></div>
+        <div class="memory-gallery"><img src="/images/g2.png" alt="Memory 1"></div>
+        <div class="memory-gallery"><img src="/images/g1.png" alt="Memory 1"></div>
       </div>
     </div>
+
+  <div id="lightbox" class="lightbox hidden">
+      <span id="closeLightbox">&times;</span>
+      <img id="lightboxImg" src="" alt="Expanded Memory">
+  </div>
 
     <div class="bg-white rounded-2xl p-6 pac-container">
       <div class="flex items-center justify-between">
@@ -118,6 +259,19 @@
       </div>
     </div>
   </section>
+<!-- 🎥 Video Memories Section -->
+<section class="bg-white rounded-2xl p-8 pac-container fade-in text-center">
+  <h2 class="text-2xl font-medium mb-4">🎥 Video Memories</h2>
+  <p class="text-gray-500 mb-6">A few moments that mean the world to us.</p>
+
+  <div class="video-wrapper mx-auto max-w-3xl">
+    <video id="memoryVideo" class="memory-video" controls preload="metadata">
+      <!-- Replace with your MOV file path -->
+      <source src="/videos/Video.mp4" type="video/quicktime" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</section>
 
   <section class="bg-white rounded-2xl p-8 pac-container fade-in text-center">
     <div class="text-lg">Love,</div>
@@ -303,7 +457,10 @@ document.querySelector('.progress').addEventListener('click', (e) => {
 
 /* initialize to first track (don't autoplay unless user clicks) */
 const firstIndex = PLAYLIST.findIndex(s => s.src);
-if(firstIndex >= 0) switchToIndex(firstIndex, false);
+if(firstIndex >= 0) {
+  switchToIndex(firstIndex, true); // "true" triggers autoplay
+}
+
 
 /* small UX touches */
 document.querySelectorAll('button').forEach(b => {
@@ -476,7 +633,80 @@ document.querySelector('.progress').addEventListener('click', function(e){
   if(audio.duration) audio.currentTime = pct*audio.duration;
 });
 
-/* done */
+/* ==== Video & Music Sync ==== */
+const videoEl = document.getElementById('memoryVideo');
+if (videoEl) {
+  videoEl.addEventListener('play', () => {
+    if (!audio.paused) audio.pause(); // pause music when video starts
+  });
+
+  videoEl.addEventListener('pause', () => {
+    // resume music if it was playing before
+    if (isPlaying) {
+      setTimeout(() => {
+        audio.play().catch(() => {});
+      }, 500);
+    }
+  });
+
+  videoEl.addEventListener('ended', () => {
+    if (isPlaying) {
+      audio.play().catch(() => {});
+    }
+  });
+}
+
+
+
+
+
+/* ==== Falling Confetti Animation ==== */
+const confettiContainer = document.getElementById('confetti-container');
+
+function createConfetti() {
+  const confetti = document.createElement('div');
+  confetti.classList.add('confetti');
+  
+  // Random position and color
+  const colors = ['#ff6b6b', '#ffd93d', '#6bcBef', '#a29bfe', '#ff9ff3', '#feca57'];
+  confetti.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+  
+  confetti.style.left = Math.random() * 100 + 'vw';
+  confetti.style.animationDuration = 4 + Math.random() * 3 + 's';
+  confetti.style.animationDelay = Math.random() * 2 + 's';
+  confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+  confettiContainer.appendChild(confetti);
+
+  setTimeout(() => confetti.remove(), 7000);
+}
+
+// Create confetti continuously
+setInterval(createConfetti, 200);
+
+
+
+
+
+const galleryImages = document.querySelectorAll('.memory-gallery img');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const closeBtn = document.getElementById('closeLightbox');
+
+galleryImages.forEach(img => {
+  img.addEventListener('click', () => {
+    lightboxImg.src = img.src;   // Set clicked image
+    lightbox.classList.remove('hidden'); // Show lightbox
+  });
+});
+
+closeBtn.addEventListener('click', () => {
+  lightbox.classList.add('hidden'); // Hide lightbox
+});
+
+lightbox.addEventListener('click', (e) => {
+  if(e.target === lightbox) lightbox.classList.add('hidden'); // Click outside image closes
+});
+
 </script>
 </body>
 </html>
