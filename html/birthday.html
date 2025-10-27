@@ -11,6 +11,57 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <style>
+                @font-face {
+                    font-family: 'CapsuleBlack';
+                    src: url('/fonts/font100/Capsule-Black.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'Colak';
+                    src: url('/fonts/font100/Colak.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'DastNevis';
+                    src: url('/fonts/font100/DastNevis.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                @font-face {
+                    font-family: 'RastinBold';
+                    src: url('/fonts/font100/Digi\ Rastin\ Bold.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                @font-face {
+                    font-family: 'Kaghaz';
+                    src: url('/fonts/font100/Kaghaz.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                @font-face {
+                    font-family: 'LeilaBold';
+                    src: url('/fonts/font100/Leila-Bold[@fontrayegan].ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                @font-face {
+                    font-family: 'LeilaExtraBold';
+                    src: url('/fonts/font100/Leila-ExtraBold[@fontrayegan].ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                @font-face {
+                    font-family: 'LeilaRegular';
+                    src: url('/fonts/font100//Leila-Regular2[@fontrayegan].ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
   :root{
     --accent:#0a84ff;
     --muted:#6b7280;
@@ -184,6 +235,131 @@
   height: 50%;
 }
 }
+
+
+
+
+
+/* 💌 Envelope Styles */
+.envelope {
+  position: relative;
+  bottom: -50px;
+  width: 900px;
+  height: 300px;
+  background: #fefefe;
+  border-radius: 6px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.6s ease;
+  perspective: 1000px;
+}
+
+.envelope-pocket {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ffb6c1;
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #ff9aa2;
+  transform-origin: top;
+  border-radius: 6px 6px 0 0;
+  transition: transform 0.6s ease;
+  z-index: 2;
+}
+
+.letter {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transition: all 0.8s ease;
+  z-index: 0;
+}
+
+.letter h2 {
+  font-size: 1.2rem;
+  color: #e91e63;
+  margin-bottom: 0.5rem;
+}
+
+.letter p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+.meet-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 10px 16px;
+  background: #ff4081;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.meet-link:hover {
+  background: #e91e63;
+}
+
+/* 💌 Animation States */
+.envelope.open .envelope-flap {
+  transform: rotateX(180deg);
+}
+
+.envelope.open .letter {
+  top: 10%;
+}
+/* Small Note Tag */
+.note-tag {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-3deg);
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: "SF Pro Display", sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #e91e63;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: all 0.5s ease;
+  z-index: 3;
+  opacity: 0.9;
+}
+
+/* The tag floats softly when envelope is closed */
+.envelope:hover .note-tag {
+  transform: translate(-50%, -52%) rotate(0deg);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  opacity: 1;
+}
+
+/* Hide tag when envelope opens */
+.envelope.open .note-tag {
+  opacity: 0;
+  transform: translate(-50%, -80%) rotate(5deg);
+}
+
 </style>
 </head>
 <body>
@@ -195,7 +371,7 @@
 
 <header class="max-w-5xl mx-auto px-6 py-12 text-center">
   <h1 class="text-3xl sm:text-5xl md:text-6xl font-semibold fade-in"> 🎂تولدت مبارک, <span id="herName">عسل</span></h1>
-  <p class="mt-4 text-gray-500 text-lg fade-in">You are loved, celebrated, and cherished — today and always.</p>
+  <p class="mt-4 text-gray-500 text-lg fade-in">عشقم ، تولدتو تبریک میگم بهت - تولدت زیباترین روز دنیاست</p>
 </header>
 
 <main class="max-w-6xl mx-auto px-6 space-y-12 pb-8">
@@ -272,6 +448,30 @@
     </video>
   </div>
 </section>
+
+
+
+<!-- 💌 Letter Pocket Section -->
+<section class="flex justify-center items-center py-16">
+  <div class="envelope" id="envelope">
+    <div class="envelope-flap"></div>
+    <div class="envelope-pocket">
+      <div class="note-tag" style="font-family: CapsuleBlack;">نامه محرمانه </div>
+      <div class="letter">
+        <h2>My Dearest Asal 💖</h2>
+        <p>
+          You make every day brighter, every smile warmer, and every moment worth remembering.  
+          Tonight, let’s make another memory — just us, together for dinner. 🍷✨
+        </p>
+        <a href="https://meet.google.com/" target="_blank" class="meet-link">Join Our Dinner Call 💕</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
 
   <section class="bg-white rounded-2xl p-8 pac-container fade-in text-center">
     <div class="text-lg">Love,</div>
@@ -705,6 +905,13 @@ closeBtn.addEventListener('click', () => {
 
 lightbox.addEventListener('click', (e) => {
   if(e.target === lightbox) lightbox.classList.add('hidden'); // Click outside image closes
+});
+
+
+// 💌 Envelope Open Interaction
+const envelope = document.getElementById('envelope');
+envelope.addEventListener('click', () => {
+  envelope.classList.toggle('open');
 });
 
 </script>
