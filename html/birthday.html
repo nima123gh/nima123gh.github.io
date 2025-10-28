@@ -83,7 +83,7 @@
   .confetti{position:absolute; pointer-events:none; width:10px; height:14px; border-radius:2px;}
   #gameCanvas{display:block; width:100%; height:auto; border-radius:12px; background:#fff; touch-action:none;}
   .dpad button{width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,0.95);border:1px solid rgba(15,23,42,0.06);box-shadow:0 6px 18px rgba(2,6,23,0.06);font-size:20px;}
-  .segmented button{padding:8px 14px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);background:white;}
+  .segmented button{padding:8px 15px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);background:white;}
   .segmented .active{background:linear-gradient(180deg,#f7f9ff,#fff);box-shadow:0 6px 18px rgba(10,20,60,0.06);}
 
   .playlist-bar{position:fixed;left:12px;right:12px;bottom:10px;z-index:80;border-radius:16px;box-shadow:var(--card-shadow);background:rgba(255,255,255,0.98);overflow:hidden;}
@@ -100,7 +100,7 @@
   .progress{height:6px;background:rgba(15,23,42,0.06);border-radius:6px;overflow:hidden;min-width: 210px;}
   .progress .bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#8b5cf6);border-radius:6px}
   @media(max-width:640px){.album-art{width:56px;height:56px}.dpad button{width:44px;height:44px;font-size:18px}.track-item{min-width:92px}.progress{min-width: 240px;}.control-btn{transform: translate(-240px, 70px); font-size: 15px; margin: -3px;}.playlist-bar{ padding-bottom: 50px; } body{padding-bottom:110px}}
-  
+  @media(max-width: 640px){.emtiaz{position: absolute; left: 40%; bottom: 40%;}}
   /* ==== Video Player Styling ==== */
 .video-wrapper {
   position: relative;
@@ -460,15 +460,16 @@
     <h2 class="text-2xl font-medium" style="font-family: Kaghaz; text-align: center;">یک پیام عاشقانه</h2>
     <p class="mt-4 text-gray-600 text-lg leading-relaxed">You light up ordinary days. Your laugh, your warmth, your curiosity — everything about you is my favorite. Happy birthday, Asal.</p>
   </section>
-
+  
   <section class="grid grid-cols-1 sm:grid-cols-2 gap-6 fade-in">
     <div class="bg-white rounded-2xl p-6 pac-container">
-      <h3 class="text-lg font-medium mb-3">Memories</h3>
+      <h3 class="text-lg font-medium mb-3" style="text-align: center; font-family: Kaghaz; font-size: 30px; padding: 10px;">خاطرات روز تولدت</h3>
+      <p class="mt -4 text-gray-600 text-lg leading-relaxed" style="font-family: Kaghaz; font-size: 17px; padding-bottom: 40px; text-align: center;" >اینا خاطراتمون با همه 💕 بزن رو عکسا تا بزرگ شه</p>
       <div class="grid grid-cols-2 gap-3">
         <div class="memory-gallery"><img src="/images/g1.png" alt="Memory 1"></div>
         <div class="memory-gallery"><img src="/images/g2.png" alt="Memory 1"></div>
-        <div class="memory-gallery"><img src="/images/g2.png" alt="Memory 1"></div>
-        <div class="memory-gallery"><img src="/images/g1.png" alt="Memory 1"></div>
+        <div class="memory-gallery"><img src="/images/g3.png" alt="Memory 1"></div>
+        <div class="memory-gallery"><img src="/images/g4.png" alt="Memory 1"></div>
       </div>
     </div>
 
@@ -480,26 +481,26 @@
     <div class="bg-white rounded-2xl p-6 pac-container">
       <div class="flex items-center justify-between">
         <div>
-          <h3 class="text-lg font-medium">Pac-Love Game</h3>
-          <p class="text-gray-500 text-sm mt-1">Choose difficulty, collect pellets, avoid ghosts!</p>
+          <h3 class="text-lg font-medium" style="text-align: center; font-family: Kaghaz; font-size: 30px;">بازی پک - من</h3>
+          <p class="text-gray-500 text-sm mt-1"style="font-family: Kaghaz; font-size: 17px; padding-bottom: 40px; text-align: center;">دایره ها رو جمع کن تا امتیاز بگیری ، فقط مراقب باش روح ها نخورن بهت</p>
         </div>
-        <div class="text-sm text-gray-500">Score: <span id="scoreDisplay">0</span></div>
+        <div class="text-sm text-gray-500 emtiaz" style="font-family: RastinBold;">امتیاز: <span id="scoreDisplay">0</span></div>
       </div>
 
-      <div class="mt-4 segmented inline-flex bg-transparent border rounded-xl overflow-hidden">
-        <button id="easyBtn" class="active">Easy</button>
-        <button id="medBtn">Medium</button>
-        <button id="hardBtn">Hard</button>
+      <div class="mt-4 segmented inline-flex bg-transparent border rounded-xl overflow-hidden" style="font-family: Kaghaz;">
+        <button id="easyBtn" class="active">ساده</button>
+        <button id="medBtn">متوسط</button>
+        <button id="hardBtn">خیلی سخت</button>
       </div>
 
       <div class="mt-5 pac-container p-4">
         <canvas id="gameCanvas" width="760" height="520" aria-label="Pac-Man mini game"></canvas>
 
         <div class="mt-4 flex items-center justify-between">
-          <div class="text-sm text-gray-600"><span id="gameState">Ready</span></div>
+          <div class="text-sm text-gray-600"  style="font-family: RastinBold;"><span id="gameState">آماده</span></div>
           <div class="flex items-center gap-3">
-            <button id="startGame" class="px-4 py-2 rounded-2xl bg-white border shadow">Start</button>
-            <button id="resetGame" class="px-4 py-2 rounded-2xl bg-white border shadow">Reset</button>
+            <button id="startGame" class="px-4 py-2 rounded-2xl bg-white border shadow"  style="font-family: RastinBold;">شروع</button>
+            <button id="resetGame" class="px-4 py-2 rounded-2xl bg-white border shadow"  style="font-family: RastinBold;">مجدد</button>
           </div>
         </div>
 
@@ -531,8 +532,8 @@
 
 <!-- 🎥 Video Memories Section -->
 <section class="bg-white rounded-2xl p-8 pac-container fade-in text-center">
-  <h2 class="text-2xl font-medium mb-4">🎥 Video Memories</h2>
-  <p class="text-gray-500 mb-6">A few moments that mean the world to us.</p>
+  <h2 class="text-2xl font-medium mb-4" style="font-family: Kaghaz; font-size: 35px; padding-top: 30px;">🎥 ویدیو تولد</h2>
+  <p class="text-gray-500 mb-6" style="font-family: RastinBold; padding-top: 30px;">ویدیو ای که توش نتونستم تموم حرفامو بهت بزنم ولی سعیمو کردم تو زمان محدود از محبت هات تشکر کنم و نشون بدم چقدر خوشحالم خدا تورو بهم داده</p>
 
   <div class="video-wrapper mx-auto max-w-3xl">
     <video id="memoryVideo" class="memory-video" controls preload="metadata">
@@ -565,7 +566,7 @@
 <!-- Interactive Blooming Rose (stylized-realistic) -->
 <section id="interactive-rose-section" aria-label="Gratitude and rose" class="rose-section">
   <div class="rose-card" role="button" aria-pressed="false" tabindex="0" id="roseCard">
-    <div class="rose-hint">Click to Bloom</div>
+    <div class="rose-hint">کلیک کن</div>
 
     <!-- SVG Rose -->
     <div class="rose-stage">
@@ -627,8 +628,8 @@
 
     <!-- caption / message area -->
     <div class="rose-text">
-      <h3>Thank you, Asal</h3>
-      <p class="sub">Click the rose to bloom — I’ll be waiting for our dinner.</p>
+      <h3>ازت ممنونم عسل</h3>
+      <p class="sub">این گل رز که دوست داریه 💕 میخوام ازت تشکر کنم بابت همه روزایی که منو تحمل کردی و باعشق پیشم موندی و باعث شدی ادم بهتری شم . تو بهترین ادم دنیایی ، تولدت مبارک دخترم</p>
     </div>
   </div>
 </section>
@@ -930,9 +931,9 @@ function gameLoop(now){
   if(now - lastMove >= MOVE_INTERVAL){
     if(pac.next !== undefined && pac.next !== pac.dir) tryChangeDir(pac, pac.next);
     moveEntity(pac);
-    if(grid[pac.y] && grid[pac.y][pac.x] === 2){ grid[pac.y][pac.x]=0; pellets--; scoreGame+=10; scoreDisplay.textContent = scoreGame; if(pellets<=0){ runningGame=false; stateEl.textContent='You Win!'; msgEl.textContent='You collected all pellets — love wins! ❤️'; gsap.to(canvasGame, { scale:1.02, duration:0.25, yoyo:true, repeat:2 }); } }
+    if(grid[pac.y] && grid[pac.y][pac.x] === 2){ grid[pac.y][pac.x]=0; pellets--; scoreGame+=10; scoreDisplay.textContent = scoreGame; if(pellets<=0){ runningGame=false; stateEl.textContent='بردیییی'; msgEl.textContent='برنده شدی آفریننننن . 💓 این قلب برای تو'; gsap.to(canvasGame, { scale:1.02, duration:0.25, yoyo:true, repeat:2 }); } }
     for(const g of ghosts) stepGhost(g);
-    for(const g of ghosts){ if(g.x===pac.x && g.y===pac.y){ runningGame=false; stateEl.textContent='Try Again'; msgEl.textContent='Oh no — the ghost got you. Try again!'; gsap.to(canvasGame, { x:-6, duration:0.04, yoyo:true, repeat:8, onComplete: ()=> gsap.set(canvasGame,{x:0}) }); } }
+    for(const g of ghosts){ if(g.x===pac.x && g.y===pac.y){ runningGame=false; stateEl.textContent='تلاش مجدد'; msgEl.textContent='روح ها گرفتنت ، ایرادی نداره دوباره تلاش کن'; gsap.to(canvasGame, { x:-6, duration:0.04, yoyo:true, repeat:8, onComplete: ()=> gsap.set(canvasGame,{x:0}) }); } }
     lastMove = now;
   }
   requestAnimationFrame(gameLoop);
@@ -952,7 +953,7 @@ let touchStart = null;
 canvasGame.addEventListener('touchstart', ev => { if(ev.touches.length>1) return; const t = ev.touches[0]; touchStart = {x:t.clientX,y:t.clientY}; });
 canvasGame.addEventListener('touchend', ev => { if(!touchStart) return; const t = ev.changedTouches[0]; const dx = t.clientX - touchStart.x, dy = t.clientY - touchStart.y; if(Math.abs(dx)<20 && Math.abs(dy)<20){ if(!runningGame) startGame(); touchStart=null; return; } if(Math.abs(dx)>Math.abs(dy)) pac.next = dx>0?0:2; else pac.next = dy>0?1:3; if(!runningGame) startGame(); touchStart=null; });
 
-function startGame(){ if(runningGame) return; runningGame=true; stateEl.textContent='Playing'; msgEl.textContent=''; lastMove = performance.now(); requestAnimationFrame(gameLoop); }
+function startGame(){ if(runningGame) return; runningGame=true; stateEl.textContent='در حال بازی'; msgEl.textContent=''; lastMove = performance.now(); requestAnimationFrame(gameLoop); }
 function resetGame(){ setDifficulty(DIFFICULTY); }
 startBtnGame.addEventListener('click', startGame);
 resetBtnGame.addEventListener('click', resetGame);
@@ -974,7 +975,7 @@ function setDifficulty(level){
   initGridFromTemplate(def.template, COLS, ROWS);
   placeEntitiesForDifficulty(def);
   scoreGame = 0; pellets = countPellets(); scoreDisplay.textContent = scoreGame;
-  runningGame = false; stateEl.textContent = 'Ready'; msgEl.textContent = '';
+  runningGame = false; stateEl.textContent = 'آماده'; msgEl.textContent = '';
   fitCanvasGame(); drawSceneGame();
 }
 function countPellets(){ let c=0; for(let r=0;r<ROWS;r++) for(let j=0;j<COLS;j++) if(grid[r] && grid[r][j]===2) c++; return c; }
