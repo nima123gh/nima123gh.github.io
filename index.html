@@ -110,20 +110,6 @@
   font-size: 100px;
   color: #80d1f4;
 }
-.birthday-event {
-  position: relative;
-  border-radius: 25px;
-  overflow: hidden;
-  margin: 40px auto;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 500px;
-  box-shadow: 0 0 40px rgba(255, 200, 255, 0.2);
-  background: linear-gradient(-45deg, #8b5cf6, #ec4899, #fcd34d, #f472b6);
-  background-size: 400% 400%;
-  animation: gradientShift 10s ease infinite;
-  padding-bottom: 40px;
-}
 
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
@@ -175,6 +161,86 @@
   0%, 100% { transform: scale(1); opacity: 0.9; }
   50% { transform: scale(1.2); opacity: 1; }
 }
+
+
+.birthday-event {
+  background: rgb(255, 255, 255);
+  border-radius: 30px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.3),
+    0 25px 40px rgba(0,0,0,0.15),
+    inset 0 0 20px rgba(255,255,255,0.3);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  max-width: 550px;
+  margin: 40px auto;
+  color: #111;
+  transition: transform .4s cubic-bezier(.2,.9,.3,1),
+              box-shadow .4s ease;
+  overflow: hidden;
+  margin: 40px auto;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 500px;
+  padding-bottom: 40px;
+  
+
+
+}
+
+.birthday-event:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.4),
+    0 30px 60px rgba(0,0,0,0.25),
+    inset 0 0 30px rgba(255,255,255,0.35);
+}
+
+/* Headings and text inside look cleaner on white */
+.birthday-event h3,
+.birthday-event p {
+  color: #222 !important;
+  text-shadow: none !important;
+}
+
+/* Adjust the internal timer panel to blend with Apple white card */
+.birthday-event .panel {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.4),
+    0 10px 30px rgba(0,0,0,0.08),
+    inset 0 0 15px rgba(255,255,255,0.25);
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  padding: 43px;
+  color: #111;
+}
+
+.birthday-event .panel h1 {
+  color: #111;
+  background: linear-gradient(135deg, #6a6aff, #ae7bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 20px rgba(170,160,255,0.3);
+}
+
+.birthday-event .panel .sub {
+  color: rgba(0,0,0,0.6);
+}
+
+.birthday-event .time-display {
+  color: #111;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.birthday-event .ring svg circle:first-child {
+  stroke: rgba(0,0,0,0.08);
+}
+
+.ring{width:160px;height:160px;margin:0 auto 20px;position:relative;display:grid;place-items:center;}
+.ring svg{transform:rotate(-90deg)}
+.time-display{font-size:36px;font-weight:700;letter-spacing:-1px;text-align:center;text-shadow:0 6px 20px rgba(0,0,0,0.6);}
   </style>
 </head>
 <body>
@@ -212,16 +278,33 @@
       <p style="font-family: rey; font-size: 20px; color:#fff; padding-top: 0px; text-shadow: 0 0 40px #ffc9ff;">🎂</p>
       
     
-      <p class="event-date" style="color:#fff; padding-top: 30px; text-shadow: 0 0 100px #ffc9ff;">
-        📅 آبان 8 (به زودی...)
-      </p>
-    
-      <div style="padding-top: 25px;">
-        <a href=""><span style="font-family: reybold; font-size: 40px; color:#fff; animation: pulse 1s infinite; text-shadow: 0 0 60px #ffc9ff;">
-          ⏳
-        </span>
-        </a>
-      </div>
+<div class="panel">
+<h1>شمارش معکوس</h1>
+<p class="sub">عسلم هروقت این تایمر تموم شه لینک سایتت باز میشه </p>
+
+
+<div class="ring">
+<svg width="160" height="160" viewBox="0 0 160 160">
+<defs>
+<linearGradient id="grad" x1="0" x2="1">
+<stop offset="0" stop-color="#7ee7ff" />
+<stop offset="1" stop-color="#9b8cff" />
+</linearGradient>
+</defs>
+<circle cx="80" cy="80" r="68" stroke="rgba(255,255,255,0.06)" stroke-width="8" fill="none"></circle>
+<circle id="progress" cx="80" cy="80" r="68" stroke="url(#grad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="427" stroke-dashoffset="0" fill="none"></circle>
+</svg>
+<div class="time-display" id="display">00:00:00</div>
+</div>
+
+
+<div id="status" class="footer" style="padding-top: 50px;">درحال اجرا...</div>
+
+
+</div>
+
+</div>
+  
     </div>
     
     <div class="event-card apology-event">
@@ -395,5 +478,63 @@
 });
 
   </script>
+
+
+
+
+<script>
+// Autonomous Countdown Timer
+const TOTAL_HOURS = 65; // Developer sets countdown hours here
+const TOTAL_MS = TOTAL_HOURS * 3600000;
+const STORAGE_KEY = 'autonomous-countdown-start';
+
+
+const display = document.getElementById('display');
+const progressCircle = document.getElementById('progress');
+const status = document.getElementById('status');
+
+
+const CIRCUM = 2 * Math.PI * 68;
+
+
+// Determine start time
+let startTime = localStorage.getItem(STORAGE_KEY);
+if(!startTime){
+startTime = Date.now();
+localStorage.setItem(STORAGE_KEY, startTime);
+} else {
+startTime = parseInt(startTime);
+}
+
+
+function msToHMS(ms){
+const totalSec = Math.max(0, Math.floor(ms/1000));
+const sec = totalSec % 60;
+const min = Math.floor(totalSec/60) % 60;
+const hrs = Math.floor(totalSec/3600);
+return [hrs, min, sec].map(n => String(n).padStart(2,'0')).join(':');
+}
+
+
+function update(){
+const elapsed = Date.now() - startTime;
+const remaining = Math.max(0, TOTAL_MS - elapsed);
+display.textContent = msToHMS(remaining);
+const pct = remaining / TOTAL_MS;
+progressCircle.style.strokeDashoffset = CIRCUM * (1 - pct);
+
+
+if(remaining <= 0){
+status.textContent = 'Event Started';
+display.textContent = '00:00:00';
+} else {
+status.textContent = 'درحال اجرا...';
+requestAnimationFrame(update);
+}
+}
+
+
+update();
+</script>
 </body>
 </html>
