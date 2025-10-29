@@ -200,7 +200,7 @@
 /* Lightbox styling */
 .lightbox {
   position: fixed;
-  top: -40px;
+  top: -20px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -221,8 +221,8 @@
 
 #closeLightbox {
   position: absolute;
-  top: -1px;
-  right: 10px;
+  top: 10px;
+  right: 23px;
   font-size: 40px;
   color: #fff;
   cursor: pointer;
@@ -245,10 +245,10 @@
   position: relative;
   bottom: -50px;
   width: 600px;
-  height: 300px;
+  height: 410px;
   background: #fefefe;
   border-radius: 6px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.251);
   cursor: pointer;
   transition: all 0.6s ease;
   perspective: 1000px;
@@ -258,7 +258,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #ffb6c1;
+  background: #64646427;
   border-radius: 6px;
   overflow: hidden;
   z-index: 1;
@@ -270,7 +270,8 @@
   left: 0;
   width: 100%;
   height: 50%;
-  background: #ff9aa2;
+  background: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.143);
   transform-origin: top;
   border-radius: 6px 6px 0 0;
   transition: transform 0.6s ease;
@@ -290,25 +291,26 @@
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
   transition: all 0.8s ease;
   z-index: 0;
+  
 }
 
 .letter h2 {
   font-size: 1.2rem;
-  color: #e91e63;
+  color: rgb(186, 0, 59);
   margin-bottom: 0.5rem;
 }
 
 .letter p {
   font-size: 0.95rem;
   color: #555;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .meet-link {
   display: inline-block;
   margin-top: 1rem;
   padding: 10px 16px;
-  background: #ff4081;
+  background: rgb(186, 0, 59);
   color: white;
   text-decoration: none;
   border-radius: 6px;
@@ -441,6 +443,12 @@
     height: 48px;
   }
 }
+@media(max-width:640px){
+  .aks1{ position: absolute; left: 95%; top: 20%;}
+  .aks2{ position: absolute; right: 95%; top: 20%;}
+  .aks3{ position: absolute; right: 95%; top: 35%;}
+  .aks4{ position: absolute; left: 95%; top: 35%;}
+}
 </style>
 </head>
 <body>
@@ -451,14 +459,14 @@
 <div id="confettiRoot"></div>
 
 <header class="max-w-5xl mx-auto px-6 py-12 text-center" style="margin-top: 40px;">
-  <h1 class="text-3xl sm:text-5xl md:text-6xl font-semibold fade-in" style="font-family: RastinBold; font-size: 31px;";> 🎂 تولدت مبارک <span id="herName">عسل</span>🎂</h1>
-  <p class="mt-4 text-gray-500 text-lg fade-in" style="font-family: Kaghaz; font-size: 17px;">عشقم ، تولدتو تبریک میگم بهت - تولدت زیباترین روز دنیاست </p>
+  <h1 class="text-3xl sm:text-5xl md:text-6xl font-semibold fade-in" style="font-family: Kaghaz; font-size: 40px;";> 🎂 تولدت مبارک <span id="herName">عسلم</span></h1>
+  <p class="mt-4 text-gray-500 text-lg fade-in" style="font-family: Kaghaz; font-size: 20px;">عشقم ، تولدتو تبریک میگم بهت - تولدت زیباترین روز دنیاست </p>
 </header>
 
 <main class="max-w-6xl mx-auto px-6 space-y-12 pb-8">
   <section class="bg-white rounded-2xl p-8 pac-container fade-in">
     <h2 class="text-2xl font-medium" style="font-family: Kaghaz; text-align: center;">یک پیام عاشقانه</h2>
-    <p class="mt-4 text-gray-600 text-lg leading-relaxed">You light up ordinary days. Your laugh, your warmth, your curiosity — everything about you is my favorite. Happy birthday, Asal.</p>
+    <p class="mt-4 text-gray-600 text-lg leading-relaxed" style="font-family: RastinBold; font-size: 17px; text-align: center;">سلام دختر نازم 💗 ، امروز روزی هستش که خدا تورو به این زمین بخشیده ، روزیه که تو با اومدنت باعث شدی زندگی یه ادم کامل تغییر کنه و بهترین حس های دنیارو باهات تجربه کنه . این روز خیلی روز خاصیه برای من . امیدوارم این سایت که برات درست کردم جواب زحماتت  ، محبتات و تلاش هایی که برای رابطمون کردی باشه و بتونم ذره ای سهم توی خوشحالیت داشته باشم 💖 </p>
   </section>
   
   <section class="grid grid-cols-1 sm:grid-cols-2 gap-6 fade-in">
@@ -466,9 +474,13 @@
       <h3 class="text-lg font-medium mb-3" style="text-align: center; font-family: Kaghaz; font-size: 30px; padding: 10px;">خاطرات روز تولدت</h3>
       <p class="mt -4 text-gray-600 text-lg leading-relaxed" style="font-family: Kaghaz; font-size: 17px; padding-bottom: 40px; text-align: center;" >اینا خاطراتمون با همه 💕 بزن رو عکسا تا بزرگ شه</p>
       <div class="grid grid-cols-2 gap-3">
+        <h1 class=" aks1" style="position: absolute;">1</h1>
         <div class="memory-gallery"><img src="/images/g1.png" alt="Memory 1"></div>
+        <h1 class=" aks2" style="position: absolute;">2</h1>
         <div class="memory-gallery"><img src="/images/g2.png" alt="Memory 1"></div>
+        <h1 class=" aks3" style="position: absolute;">3</h1>
         <div class="memory-gallery"><img src="/images/g3.png" alt="Memory 1"></div>
+        <h1 class=" aks4" style="position: absolute;">4</h1>
         <div class="memory-gallery"><img src="/images/g4.png" alt="Memory 1"></div>
       </div>
     </div>
@@ -538,7 +550,7 @@
   <div class="video-wrapper mx-auto max-w-3xl">
     <video id="memoryVideo" class="memory-video" controls preload="metadata">
       <!-- Replace with your MOV file path -->
-      <source src="/videos/IMG_7873.mp4" type="video/quicktime" />
+      <source src="/videos/" type="video/quicktime" />
       Your browser does not support the video tag.
     </video>
   </div>
@@ -573,13 +585,14 @@
       <svg id="roseSVG" viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <radialGradient id="petalLight" cx="40%" cy="30%" r="90%">
-            <stop offset="0%" stop-color="#ff7aa6"/>
-            <stop offset="55%" stop-color="#e93b5a"/>
-            <stop offset="100%" stop-color="#9b1d3b"/>
+            <stop offset="0%" stop-color="#ff4b4b"/>   <!-- bright red center -->
+            <stop offset="55%" stop-color="#d11c1c"/>  <!-- vivid red -->
+            <stop offset="100%" stop-color="#ff172a"/> <!-- dark outer edge -->
           </radialGradient>
+
           <linearGradient id="petalShade" x1="0" x2="1">
-            <stop offset="0%" stop-color="#ff9bb6"/>
-            <stop offset="100%" stop-color="#b91d47"/>
+            <stop offset="0%" stop-color="#ff5a5a"/>
+            <stop offset="100%" stop-color="#a70c0c"/>
           </linearGradient>
           <linearGradient id="stemGrad" x1="0" x2="0" y1="0" y2="1">
             <stop offset="0%" stop-color="#2ea24a"/>
@@ -612,9 +625,9 @@
 
           <!-- Inner petals (center) -->
           <g id="innerPetals" opacity="0" transform="scale(0.2)">
-            <path class="inner" d="M0,0 C-6,-18 -6,-36 0,-48 C6,-36 6,-18 0,0" fill="#ff2b6b"/>
-            <path class="inner" d="M0,0 C-8,-24 -8,-48 0,-64 C8,-48 8,-24 0,0" transform="rotate(15)" fill="#ff3b6f"/>
-            <path class="inner" d="M0,0 C-8,-24 -8,-48 0,-64 C8,-48 8,-24 0,0" transform="rotate(-15)" fill="#ff3b6f"/>
+            <path class="inner" d="M0,0 C-6,-18 -6,-36 0,-48 C6,-36 6,-18 0,0" fill="#cc0000"/>
+            <path class="inner" d="M0,0 C-8,-24 -8,-48 0,-64 C8,-48 8,-24 0,0" transform="rotate(15)" fill="#b0000f"/>
+            <path class="inner" d="M0,0 C-8,-24 -8,-48 0,-64 C8,-48 8,-24 0,0" transform="rotate(-15)" fill="#b0000f"/>
           </g>
 
           <!-- small glossy center -->
@@ -628,8 +641,8 @@
 
     <!-- caption / message area -->
     <div class="rose-text">
-      <h3>ازت ممنونم عسل</h3>
-      <p class="sub">این گل رز که دوست داریه 💕 میخوام ازت تشکر کنم بابت همه روزایی که منو تحمل کردی و باعشق پیشم موندی و باعث شدی ادم بهتری شم . تو بهترین ادم دنیایی ، تولدت مبارک دخترم</p>
+      <h3 style="font-family: Kaghaz; font-size: 35px; padding-top: 30px;">ازت ممنونم عسل</h3>
+      <p class="sub" style="font-family: RastinBold; font-size: 15px; padding-top: 30px; margin: 20px;">این گل رز که دوست داریه 💕 میخوام ازت تشکر کنم بابت همه روزایی که منو تحمل کردی و باعشق پیشم موندی و باعث شدی ادم بهتری شم . تو بهترین ادم دنیایی ، تولدت مبارک دخترم</p>
     </div>
   </div>
 </section>
@@ -653,14 +666,16 @@
   <div class="envelope" id="envelope">
     <div class="envelope-flap"></div>
     <div class="envelope-pocket">
-      <div class="note-tag" style="font-family: CapsuleBlack;">نامه محرمانه </div>
+      <div class="note-tag" style="font-family: RastinBold; color:#000;">نامه محرمانه </div>
       <div class="letter">
-        <h2>My Dearest Asal 💖</h2>
-        <p>
-          You make every day brighter, every smile warmer, and every moment worth remembering.  
-          Tonight, let’s make another memory — just us, together for dinner. 🍷✨
+        <h2 style="font-family: Kaghaz; font-size: 35px;">دعوت نامه</h2>
+        <p style="font-family: LeilaBold; font-size: 25px; text-align: right; padding-bottom: 20px;">
+          عسل جونم
         </p>
-        <a href="https://meet.google.com/" target="_blank" class="meet-link">Join Our Dinner Call 💕</a>
+        <p style="font-family: LeilaBold; font-size: 25px; text-align: right">
+          شما دعوت شدی به یه دیت با من . دوست دارم برای روز جمعه ببینمت 💞 . صبح جمعه نزدیکای ساعت ناهار میبینمت 
+        </p>
+        <a href="https://meet.google.com/" target="_blank" class="meet-link">لینک دیت</a>
       </div>
     </div>
   </div>
@@ -714,9 +729,9 @@
 */
 const PLAYLIST = [
   // Example placeholders — replace with your local paths (relative) or URLs:
+  { title: "Tavalod", artist: "Sijal Ft Leito Ft Alireza JJ Ft Sohrab MJ", src: "/music/Sijal Ft Leito Ft Alireza JJ Ft Sohrab MJ - Tavalod 128.mp3", art: "/images/tavalod.jpg" },
   { title: "Divoone Ghalbam", artist: "Arshiyas", src: "/music/Arshiyas - Divoone Ghalbam.mp3", art: "/images/arshyas.jpg" },
   { title: "Mosaken", artist: "Novan", src: "/music/Novan - Mosaken (128).mp3", art: "/images/novan.jpg" },
-  { title: "Song Two", artist: "Artist B", src: "/music/Novan - Mosaken (128).mp3", art: "" },
   { title: "Song Two", artist: "Artist B", src: "/music/Novan - Mosaken (128).mp3", art: "" },
   { title: "Song Two", artist: "Artist B", src: "/music/Novan - Mosaken (128).mp3", art: "" },
   { title: "Song Three", artist: "Artist C", src: "songs/song3.mp3", art: "" }
@@ -1385,4 +1400,3 @@ document.querySelectorAll('.scroll-arrow').forEach(arrow => {
 
 </body>
 </html>
-
