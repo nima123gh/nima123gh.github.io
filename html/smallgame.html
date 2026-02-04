@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nima's Adventure</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            margin: 0; background: #000; 
+            display: flex; flex-direction: column; 
+            height: 100vh; overflow: hidden; 
+            font-family: sans-serif; touch-action: none;
+        }
+        #game-container { flex: 1; width: 100%; display: flex; justify-content: center; align-items: center; }
+        #mobile-controls {
+            display: none; height: 160px; width: 100%;
+            background: #111; border-top: 2px solid #333;
+            position: relative;
+        }
+        .joystick-base {
+            width: 100px; height: 100px; background: rgba(255,255,255,0.1);
+            border: 2px solid #444; border-radius: 50%;
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+        }
+        #joyThumb { width: 40px; height: 40px; background: #fff; border-radius: 50%; position: absolute; left: 30px; top: 30px; pointer-events: none; }
+        @media (pointer: coarse) { #mobile-controls { display: block; } }
+    </style>
+</head>
+<body>
+
+<div id="game-container"></div>
+<div id="mobile-controls"><div class="joystick-base" id="joyBase"><div id="joyThumb"></div></div></div>
+
+<script>
+// --- Global Mobile Input ---
+let mobileInput = { x: 0, y: 0 };
+const joyBase = document.getElementById('joyBase');
+const joyThumb = document.getElementById('joyThumb');
+let isDragging = false;
+
+const updateJoystick = (e) => {
+    if (!isDragging) return;
+    const touch = e.touches ? e.touches[0] : e;
+    const rect = joyBase.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    let dx = touch.clientX - centerX;
+    let dy = touch.clientY - centerY;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const maxDist = 40;
+    if (dist > maxDist) { dx *= maxDist / dist; dy *= maxDist / dist; }
+    joyThumb.style.transform = `translate(${dx}px, ${dy}px)`;
+    mobileInput.x = dx / maxDist; mobileInput.y = dy / maxDist;
+};
+
+joyBase.addEventListener('touchstart', (e) => { isDragging = true; updateJoystick(e); });
+window.addEventListener('touchmove', updateJoystick, { passive: false });
+window.addEventListener('touchend', () => { isDragging = false; joyThumb.style.transform = `translate(0,0)`; mobileInput.x = 0; mobileInput.y = 0; });
+
+// --- Movement Helper ---
+function handleMovement(scene, player, speed) {
+    player.setVelocity(0);
+    let vx = 0; let vy = 0;
+    if (scene.cursors.left.isDown) vx = -1; else if (scene.cursors.right.isDown) vx = 1;
+    if (scene.cursors.up.isDown) vy = -1; else if (scene.cursors.down.isDown) vy = 1;
+
+    if (vx !== 0 || vy !== 0) {
+        player.setVelocity(vx * speed, vy * speed);
+    } else {
+        player.setVelocity(mobileInput.x * speed, mobileInput.y * speed);
+    }
+}
+
+// --- 1. TOWN SCENE ---
+class TownScene extends Phaser.Scene {
+    constructor() { super('TownScene'); }
+    preload() {
+        this.load.image('hero_img', '/images/nima.png');
+        this.load.image('gf_img', '/images/asal.png');
+        this.load.image('town_bg', '/images/background2.png'); 
+    }
+    create() {
+        this.add.image(400, 300, 'town_bg').setDisplaySize(800, 600);
+        this.player = this.physics.add.sprite(150, 500, 'hero_img').setScale(0.12).setOrigin(0.5, 1);
+        this.gf = this.physics.add.staticSprite(650, 500, 'gf_img').setScale(0.20).setOrigin(0.5, 1);
+        this.cursors = this.input.keyboard.createCursorKeys();
+        this.isDialogueOpen = false;
+        this.dialogueIndex = 0;
+        this.dialogueLines = [
+            "Asal: Nima, are you sure about this?",
+            "Nima: I have to go. There are rumors of something strange in the jungle.",
+            "Asal: Then I'm coming with you. We face this together.",
+            "Nima: It might be dangerous, but I'm glad you're by my side.",
+            "Asal: Let's look for some loot and see if we can find any clues!"
+        ];
+        this.physics.add.overlap(this.player, this.gf, () => this.startIntroDialogue());
+    }
+    startIntroDialogue() {
+        if (this.isDialogueOpen) return;
+        this.isDialogueOpen = true;
+        this.player.setVelocity(0);
+        this.dialogueBox = this.add.graphics().fillStyle(0x000088, 0.9).fillRoundedRect(100, 450, 600, 120, 10).lineStyle(3, 0xffffff).strokeRoundedRect(100, 450, 600, 120, 10);
+        this.displayText = this.add.text(130, 475, this.dialogueLines[0], { fontSize: '20px', fill: '#fff', wordWrap: { width: 540 } });
+        this.nextBtn = this.add.text(600, 535, "[ NEXT ]", { backgroundColor: '#444', padding: 5 }).setInteractive();
+        this.nextBtn.on('pointerdown', () => {
+            this.dialogueIndex++;
+            if (this.dialogueIndex < this.dialogueLines.length) {
+                this.displayText.setText(this.dialogueLines[this.dialogueIndex]);
+                if (this.dialogueIndex === this.dialogueLines.length - 1) this.nextBtn.setText("[ START ADVENTURE ]").setBackgroundColor('#27ae60');
+            } else {
+                this.cameras.main.fadeOut(500, 0, 0, 0, (camera, progress) => { if (progress === 1) this.scene.start('JungleScene'); });
+            }
+        });
+    }
+    update() { if (!this.isDialogueOpen) handleMovement(this, this.player, 250); }
+}
+
+// --- 2. JUNGLE SCENE ---
+class JungleScene extends Phaser.Scene {
+    constructor() { super('JungleScene'); }
+    preload() {
+        this.load.image('jungle_tile', '/images/jungle.png');
+        this.load.image('hero_img', '/images/nima.png');
+        this.load.image('gf_img', '/images/asal.png');
+        this.load.image('stranger_human_img', '/images/sana.png'); 
+        this.load.image('stranger_monster_img', '/images/sanaevo.png');
+        this.load.image('gold', '/images/coin.png');
+    }
+    create() {
+        this.physics.world.setBounds(0, 0, 1600, 1200);
+        this.add.tileSprite(800, 600, 1600, 1200, 'jungle_tile');
+        this.score = 0;
+        this.scoreText = this.add.text(20, 20, 'Coins: 0', { fontSize: '28px', fill: '#ffd700', stroke: '#000', strokeThickness: 4 }).setScrollFactor(0).setDepth(10);
+        this.player = this.physics.add.sprite(100, 100, 'hero_img').setScale(0.12).setCollideWorldBounds(true);
+        this.gf = this.physics.add.sprite(80, 100, 'gf_img').setScale(0.21);
+        this.history = [];
+        this.cameras.main.setBounds(0, 0, 1600, 1200).startFollow(this.player, true, 0.1, 0.1);
+        this.lootItems = this.physics.add.group();
+        for(let i=0; i<15; i++) { this.lootItems.create(Phaser.Math.Between(200, 1500), Phaser.Math.Between(200, 1000), 'gold').setScale(0.2); }
+        this.stranger = this.physics.add.sprite(1400, 1000, 'stranger_human_img').setScale(0.21);
+        this.physics.add.overlap(this.player, this.lootItems, (p, item) => { item.destroy(); this.score++; this.scoreText.setText('Coins: ' + this.score); });
+        this.physics.add.overlap(this.player, this.stranger, () => this.handleTransformation());
+        this.cursors = this.input.keyboard.createCursorKeys();
+        this.isTransforming = false;
+    }
+    update() {
+        if (this.isTransforming) return;
+        handleMovement(this, this.player, 300);
+        this.history.push({x: this.player.x, y: this.player.y});
+        if (this.history.length > 15) { let pos = this.history.shift(); this.gf.x = pos.x-45; this.gf.y = pos.y+10; }
+    }
+    handleTransformation() {
+        if (this.isTransforming) return;
+        this.isTransforming = true; this.player.setVelocity(0);
+        let box = this.add.graphics().setScrollFactor(0).fillStyle(0x000, 0.8).fillRoundedRect(100, 400, 600, 150, 15);
+        let msg = this.add.text(130, 430, "Stranger: Hello Nima... looking for something?", { fontSize: '20px' }).setScrollFactor(0);
+        this.time.delayedCall(2000, () => {
+            msg.setText("Stranger: I'll show you what real power looks like!");
+            this.cameras.main.shake(500, 0.02);
+            this.time.delayedCall(1000, () => {
+                this.stranger.setTexture('stranger_monster_img').setScale(0.3);
+                this.cameras.main.flash(500, 255, 0, 0);
+                this.time.delayedCall(1500, () => this.scene.start('BattleScene'));
+            });
+        });
+    }
+}
+
+// --- 3. BATTLE SCENE ---
+class BattleScene extends Phaser.Scene {
+    constructor() { super('BattleScene'); }
+    preload() {
+        this.load.image('battle_bg', '/images/background1.png'); 
+        this.load.image('hero_img', '/images/nima.png');
+        this.load.image('monster_img', '/images/sanaevo.png');
+    }
+    create() {
+        this.add.image(400, 300, 'battle_bg').setDisplaySize(800, 600);
+        this.heroHP = 100; this.monsterHP = 150; this.isPlayerTurn = true; this.isDefending = false;
+        this.heroSprite = this.add.image(200, 420, 'hero_img').setScale(0.12).setOrigin(0.5, 1);
+        this.monsterSprite = this.add.image(600, 420, 'monster_img').setScale(0.25).setOrigin(0.5, 1).setFlipX(true);
+        this.shieldGraphic = this.add.graphics().setVisible(false);
+        this.hpText = this.add.text(100, 435, `Nima HP: ${this.heroHP}`, { fontSize: '20px', color: '#00ff00', stroke: '#000', strokeThickness: 2 });
+        this.mHpText = this.add.text(500, 435, `Sana HP: ${this.monsterHP}`, { fontSize: '20px', color: '#ff0000', stroke: '#000', strokeThickness: 2 });
+        this.statusText = this.add.text(400, 100, "Your Turn", { fontSize: '28px', color: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
+        this.atkBtn = this.add.text(300, 550, "[ ATTACK ]", { backgroundColor: '#800', padding: 10 }).setOrigin(0.5).setInteractive();
+        this.defBtn = this.add.text(500, 550, "[ DEFEND ]", { backgroundColor: '#2980b9', padding: 10 }).setOrigin(0.5).setInteractive();
+        this.atkBtn.on('pointerdown', () => this.handleAttack());
+        this.defBtn.on('pointerdown', () => this.handleDefend());
+    }
+    handleAttack() {
+        if (!this.isPlayerTurn) return;
+        this.isPlayerTurn = false; this.isDefending = false; this.shieldGraphic.setVisible(false);
+        this.tweens.add({ targets: this.heroSprite, x: 450, duration: 100, yoyo: true, onComplete: () => {
+            this.monsterHP -= 50; this.mHpText.setText(`Sana HP: ${this.monsterHP}`); this.cameras.main.shake(100, 0.01);
+            if(this.monsterHP <= 0) { this.statusText.setText("Victory!"); this.time.delayedCall(1500, () => this.scene.start('TownScene')); }
+            else { this.time.delayedCall(800, () => this.handleMonsterTurn()); }
+        }});
+    }
+    handleDefend() {
+        if (!this.isPlayerTurn) return;
+        this.isPlayerTurn = false; this.isDefending = true; this.statusText.setText("Nima is guarding!");
+        this.shieldGraphic.clear().lineStyle(4, 0x00ffff, 0.8).strokeCircle(0, 0, 60);
+        this.shieldGraphic.setPosition(this.heroSprite.x, this.heroSprite.y - 70).setVisible(true);
+        this.time.delayedCall(1000, () => this.handleMonsterTurn());
+    }
+    handleMonsterTurn() {
+        this.statusText.setText("Sana is attacking!");
+        this.tweens.add({ targets: this.monsterSprite, x: 350, duration: 150, yoyo: true, onComplete: () => {
+            let dmg = this.isDefending ? 5 : 20; this.heroHP -= dmg; this.hpText.setText(`Nima HP: ${this.heroHP}`);
+            this.cameras.main.flash(100, this.isDefending ? 0 : 255, 255, 255);
+            if(this.heroHP <= 0) this.scene.start('TownScene');
+            else this.time.delayedCall(800, () => { this.isPlayerTurn = true; this.statusText.setText("Your Turn"); });
+        }});
+    }
+}
+
+const config = {
+    type: Phaser.AUTO, parent: 'game-container',
+    scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH, width: 800, height: 600 },
+    physics: { default: 'arcade', arcade: { gravity: { y: 0 } } },
+    scene: [TownScene, JungleScene, BattleScene]
+};
+new Phaser.Game(config);
+</script>
+</body>
+</html>
