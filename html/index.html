@@ -110,20 +110,6 @@
   font-size: 100px;
   color: #80d1f4;
 }
-.birthday-event {
-  position: relative;
-  border-radius: 25px;
-  overflow: hidden;
-  margin: 40px auto;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 500px;
-  box-shadow: 0 0 40px rgba(255, 200, 255, 0.2);
-  background: linear-gradient(-45deg, #8b5cf6, #ec4899, #fcd34d, #f472b6);
-  background-size: 400% 400%;
-  animation: gradientShift 10s ease infinite;
-  padding-bottom: 40px;
-}
 
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
@@ -148,7 +134,9 @@
 
 
 
+
 .apology-event {
+  opacity: 30%;
   position: relative;
   border-radius: 25px;
   overflow: hidden;
@@ -173,6 +161,158 @@
   0%, 100% { transform: scale(1); opacity: 0.9; }
   50% { transform: scale(1.2); opacity: 1; }
 }
+
+
+
+
+.birthday-event {
+  opacity: 30%;
+  background: rgb(255, 255, 255);
+  border-radius: 30px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.3),
+    0 25px 40px rgba(0,0,0,0.15),
+    inset 0 0 20px rgba(255,255,255,0.3);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  max-width: 550px;
+  margin: 40px auto;
+  color: #111;
+  transition: transform .4s cubic-bezier(.2,.9,.3,1),
+              box-shadow .4s ease;
+  overflow: hidden;
+  margin: 40px auto;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 500px;
+  padding-bottom: 40px;
+}
+
+.birthday-event:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.4),
+    0 30px 60px rgba(0,0,0,0.25),
+    inset 0 0 30px rgba(255,255,255,0.35);
+}
+
+.game-event {
+  background: #0a0a0c; /* Deep space dark */
+  border: 3px solid #ff2d95; /* Neon pink border */
+  border-radius: 20px;
+  box-shadow: 
+    0 0 20px rgba(255, 45, 149, 0.3),
+    inset 0 0 15px rgba(255, 45, 149, 0.2);
+  
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  /* Diagonal cut for a gaming look */
+  clip-path: polygon(0% 5%, 5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%);
+}
+
+/* Background scan-line effect */
+.game-event::before {
+  content: " ";
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg, 
+    rgba(255, 0, 0, 0.06), 
+    rgba(0, 255, 0, 0.02), 
+    rgba(0, 0, 110, 0.06)
+  );
+  z-index: 2;
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Typography Overrides */
+.game-event h3 {
+  color: #fff !important;
+  text-shadow: 0 0 10px #ff2d95, 0 0 20px #ff2d95 !important;
+  letter-spacing: 1px;
+}
+
+.game-event p {
+  line-height: 1.6;
+  color: #e0e0e0 !important;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* The Button - Arcade Style */
+.game-event button {
+  cursor: pointer;
+  background: #ff2d95 !important; /* Solid Neon */
+  border: none !important;
+  box-shadow: 0 5px 0 #b30059, 0 10px 20px rgba(255, 45, 149, 0.4) !important;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 5;
+}
+
+.game-event button:hover {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #b30059, 0 5px 10px rgba(255, 45, 149, 0.6) !important;
+}
+
+.game-event button a {
+  text-decoration: none;
+  filter: drop-shadow(0 0 5px white);
+}
+
+
+
+.birthday-event h3,
+.birthday-event p {
+  color: #222 !important;
+  text-shadow: none !important;
+}
+
+/* Adjust the internal timer panel to blend with Apple white card */
+.birthday-event .panel {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.4),
+    0 10px 30px rgba(0,0,0,0.08),
+    inset 0 0 15px rgba(255,255,255,0.25);
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  padding: 43px;
+  color: #111;
+}
+
+.birthday-event .panel h1 {
+  color: #111;
+  background: linear-gradient(135deg, #6a6aff, #ae7bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 20px rgba(170,160,255,0.3);
+}
+
+.birthday-event .panel .sub {
+  color: rgba(0,0,0,0.6);
+}
+
+.birthday-event .time-display {
+  color: #111;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.birthday-event .ring svg circle:first-child {
+  stroke: rgba(0,0,0,0.08);
+}
+
+.ring{width:160px;height:160px;margin:0 auto 20px;position:relative;display:grid;place-items:center;}
+.ring svg{transform:rotate(-90deg)}
+.time-display{font-size:36px;font-weight:700;letter-spacing:-1px;text-align:center;text-shadow:0 6px 20px rgba(0,0,0,0.6);}
   </style>
 </head>
 <body>
@@ -186,18 +326,53 @@
       <div id="lockError" style="color:#d13;margin-top:8px;display:none;font-size:0.9rem"></div>
     </div>
   </div>
-
+  
   <div class="hearts" id="hearts"></div>
-
+  
   <header>
     <h1 style="font-family: reybold;">💕 سلاممممممم عشق من 💕</h1>
     <p style="font-family: rey;">💞این سایت رو برات درست کردم تا بگم چقدررررر دوست دارم</p>
   </header>
   
-
+  
   <section class="section" id="events">
     <h2 style="font-size: 40px; font-family: reybold;">🎉 ایونت ها 🎉</h2>
+    
+<div class="event-card game-event">
+  <h3 style="font-family: reybold; font-size: 35px; font-weight: bold; color:#fff; padding-top: 30px;">
+    ایونت: بازی من و عسل
+  </h3>
 
+  <p style="font-family: rey; font-size: 20px; color:#fff; padding-top: 20px;">
+    سلام دختره نازنازیمممممممم. این بازی رو ساختم که هم خوشبگذره بهت هم ببینی همیشه روشنایی بر تاریکی پیروز میشه
+  </p>
+  
+  <div style="margin-top: 30px;">
+    <h1 style="font-family: rey; font-size: 30px; color:#ffffff; text-shadow: 0 0 15px #ff2d95;">
+      💕 رو دکمه زیر بزن 💕
+    </h1>
+    
+    <button style="margin: 20px; padding: 20px 40px; font-size: 40px; border-radius: 15px;">
+      <a href="/html/smallgame.html" style="display: block;">🎮</a>
+    </button>
+  </div>
+</div>
+    <div class="event-card birthday-event">
+      <h3 style="font-family: reybold; font-size: 35px; font-weight: bold; color:#fff; padding-top: 30px; text-shadow: 0 0 40px #ffc9ff;">
+        ایونت : تولد 
+      </h3>
+    
+      <p style="font-family: rey; font-size: 20px; color:#fff; padding-top: 30px; text-shadow: 0 0 40px #ffc9ff;">
+        سلامممممممم دختر نازم 💗 . من فداتشم نفسم این بادکنکه میبرتت تو سایت تولدت . ببخشید اگه کوتاهه سایت چون یخرده وقت کم اوردم اینطوری شد . سعی کردم این سایتو شبیه سایت اپل درست کنم 😂 ساده و مینیمال  . تولدت کلی مبارک دخترم 🍰 امیدوارم لذت ببری
+      </p>
+      
+      <div>
+        <h1 style="font-family: rey; font-size: 40px; color:#000000; padding-top: 30px; text-shadow: 0 0 40px #ffc9ff;">💕 بزن رو بادکنک زیر 💕</h1>
+        <button style="margin: 10px; padding: 30px; font-size: 30px; background-color: white; border-color: rgba(43, 43, 43, 0.09); border-radius: 30px; text-decoration: none;"><a href="/html/birthday.html">🎈</a></button>
+      </div>
+  </div>
+  
+    </div>
     
     <div class="event-card apology-event">
       <h3 style="font-family: reybold; font-size: 35px; font-weight: bold; color:#ffffff; padding-top: 30px; text-shadow: 0 0 40px #ff9cff;">
@@ -223,7 +398,7 @@
     </div>
   
   
-    <div class="event-card">
+    <div class="event-card" style="  opacity: 30%;">
     <h3 style="font-family: reybold;font-size: 35px;font-weight: bold;color:#ffd6ff;padding-top: 30px;text-shadow: 0 0 40px #ffc9ff">ایونت : روز دختر</h3>
     <p style="font-family: rey;font-size: 20px;color:#ffd6ff;padding-top: 30px;text-shadow: 0 0 40px #ffc9ff">سلام عسل جون من . برات یه سایت ساختم برای تبریک روز دختر 💕 برای دیدنش بزن رو قلبم که داره برات میزنه </p>
       <p class="event-date" style="color:#ffd6ff;padding-top: 30px;text-shadow: 0 0 100px #ffc9ff">📅 مهر 19</p>
@@ -231,28 +406,6 @@
     </div>
 
     
-<div class="event-card birthday-event">
-  <h3 style="font-family: reybold; font-size: 35px; font-weight: bold; color:#fff; padding-top: 30px; text-shadow: 0 0 40px #ffc9ff;">
-    ایونت : تولد 
-  </h3>
-
-  <p style="font-family: rey; font-size: 20px; color:#fff; padding-top: 30px; text-shadow: 0 0 40px #ffc9ff;">
-    نزدیک تولدت شده عسلی 💕 یه سورپرایز برات دارم که روز تولدت فعال میشه!  
-    آماده باش چون قراره کلی ذوق کنییییییییی
-  </p>
-  <p style="font-family: rey; font-size: 20px; color:#fff; padding-top: 0px; text-shadow: 0 0 40px #ffc9ff;">🎂</p>
-  
-
-  <p class="event-date" style="color:#fff; padding-top: 30px; text-shadow: 0 0 100px #ffc9ff;">
-    📅 آبان 8 (به زودی...)
-  </p>
-
-  <div style="padding-top: 25px;">
-    <span style="font-family: reybold; font-size: 40px; color:#fff; animation: pulse 1s infinite; text-shadow: 0 0 60px #ffc9ff;">
-      ⏳
-    </span>
-  </div>
-</div>
 </section>
 
 
@@ -261,7 +414,7 @@
     <div class="gallery">
         <img src="/images/1.PNG" alt="Memory 1">
         <img src="/images/2.PNG" alt="Memory 2">
-        <img src="/images/3.PNG" alt="Memory 3">
+        <a href="/html/birthday.html"><img src="/images/3.PNG" alt="Memory 3"></a>
         <img src="/images/4.PNG" alt="Memory 4">
         <img src="/images/5.PNG" alt="Memory 5">
         <img src="/images/6.PNG" alt="Memory 6">
@@ -392,6 +545,63 @@
 });
 
   </script>
+
+
+
+
+<script>
+// Autonomous Countdown Timer
+const TOTAL_HOURS = 65; // Developer sets countdown hours here
+const TOTAL_MS = TOTAL_HOURS * 3600000;
+const STORAGE_KEY = 'autonomous-countdown-start';
+
+
+const display = document.getElementById('display');
+const progressCircle = document.getElementById('progress');
+const status = document.getElementById('status');
+
+
+const CIRCUM = 2 * Math.PI * 68;
+
+
+// Determine start time
+let startTime = localStorage.getItem(STORAGE_KEY);
+if(!startTime){
+startTime = Date.now();
+localStorage.setItem(STORAGE_KEY, startTime);
+} else {
+startTime = parseInt(startTime);
+}
+
+
+function msToHMS(ms){
+const totalSec = Math.max(0, Math.floor(ms/1000));
+const sec = totalSec % 60;
+const min = Math.floor(totalSec/60) % 60;
+const hrs = Math.floor(totalSec/3600);
+return [hrs, min, sec].map(n => String(n).padStart(2,'0')).join(':');
+}
+
+
+function update(){
+const elapsed = Date.now() - startTime;
+const remaining = Math.max(0, TOTAL_MS - elapsed);
+display.textContent = msToHMS(remaining);
+const pct = remaining / TOTAL_MS;
+progressCircle.style.strokeDashoffset = CIRCUM * (1 - pct);
+
+
+if(remaining <= 0){
+status.textContent = 'Event Started';
+display.textContent = '00:00:00';
+} else {
+status.textContent = 'درحال اجرا...';
+requestAnimationFrame(update);
+}
+}
+
+
+update();
+</script>
 </body>
 </html>
-
