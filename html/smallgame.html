@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nima's Adventure - Full Restoration</title>
+    <title>Nima's Adventure - Dialogue Restored</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -27,7 +27,7 @@
             gap: 5px;
         }
         .btn {
-            width: 60px; height: 60px; background: #333; color: white;
+            width: 50px; height: 50px; background: #333; color: white;
             border: 1px solid #555; border-radius: 8px;
             display: flex; align-items: center; justify-content: center;
             font-weight: bold; font-size: 24px; user-select: none;
@@ -59,7 +59,7 @@
         <div class="btn down" id="btn-down">▼</div>
     </div>
     
-    <button id="interact-btn">ACTION</button>
+    <button id="interact-btn">انجام</button>
 </div>
 
 <script>
@@ -97,9 +97,35 @@ function handleMovement(scene, player, speed) {
 class TownScene extends Phaser.Scene {
     constructor() { super('TownScene'); }
     preload() {
+        let progressBar = this.add.graphics();
+        let progressBox = this.add.graphics();
+        progressBox.fillStyle(0x222222, 0.8);
+        progressBox.fillRect(240, 270, 320, 50);
+
+        this.load.on('progress', (value) => {
+            progressBar.clear();
+            progressBar.fillStyle(0xffffff, 1);
+            progressBar.fillRect(250, 280, 300 * value, 30);
+        });
+
+        this.load.on('complete', () => {
+            progressBar.destroy();
+            progressBox.destroy();
+        });
+
         this.load.image('hero_img', '/images/nima.png');
         this.load.image('gf_img', '/images/asal.png');
         this.load.image('town_bg', '/images/background2.png'); 
+        this.load.image('jungle_tile', '/images/jungle.png');
+        this.load.image('gold', '/images/coin.png');
+        this.load.image('sana', '/images/sana.png');
+        this.load.image('sanaevo', '/images/sanaevo.png');
+        this.load.image('monster_img', '/images/sanaevo.png');
+        this.load.image('battle_bg', '/images/background1.png'); 
+        this.load.image('city_bg', '/images/background2.png');
+        this.load.image('npc_img', '/images/asal.png'); 
+        this.load.image('pic1', '/images/item1.jpg'); 
+        this.load.image('pic2', '/images/item2.jpg');
     }
     create() {
         activeScene = this;
@@ -136,17 +162,9 @@ class TownScene extends Phaser.Scene {
     update() { if (!this.isDialogueOpen) handleMovement(this, this.player, 250); }
 }
 
-// --- 2. JUNGLE SCENE (ASAL FOLLOWS) ---
+// --- 2. JUNGLE SCENE ---
 class JungleScene extends Phaser.Scene {
     constructor() { super('JungleScene'); }
-    preload() {
-        this.load.image('jungle_tile', '/images/jungle.png');
-        this.load.image('hero_img', '/images/nima.png');
-        this.load.image('gf_img', '/images/asal.png');
-        this.load.image('gold', '/images/coin.png');
-        this.load.image('sana', '/images/sana.png');
-        this.load.image('sanaevo', '/images/sanaevo.png');
-    }
     create() {
         activeScene = this;
         this.physics.world.setBounds(0, 0, 1600, 1200);
@@ -161,26 +179,55 @@ class JungleScene extends Phaser.Scene {
         for(let i=0; i<15; i++) this.loot.create(Phaser.Math.Between(300, 1500), Phaser.Math.Between(200, 1000), 'gold').setScale(0.2);
         
         this.stranger = this.physics.add.sprite(1400, 1000, 'sana').setScale(0.2);
+        
+        // --- Stranger Dialogue Setup ---
+        this.isDialogueOpen = false;
+        this.dialogueIndex = 0;
+        this.dialogueLines = [
+            "غریبه : خوشمیگذره بهتون ؟؟؟",
+            "نیما : آره تو کی هستی ؟؟؟؟؟؟",
+            "ثنا : من ثنام و چشم دیدن شمارو ندارم و نابودتون میکنمممم"
+        ];
+
         this.physics.add.overlap(this.player, this.loot, (p, item) => { 
             item.destroy(); window.gameState.coins++; this.scoreText.setText('گل ها: ' + window.gameState.coins); 
         });
-        this.physics.add.overlap(this.player, this.stranger, () => this.scene.start('BattleScene'));
+        this.physics.add.overlap(this.player, this.stranger, () => this.startStrangerDialogue());
     }
+
+    startStrangerDialogue() {
+        if (this.isDialogueOpen) return;
+        this.isDialogueOpen = true;
+        this.player.setVelocity(0);
+        this.dialogueBox = this.add.container(0,0).setDepth(200).setScrollFactor(0);
+        let rect = this.add.graphics().fillStyle(0x880000, 0.9).fillRoundedRect(100, 450, 600, 120, 10).lineStyle(3, 0xffffff).strokeRoundedRect(100, 450, 600, 120, 10);
+        this.displayText = this.add.text(130, 475, this.dialogueLines[0], { fontSize: '20px', fill: '#fff', wordWrap: { width: 540 } });
+        this.dialogueBox.add([rect, this.displayText]);
+    }
+
+    handleAction() {
+        if (this.isDialogueOpen) {
+            this.dialogueIndex++;
+            if (this.dialogueIndex < this.dialogueLines.length) {
+                this.displayText.setText(this.dialogueLines[this.dialogueIndex]);
+            } else {
+                this.scene.start('BattleScene');
+            }
+        }
+    }
+
     update() { 
-        handleMovement(this, this.player, 300);
-        this.history.push({x: this.player.x, y: this.player.y});
-        if (this.history.length > 15) { let pos = this.history.shift(); this.gf.x = pos.x-40; this.gf.y = pos.y; }
+        if (!this.isDialogueOpen) {
+            handleMovement(this, this.player, 300);
+            this.history.push({x: this.player.x, y: this.player.y});
+            if (this.history.length > 15) { let pos = this.history.shift(); this.gf.x = pos.x-40; this.gf.y = pos.y; }
+        }
     }
 }
 
-// --- 3. BATTLE SCENE (RESTORED ELEMENTS) ---
+// --- 3. BATTLE SCENE ---
 class BattleScene extends Phaser.Scene {
     constructor() { super('BattleScene'); }
-    preload() {
-        this.load.image('battle_bg', '/images/background1.png'); 
-        this.load.image('hero_img', '/images/nima.png');
-        this.load.image('monster_img', '/images/sanaevo.png');
-    }
     create() {
         activeScene = this;
         this.add.image(400, 300, 'battle_bg').setDisplaySize(800, 600);
@@ -233,15 +280,9 @@ class BattleScene extends Phaser.Scene {
     }
 }
 
-// --- 4. CITY SCENE (ASAL FOLLOWS) ---
+// --- 4. CITY SCENE ---
 class CityScene extends Phaser.Scene {
     constructor() { super('CityScene'); }
-    preload() {
-        this.load.image('city_bg', '/images/background2.png');
-        this.load.image('npc_img', '/images/asal.png'); 
-        this.load.image('pic1', '/images/item1.jpg'); 
-        this.load.image('pic2', '/images/item2.jpg');
-    }
     create() {
         activeScene = this;
         this.physics.world.setBounds(0, 0, 2400, 600);
@@ -288,7 +329,7 @@ class CityScene extends Phaser.Scene {
         this.shopMenu.removeAll(true).setVisible(true);
         this.shopMenu.add(this.add.rectangle(0,0,500,400,0x000,0.9).setStrokeStyle(2,0xfff));
         this.items.forEach((it, i) => {
-            let label = it.id === 'exit' ? it.name : `${it.name} ${window.gameState.inventory.includes(it.id) ? '[داری]' : `[${it.price}]`}`;
+            let label = it.id === 'exit' ? it.name : `${it.name} ${window.gameState.inventory.includes(it.id) ? '[ تماشا ]' : `[${it.price}]`}`;
             this.shopMenu.add(this.add.text(-200, -100+(i*80), (i===this.shopIdx ? "> " : "  ")+label, {fill: i===this.shopIdx ? "#e67e22" : "#fff", fontSize:'22px'}));
         });
     }
