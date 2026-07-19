@@ -14,7 +14,7 @@ let isPlaying = false;
 /** Update the "⭐ N memories" counter badge. */
 export function updateCounter(count) {
   const el = document.getElementById('star-counter');
-  el.textContent = `⭐ ${count} ${count === 1 ? 'memory' : 'memories'}`;
+  el.textContent = `⭐ ${count} ${count === 1 ? 'خاطره' : 'خاطرات'}`;
 }
 
 /** Wire the light/dark (dusk/midnight) theme toggle. */
