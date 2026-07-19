@@ -313,6 +313,100 @@
 .ring{width:160px;height:160px;margin:0 auto 20px;position:relative;display:grid;place-items:center;}
 .ring svg{transform:rotate(-90deg)}
 .time-display{font-size:36px;font-weight:700;letter-spacing:-1px;text-align:center;text-shadow:0 6px 20px rgba(0,0,0,0.6);}
+
+
+
+.nightsky-event {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at top, #213b75 0%, #0b1635 35%, #050814 70%, #02040b 100%);
+  border: 2px solid rgba(180,220,255,.25);
+  border-radius: 22px;
+  padding: 35px;
+  max-width: 500px;
+  margin: 40px auto;
+  text-align: center;
+  box-shadow:
+    0 0 40px rgba(80,120,255,.15),
+    inset 0 0 40px rgba(255,255,255,.03);
+}
+
+.nightsky-event::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    radial-gradient(white 1px, transparent 2px),
+    radial-gradient(#cfe8ff 1.5px, transparent 2.5px),
+    radial-gradient(#fff8c4 1px, transparent 2px);
+  background-size:
+    140px 140px,
+    220px 220px,
+    320px 320px;
+  animation: starsMove 90s linear infinite;
+  opacity:.9;
+}
+
+.nightsky-event::after{
+  content:"";
+  position:absolute;
+  width:220%;
+  height:220%;
+  left:-60%;
+  top:-60%;
+  background:
+    radial-gradient(circle, rgba(255,255,255,.08) 0%, transparent 60%);
+  animation: rotateSky 80s linear infinite;
+}
+
+@keyframes starsMove{
+  from{transform:translateY(0);}
+  to{transform:translateY(180px);}
+}
+
+@keyframes rotateSky{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+
+.nightsky-event > *{
+  position:relative;
+  z-index:2;
+}
+
+.nightsky-event h3{
+  color:white!important;
+  text-shadow:0 0 20px #8ec5ff;
+}
+
+.nightsky-event p{
+  color:#dce8ff!important;
+  line-height:1.7;
+}
+
+.nightsky-event button{
+  cursor:pointer;
+  border:none;
+  border-radius:18px;
+  padding:18px 40px;
+  font-size:42px;
+  background:linear-gradient(135deg,#4b74ff,#7fcfff);
+  box-shadow:
+      0 0 20px rgba(120,190,255,.4),
+      0 8px 20px rgba(0,0,0,.35);
+  transition:.3s;
+}
+
+.nightsky-event button:hover{
+  transform:translateY(-4px) scale(1.05);
+  box-shadow:
+      0 0 35px rgba(140,210,255,.7),
+      0 15px 30px rgba(0,0,0,.4);
+}
+
+.nightsky-event button a{
+  text-decoration:none;
+}
   </style>
 </head>
 <body>
@@ -337,7 +431,30 @@
   
   <section class="section" id="events">
     <h2 style="font-size: 40px; font-family: reybold;">🎉 ایونت ها 🎉</h2>
-    
+
+
+
+<div class="event-card nightsky-event">
+  <h3 style="font-family: reybold; font-size:35px; padding-top:30px;">
+    ✨ ایونت: آسمون چشمات
+  </h3>
+
+  <p style="font-family: rey; font-size:20px; padding-top:20px;">
+    همه ی عمر من، من این وبسایتو ساختم که نه مثل بقیه سایت هام یه بار استفاده بشه بلکه میخوام هرروز ازش استفاده کنیم. تو این سایت میتونیم خاطراتمون رو مثل یه ستاره توی آسمون ثبت کنیم. امیدوارم کلی خوشت بیاد دخترم
+  </p>
+
+  <div style="margin-top:30px;">
+    <h1 style="font-family: rey; font-size:30px; color:white; text-shadow:0 0 18px #8ec5ff;">
+      🌌 بیا آسمونمون رو ببین 🌌
+    </h1>
+
+    <button>
+      <a href="/html/OurNightSky/index.html">⭐</a>
+    </button>
+  </div>
+</div>
+
+
 <div class="event-card game-event">
   <h3 style="font-family: reybold; font-size: 35px; font-weight: bold; color:#fff; padding-top: 30px;">
     ایونت: بازی من و عسل
@@ -353,7 +470,7 @@
     </h1>
     
     <button style="margin: 20px; padding: 20px 40px; font-size: 40px; border-radius: 15px;">
-      <a href="/html/smallgame.html" style="display: block;">🎮</a>
+      <a href="/html/smallgame.html" style="display: block; font-size: 20px; font-weight: bold;">در دست ساخت ....</a>
     </button>
   </div>
 </div>
