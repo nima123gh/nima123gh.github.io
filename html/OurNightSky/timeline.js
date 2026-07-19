@@ -7,7 +7,7 @@
 import { formatDate, formatMonthYear, toJsDate } from './utils.js';
 
 let listEl, panelEl, toggleBtn;
-let onSelectStar = () => {};
+let onSelectStar = () => { };
 
 export function initTimeline({ toggle, panel, list }, onSelect) {
   toggleBtn = toggle;
@@ -35,7 +35,7 @@ export function renderTimeline(stars) {
   if (stars.length === 0) {
     const empty = document.createElement('p');
     empty.className = 'timeline-empty';
-    empty.textContent = 'Your sky is empty for now. Click anywhere among the stars to add your first memory.';
+    empty.textContent = 'آسمون خالیه الان، روی اسمون بزن تا بتونی خاطره رو اضافه کنی همه عمرم';
     listEl.appendChild(empty);
     return;
   }
