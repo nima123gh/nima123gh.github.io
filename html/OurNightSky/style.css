@@ -1117,3 +1117,248 @@ body.no-scroll {
     transition: none !important;
   }
 }
+
+/* =============================================================================
+   Added: copy button, image attachments, star indicators, threaded replies
+   ========================================================================== */
+
+.modal__eyebrow-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.modal__eyebrow-row .modal__eyebrow {
+  margin: 0;
+}
+
+.icon-btn--small {
+  width: 28px;
+  height: 28px;
+  color: var(--text-secondary);
+}
+
+.icon-btn--small:hover {
+  color: var(--text-primary);
+}
+
+.modal__image-wrap {
+  margin: 0 0 18px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+
+.modal__image {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+}
+
+.image-preview-wrap {
+  position: relative;
+  margin-top: 10px;
+  width: fit-content;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+
+.image-preview {
+  display: block;
+  max-width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+}
+
+.image-preview__remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  background: rgba(3, 4, 12, 0.65);
+  color: var(--text-primary);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 180ms var(--ease-soft);
+}
+
+.image-preview__remove:hover {
+  background: rgba(3, 4, 12, 0.85);
+}
+
+#create-form input[type="file"],
+#edit-form input[type="file"] {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 13px;
+}
+
+.star--has-image::after,
+.star--has-replies::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  top: calc(-1 * var(--size, 3px));
+  left: var(--size, 3px);
+  background: var(--accent-violet);
+  box-shadow: 0 0 4px 1px rgba(155, 140, 242, 0.7);
+}
+
+.star--has-image.star--has-replies::after {
+  background: var(--accent-rose);
+  box-shadow: 0 0 4px 1px rgba(232, 149, 163, 0.7);
+}
+
+.modal__replies {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.modal__replies-title {
+  font-family: var(--font-body);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+
+.reply-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 260px;
+  overflow-y: auto;
+  margin-bottom: 14px;
+  padding-right: 2px;
+}
+
+.reply-empty {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin: 0 0 4px;
+}
+
+.reply-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reply-list .reply-list {
+  margin-top: 10px;
+  margin-left: 18px;
+}
+
+.reply-item__bubble {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+}
+
+.reply-item__text {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+  white-space: pre-wrap;
+}
+
+.reply-item__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.reply-item__date {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.reply-item__action {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 11.5px;
+  color: var(--accent-violet);
+  cursor: pointer;
+}
+
+.reply-item__action:hover {
+  text-decoration: underline;
+}
+
+.reply-form-slot {
+  display: none;
+}
+
+.reply-form-slot--open {
+  display: block;
+  margin-top: 8px;
+}
+
+.reply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reply-form textarea {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  resize: vertical;
+}
+
+.reply-form textarea:focus-visible {
+  outline: 2px solid var(--accent-violet);
+  outline-offset: 1px;
+}
+
+.reply-form__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.reply-form--main {
+  margin-top: 4px;
+}
+
+.btn--small {
+  padding: 7px 14px;
+  font-size: 12.5px;
+}
+
+@media (max-width: 720px) {
+  .modal__image {
+    max-height: 220px;
+  }
+
+  .reply-thread {
+    max-height: 200px;
+  }
+}
