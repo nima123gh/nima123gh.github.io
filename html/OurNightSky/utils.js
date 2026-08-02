@@ -108,3 +108,39 @@ export function isAnniversaryOf(dateLike, today = new Date()) {
   if (!date) return false;
   return date.getMonth() === today.getMonth() && date.getDate() === today.getDate() && date.getFullYear() !== today.getFullYear();
 }
+
+/** Copy plain text to the clipboard, with a legacy fallback for older/insecure contexts. */
+export async function copyToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (err) {
+      // fall through to the legacy fallback below
+    }
+  }
+  try {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    const successful = document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return successful;
+  } catch (err) {
+    return false;
+  }
+}
+
+/** Create a temporary local preview URL for a selected image file (attachments). */
+export function createImagePreviewUrl(file) {
+  return URL.createObjectURL(file);
+}
+
+/** Release a preview URL created with createImagePreviewUrl. Safe to call on non-blob URLs too. */
+export function revokeImagePreviewUrl(url) {
+  if (url) URL.revokeObjectURL(url);
+}
