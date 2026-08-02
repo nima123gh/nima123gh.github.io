@@ -24,7 +24,7 @@ export function renderStar(worldEl, star, onOpen, options = {}) {
     el = document.createElement('button');
     el.type = 'button';
     el.className = 'star';
-    el.setAttribute('aria-label', `Memory: ${star.title || 'Untitled'}`);
+    el.setAttribute('aria-label', `خاطره: ${star.title || 'Untitled'}`);
     worldEl.appendChild(el);
     starElements.set(star.id, el);
 
@@ -58,6 +58,8 @@ export function renderStar(worldEl, star, onOpen, options = {}) {
   el.style.setProperty('--star-color', star.color || 'var(--star-light)');
   el.classList.toggle('star--favorite', !!star.favorite);
   el.classList.toggle('star--golden', !!star.favorite || isAnniversaryOf(star.createdAt));
+  el.classList.toggle('star--has-image', !!star.imageUrl);
+  el.classList.toggle('star--has-replies', Array.isArray(star.replies) && star.replies.length > 0);
   el.dataset.id = star.id;
 
   return el;
