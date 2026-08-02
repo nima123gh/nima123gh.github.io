@@ -11,6 +11,13 @@ import {
   orderBy,
   serverTimestamp,
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBz3KWF7i_5KhiHq4Nf8BGuRB5Ho_qJ2yU",
@@ -25,6 +32,7 @@ const firebaseConfig = {
 const STARS_COLLECTION = 'stars';
 
 let db = null;
+let storage = null;
 let isConfigured = false;
 
 /** Lazily initialize Firebase, catching the common "still using placeholders" case. */
@@ -34,6 +42,7 @@ function ensureApp() {
   isConfigured = !looksUnconfigured;
   const app = initializeApp(firebaseConfig);
   db = getFirestore(app);
+  storage = getStorage(app);
   return db;
 }
 
@@ -83,4 +92,30 @@ export async function updateStar(id, fields) {
 export async function deleteStar(id) {
   const database = ensureApp();
   await deleteDoc(doc(database, STARS_COLLECTION, id));
+}
+
+/**
+ * Upload an image attachment to Firebase Storage and return its public download URL.
+ * Requires Storage to be enabled for this Firebase project, with rules that allow the write.
+ */
+export async function uploadStarImage(file) {
+  ensureApp();
+  const safeName = String(file.name || 'image').replace(/[^a-zA-Z0-9._-]/g, '_');
+  const path = `star-images/${Date.now()}_${Math.random().toString(36).slice(2, 9)}_${safeName}`;
+  const storageRef = ref(storage, path);
+  await uploadBytes(storageRef, file);
+  return getDownloadURL(storageRef);
+}
+
+/** Best-effort delete of a previously uploaded attachment, given its download URL. */
+export async function deleteStarImageByUrl(url) {
+  if (!url) return;
+  try {
+    ensureApp();
+    const storageRef = ref(storage, url);
+    await deleteObject(storageRef);
+  } catch (err) {
+    // Non-fatal: the file may already be gone, or the URL may not belong to our bucket.
+    console.warn('Could not delete stored image:', err);
+  }
 }
