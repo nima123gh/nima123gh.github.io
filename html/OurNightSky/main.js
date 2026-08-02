@@ -5,7 +5,7 @@
  * search (search.js), the timeline (timeline.js), and general chrome (ui.js).
  */
 
-import { subscribeToStars, createStar, updateStar, deleteStar, isFirebaseConfigured } from './firebase.js';
+import { subscribeToStars, createStar, updateStar, deleteStar, isFirebaseConfigured, uploadStarImage, deleteStarImageByUrl } from './firebase.js';
 import { renderStar, removeStarWithFade, clearAllStars, pulseHighlight, getStarElement } from './stars.js';
 import { initModals, openCreateModal, openViewModal } from './modal.js';
 import { initBackground } from './animations.js';
@@ -43,6 +43,9 @@ function init() {
     onUpdate: handleUpdateStar,
     onDelete: handleDeleteStar,
     onToggleFavorite: handleToggleFavorite,
+    onUploadImage: handleUploadImage,
+    onAddReply: handleAddReply,
+    onCopy: handleCopyResult,
     getStar: (id) => starsById.get(id),
   });
 
@@ -116,7 +119,7 @@ function handleStarsSnapshot(stars) {
   renderTimeline(Array.from(starsById.values()));
 }
 
-async function handleCreateStar({ title, message }) {
+async function handleCreateStar({ title, message, imageUrl }) {
   const form = document.getElementById('create-form');
   const x = parseFloat(form.dataset.x);
   const y = parseFloat(form.dataset.y);
@@ -129,6 +132,8 @@ async function handleCreateStar({ title, message }) {
     color: randomItem(STAR_COLORS),
     size: randomRange(2.6, 5),
     favorite: false,
+    imageUrl: imageUrl || null,
+    replies: [],
     createdAt: new Date().toISOString(),
   };
 
@@ -142,9 +147,13 @@ async function handleCreateStar({ title, message }) {
 }
 
 async function handleUpdateStar(id, fields) {
+  const previous = starsById.get(id);
   try {
     await updateStar(id, fields);
     showToast('خاطرات بروزرسانی شد');
+    if (previous && Object.prototype.hasOwnProperty.call(fields, 'imageUrl') && previous.imageUrl && previous.imageUrl !== fields.imageUrl) {
+      deleteStarImageByUrl(previous.imageUrl);
+    }
   } catch (err) {
     console.error(err);
     showToast("خطا در بروزرسانی", true);
@@ -156,10 +165,34 @@ async function handleDeleteStar(id) {
   try {
     if (star) await removeStarWithFade(star);
     await deleteStar(id);
+    if (star && star.imageUrl) deleteStarImageByUrl(star.imageUrl);
   } catch (err) {
     console.error(err);
     showToast("خطا در پاک کردن خاطره", true);
   }
+}
+
+async function handleUploadImage(file) {
+  try {
+    return await uploadStarImage(file);
+  } catch (err) {
+    console.error(err);
+    showToast('عکس آپلود نشد. اتصال یا تنظیمات Firebase Storage رو چک کن.', true);
+    return null;
+  }
+}
+
+async function handleAddReply(id, replies) {
+  try {
+    await updateStar(id, { replies });
+  } catch (err) {
+    console.error(err);
+    showToast('پاسخ ذخیره نشد.', true);
+  }
+}
+
+function handleCopyResult(success) {
+  showToast(success ? 'متن خاطره کپی شد' : 'کپی نشد، دوباره امتحان کن', !success);
 }
 
 async function handleToggleFavorite(id, favorite) {
@@ -186,6 +219,8 @@ async function handleImport(stars) {
       color: raw.color || randomItem(STAR_COLORS),
       size: raw.size || randomRange(2.6, 5),
       favorite: !!raw.favorite,
+      imageUrl: raw.imageUrl || null,
+      replies: Array.isArray(raw.replies) ? raw.replies : [],
       createdAt: raw.createdAt || new Date().toISOString(),
     };
     await createStar(star);
