@@ -4,23 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>آسمون چشمات</title>
-  <meta name="description" content="A shared night sky of memories for two people, wherever they are." />
+  <meta name="description" content="خاطرات فراموش نشدنیه دوتا عاشق" />
   <meta name="theme-color" content="#05060f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-  <style>
-    @font-face {
-      font-family: 'reybold';
-      src: url('//fonts/rey/Ray-Medium.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    body, input, button, textarea, select {
-      font-family: 'reybold', sans-serif;
-    }
-  </style>
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -118,6 +106,13 @@
             <label for="create-message">خاطرات</label>
             <textarea id="create-message" name="message" maxlength="600" rows="5" placeholder="میتونی بیشتر برام تعریف کنی فرشته کوچولو؟" required></textarea>
 
+            <label for="create-image">تصویر (اختیاری)</label>
+            <input type="file" id="create-image" name="image" accept="image/*" />
+            <div id="create-image-preview-wrap" class="image-preview-wrap" hidden>
+              <img id="create-image-preview" class="image-preview" alt="پیش‌نمایش تصویر" />
+              <button type="button" id="create-image-remove" class="image-preview__remove" aria-label="حذف تصویر">✕</button>
+            </div>
+
             <div class="modal__actions">
               <button type="button" class="btn btn--ghost" data-modal-close>لغو</button>
               <button type="submit" class="btn btn--primary">قرار دادن ستاره</button>
@@ -130,9 +125,17 @@
       <div id="view-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="view-title">
         <div class="modal__card modal__card--view">
           <div class="modal__glow" aria-hidden="true"></div>
-          <span class="modal__eyebrow">⭐ خاطره</span>
+          <div class="modal__eyebrow-row">
+            <span class="modal__eyebrow">⭐ خاطره</span>
+            <button type="button" id="view-copy-btn" class="icon-btn icon-btn--small" aria-label="کپی متن خاطره" title="کپی متن خاطره">
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1Zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h11v14Z" fill="currentColor"/></svg>
+            </button>
+          </div>
           <h2 id="view-title"></h2>
           <p id="view-date" class="modal__date"></p>
+          <div id="view-image-wrap" class="modal__image-wrap" hidden>
+            <img id="view-image" class="modal__image" alt="" />
+          </div>
           <p id="view-message" class="modal__message"></p>
           <div class="modal__actions modal__actions--spread">
             <button type="button" id="view-favorite-btn" class="btn btn--ghost" aria-pressed="false">☆ مورد علاقه ها</button>
@@ -141,6 +144,17 @@
               <button type="button" id="view-delete-btn" class="btn btn--danger">پاک کردن</button>
               <button type="button" class="btn btn--primary" data-modal-close>بستن</button>
             </div>
+          </div>
+
+          <div class="modal__replies">
+            <h3 class="modal__replies-title">ریپلای ها</h3>
+            <div id="view-replies-list" class="reply-thread"></div>
+            <form id="reply-form" class="reply-form reply-form--main">
+              <textarea id="reply-input" rows="2" maxlength="400" placeholder="ریپلای بزن غورباقم" required></textarea>
+              <div class="reply-form__actions">
+                <button type="submit" class="btn btn--primary btn--small">ارسال ریپلای</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -156,6 +170,13 @@
 
             <label for="edit-message">خاطره</label>
             <textarea id="edit-message" name="message" maxlength="600" rows="5" required></textarea>
+
+            <label for="edit-image">تصویر (اختیاری)</label>
+            <input type="file" id="edit-image" name="image" accept="image/*" />
+            <div id="edit-image-preview-wrap" class="image-preview-wrap" hidden>
+              <img id="edit-image-preview" class="image-preview" alt="پیش‌نمایش تصویر" />
+              <button type="button" id="edit-image-remove" class="image-preview__remove" aria-label="حذف تصویر">✕</button>
+            </div>
 
             <div class="modal__actions">
               <button type="button" class="btn btn--ghost" data-modal-close>لغو</button>
