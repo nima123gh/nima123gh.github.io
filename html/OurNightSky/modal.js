@@ -41,17 +41,25 @@ export function initModals(rootEl, callbacks) {
     if (!title || !message) return;
 
     const submitBtn = createForm.querySelector('.btn--primary');
+    const imageInput = document.getElementById('create-image');
+    const imageFile = pendingCreateImageFile || (imageInput.files && imageInput.files[0]);
+
     let imageUrl = null;
-    if (pendingCreateImageFile && handlers.onUploadImage) {
-      if (submitBtn) submitBtn.disabled = true;
-      imageUrl = await handlers.onUploadImage(pendingCreateImageFile);
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+      if (imageFile && handlers.onUploadImage) {
+        imageUrl = await handlers.onUploadImage(imageFile);
+      }
+      await handlers.onCreate({ title, message, imageUrl });
+      createForm.reset();
+      resetImagePicker('create');
+      closeAll();
+    } catch (err) {
+      console.error('Error submitting create form:', err);
+    } finally {
       if (submitBtn) submitBtn.disabled = false;
     }
-
-    handlers.onCreate({ title, message, imageUrl });
-    createForm.reset();
-    resetImagePicker('create');
-    closeAll();
   });
 
   const editForm = document.getElementById('edit-form');
@@ -64,17 +72,26 @@ export function initModals(rootEl, callbacks) {
 
     const fields = { title, message };
     const submitBtn = editForm.querySelector('.btn--primary');
-    if (pendingEditImageFile && handlers.onUploadImage) {
-      if (submitBtn) submitBtn.disabled = true;
-      fields.imageUrl = await handlers.onUploadImage(pendingEditImageFile);
-      if (submitBtn) submitBtn.disabled = false;
-    } else if (editImageRemoved) {
-      fields.imageUrl = null;
-    }
+    const imageInput = document.getElementById('edit-image');
+    const imageFile = pendingEditImageFile || (imageInput.files && imageInput.files[0]);
 
-    handlers.onUpdate(id, fields);
-    resetImagePicker('edit');
-    closeAll();
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+      if (imageFile && handlers.onUploadImage) {
+        fields.imageUrl = await handlers.onUploadImage(imageFile);
+      } else if (editImageRemoved) {
+        fields.imageUrl = null;
+      }
+
+      await handlers.onUpdate(id, fields);
+      resetImagePicker('edit');
+      closeAll();
+    } catch (err) {
+      console.error('Error submitting edit form:', err);
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
   });
 
   setupImagePicker('create');
@@ -121,6 +138,7 @@ export function openCreateModal(worldX, worldY) {
   const form = document.getElementById('create-form');
   form.dataset.x = worldX;
   form.dataset.y = worldY;
+  resetImagePicker('create');
   show(modal);
   requestAnimationFrame(() => form.title.focus());
 }
