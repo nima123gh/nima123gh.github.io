@@ -121,8 +121,8 @@ function handleStarsSnapshot(stars) {
 
 async function handleCreateStar({ title, message, imageUrl }) {
   const form = document.getElementById('create-form');
-  const x = parseFloat(form.dataset.x);
-  const y = parseFloat(form.dataset.y);
+  const x = parseFloat(form.dataset.x) || WORLD_WIDTH / 2;
+  const y = parseFloat(form.dataset.y) || WORLD_HEIGHT / 2;
 
   const star = {
     title,
@@ -138,11 +138,13 @@ async function handleCreateStar({ title, message, imageUrl }) {
   };
 
   try {
+    console.log("Saving star to Firestore...", star);
     await createStar(star);
     showToast('یه ستاره به قشنگی چشمات داره توی آسمون میدرخشه');
   } catch (err) {
-    console.error(err);
+    console.error("Firestore createStar error:", err);
     showToast("Couldn't save that memory. Check your connection.", true);
+    throw err;
   }
 }
 
@@ -173,12 +175,16 @@ async function handleDeleteStar(id) {
 }
 
 async function handleUploadImage(file) {
+  if (!file) return null;
   try {
-    return await uploadStarImage(file);
+    console.log("Attempting to upload image to Firebase Storage:", file.name);
+    const url = await uploadStarImage(file);
+    console.log("Image uploaded successfully! URL:", url);
+    return url;
   } catch (err) {
-    console.error(err);
-    showToast('عکس آپلود نشد. اتصال یا تنظیمات Firebase Storage رو چک کن.', true);
-    return null;
+    console.error("Firebase Storage Upload Error:", err);
+    showToast('عکس آپلود نشد. تنظیمات Firebase Storage رو چک کن.', true);
+    throw err; // Throws error to notify modal.js so it re-enables the submit button
   }
 }
 
