@@ -11,13 +11,6 @@ import {
   orderBy,
   serverTimestamp,
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBz3KWF7i_5KhiHq4Nf8BGuRB5Ho_qJ2yU",
@@ -32,7 +25,6 @@ const firebaseConfig = {
 const STARS_COLLECTION = 'stars';
 
 let db = null;
-let storage = null;
 let isConfigured = false;
 
 /** Lazily initialize Firebase, catching the common "still using placeholders" case. */
@@ -42,7 +34,6 @@ function ensureApp() {
   isConfigured = !looksUnconfigured;
   const app = initializeApp(firebaseConfig);
   db = getFirestore(app);
-  storage = getStorage(app);
   return db;
 }
 
@@ -95,27 +86,32 @@ export async function deleteStar(id) {
 }
 
 /**
- * Upload an image attachment to Firebase Storage and return its public download URL.
- * Requires Storage to be enabled for this Firebase project, with rules that allow the write.
+ * Converts an image file into a Base64 data string instead of uploading to Firebase Storage.
+ * This completely avoids paid/billing plan upgrades!
  */
 export async function uploadStarImage(file) {
-  ensureApp();
-  const safeName = String(file.name || 'image').replace(/[^a-zA-Z0-9._-]/g, '_');
-  const path = `star-images/${Date.now()}_${Math.random().toString(36).slice(2, 9)}_${safeName}`;
-  const storageRef = ref(storage, path);
-  await uploadBytes(storageRef, file);
-  return getDownloadURL(storageRef);
+  if (!file) return null;
+
+  // Firestore documents have a 1MB total limit. 
+  // Base64 encoding adds ~33% overhead, so limit raw image size to around 700KB.
+  const MAX_SIZE_BYTES = 700 * 1024;
+  if (file.size > MAX_SIZE_BYTES) {
+    throw new Error('حجم عکس زیاده! لطفا عکسی زیر ۷۰۰ کیلوبایت انتخاب کن.');
+  }
+
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (err) => reject(err);
+    reader.readAsDataURL(file);
+  });
 }
 
-/** Best-effort delete of a previously uploaded attachment, given its download URL. */
+/** 
+ * Deletes an image. 
+ * Since the Base64 image is stored inside the star's Firestore document itself,
+ * deleting the star automatically cleans up the image.
+ */
 export async function deleteStarImageByUrl(url) {
-  if (!url) return;
-  try {
-    ensureApp();
-    const storageRef = ref(storage, url);
-    await deleteObject(storageRef);
-  } catch (err) {
-    // Non-fatal: the file may already be gone, or the URL may not belong to our bucket.
-    console.warn('Could not delete stored image:', err);
-  }
+  return;
 }
