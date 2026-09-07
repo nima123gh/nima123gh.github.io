@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>مراقبت روزانه من ❤️</title>
+<title>مراقبت روزانه ❤️</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
 <script type="importmap">
 { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
@@ -151,8 +151,7 @@
   <div class="header">
     <canvas id="heartCanvas" role="img" aria-label="قلب سه‌بعدی در حال تپش"></canvas>
     <div class="drag-hint">🖐️ قلب رو بگیر و بچرخونش!</div>
-    <h1>مراقبت روزانه من</h1>
-    <p>هر روز قدم‌های کوچیک، برای قلبی سالم</p>
+    <h1>مراقبت روزانه</h1>
     <div class="date-nav">
       <button id="prevDay" aria-label="روز قبل">‹</button>
       <span id="currentDate"></span>
@@ -176,7 +175,7 @@
     </div>
     <div class="progress-side">
       <div class="progress-label" id="progressLabel"></div>
-      <div class="celebrate" id="celebrate">🎉 آفرین عزیزم! همه رو انجام دادی! 💪❤️</div>
+      <div class="celebrate" id="celebrate">🎉 آفرین دخترم! همه رو انجام دادی!🫠 بهت کلی جایزه میدم🤫❤️</div>
     </div>
   </div>
 
@@ -184,10 +183,9 @@
 
   <div class="note-area">
     <label for="dailyNote" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">یادداشت روزانه</label>
-    <textarea id="dailyNote" placeholder="امروز حالت چطوره؟ (یه یادداشت کوچیک بنویس 💌)"></textarea>
+    <textarea id="dailyNote" placeholder="حالتو امروز برام تعریف کن که بدونم قلب کوچولوت خوب بوده یا نه😘🥰🫀"></textarea>
   </div>
   <div class="status" id="status" role="status" aria-live="polite"></div>
-  <div class="footer">ساخته شده با ❤️ فقط برای تو</div>
 </div>
 
 <script type="module">
@@ -207,10 +205,10 @@
   import * as THREE from "three";
 
   const TASKS = [
-    { id: "exercise", icon: "🏃‍♀️", title: "ورزش", desc: "بدنت رو حرکت بده — یه پیاده‌روی کوتاه هم کفایت می‌کنه!", type: "check" },
-    { id: "water", icon: "💧", title: "نوشیدن ۱۲ لیوان آب", desc: "روی لیوان سه‌بعدی کلیک کن تا پر شه!", type: "water", goal: 12 },
-    { id: "salt", icon: "🧂", title: "کم‌نمک غذا خوردن", desc: "امروز توی همه‌ی غذاهات نمک کمتر بریز", type: "check" },
-    { id: "vitamind", icon: "💊", title: "قرص ویتامین D", desc: "همراه غذا بخور — یادت نره!", type: "check" }
+    { id: "exercise", icon: "🏃‍♀️", title: "ورزش", desc: "بدن کوچولوتو تکون بده 🫠 کلی کمکت میکنم و باهات تمرین میکنم هرروز فقط بهم قول بده که زودتر خوب میشی😘💓", type: "check" },
+    { id: "water", icon: "💧", title: "نوشیدن ۱۲ لیوان آب", desc: "روی لیوان کلیک کن تا پر شه!", type: "water", goal: 12 },
+    { id: "salt", icon: "🧂", title: "غذای پرنمک", desc: " توی همه‌ی غذاهات نمک بیشتر بریز فرشته کوچولوم💕", type: "check" },
+    { id: "vitamind", icon: "💊", title: "قرص ویتامین D", desc: "همراه غذا بخور — یادت نره! خیلی دوست دارما بلوبریه بابا🫠💗🌌", type: "check" }
   ];
 
   const fa = n => String(n).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
@@ -246,7 +244,7 @@
     saveLocalOnly();
     const k = dateKey(viewing);
     if (firebaseReady) setDoc(doc(db, "checklists", k), state[k]).catch(()=>{});
-    document.getElementById("status").textContent = firebaseReady ? "☁️ در فضای ابری ذخیره شد" : "💾 روی همین دستگاه ذخیره شد";
+    document.getElementById("status").textContent = firebaseReady ? "☁️ ذخیره شد" : "💾 روی همین دستگاه ذخیره شد";
   }
 
   let unsub = null;
@@ -1174,7 +1172,7 @@
             <span class="water-count-label">${fa(s.water)} از ${fa(12)} لیوان 🥤</span>
             <button class="water-minus" type="button">− یه لیوان کم کن</button>
           </div>
-          <div class="water-hint">روی لیوان کلیک کن تا یک لیوان پر بشه ✨</div>`;
+          <div class="water-hint">روی لیوان کلیک کن تا یک لیوان پر بشه تمام دلیل زندگیم ✨🌷</div>`;
       }
       li.innerHTML = inner;
 
