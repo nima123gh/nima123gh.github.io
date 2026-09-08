@@ -431,7 +431,341 @@
   
   <section class="section" id="events">
     <h2 style="font-size: 40px; font-family: reybold;">🎉 ایونت ها 🎉</h2>
+  
+<!-- ✨ CHECKLIST EVENT -->
+<style>
+.checklist-event {
+  position: relative;
+  overflow: hidden;
+  max-width: 520px;
+  margin: 40px auto;
+  padding: 35px 25px 40px;
+  border-radius: 28px;
 
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.25), transparent 25%),
+    radial-gradient(circle at 80% 80%, rgba(255,80,170,.25), transparent 30%),
+    linear-gradient(135deg, #ff7eb3, #ff4f9a, #b83bff);
+
+  border: 1px solid rgba(255,255,255,.5);
+
+  box-shadow:
+    0 0 20px rgba(255,80,170,.35),
+    0 0 60px rgba(255,80,170,.2),
+    inset 0 0 30px rgba(255,255,255,.12);
+
+  animation: checklistGlow 4s ease-in-out infinite;
+}
+
+/* Moving light */
+.checklist-event::before {
+  content: "";
+  position: absolute;
+  width: 180%;
+  height: 180%;
+  left: -40%;
+  top: -40%;
+
+  background:
+    conic-gradient(
+      transparent,
+      rgba(255,255,255,.18),
+      transparent 25%
+    );
+
+  animation: checklistRotate 8s linear infinite;
+  pointer-events: none;
+}
+
+/* Glass shine */
+.checklist-event::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 26px;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,.16),
+    transparent 35%,
+    transparent 65%,
+    rgba(255,255,255,.08)
+  );
+
+  pointer-events: none;
+}
+
+.checklist-content {
+  position: relative;
+  z-index: 5;
+}
+
+.checklist-event h3 {
+  color: white !important;
+  text-shadow:
+    0 0 8px rgba(255,255,255,.8),
+    0 0 20px rgba(255,120,210,.9),
+    0 0 40px rgba(255,50,160,.6);
+}
+
+.checklist-event p {
+  color: white !important;
+  line-height: 1.8;
+  text-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+/* Floating particles */
+.checklist-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.check-particle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: white;
+
+  box-shadow:
+    0 0 6px white,
+    0 0 14px #ffb7df;
+
+  animation: particleFloat linear infinite;
+}
+
+/* Heart */
+.checklist-heart {
+  display: inline-block;
+  font-size: 75px;
+
+  filter:
+    drop-shadow(0 0 8px white)
+    drop-shadow(0 0 20px #ff72bd)
+    drop-shadow(0 0 40px #ff2695);
+
+  animation: heartBeat 1.4s ease-in-out infinite;
+}
+
+/* Button */
+.checklist-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 20px;
+  padding: 18px 38px;
+
+  border: none;
+  border-radius: 22px;
+
+  background: rgba(255,255,255,.95);
+
+  color: #ff3f91;
+  font-family: reybold;
+  font-size: 23px;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.18),
+    0 0 20px rgba(255,255,255,.5);
+
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease;
+}
+
+.checklist-button:hover {
+  transform: translateY(-6px) scale(1.06);
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.2),
+    0 0 25px white,
+    0 0 50px rgba(255,80,170,.7);
+}
+
+.checklist-button:active {
+  transform: scale(.96);
+}
+
+/* Little shine moving across button */
+.checklist-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+
+  width: 60%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.8),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+  animation: buttonShine 3s infinite;
+}
+
+/* Animations */
+
+@keyframes checklistGlow {
+  0%,100% {
+    box-shadow:
+      0 0 20px rgba(255,80,170,.35),
+      0 0 60px rgba(255,80,170,.2),
+      inset 0 0 30px rgba(255,255,255,.12);
+  }
+
+  50% {
+    box-shadow:
+      0 0 30px rgba(255,100,190,.6),
+      0 0 90px rgba(255,60,180,.35),
+      inset 0 0 40px rgba(255,255,255,.2);
+  }
+}
+
+@keyframes checklistRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes heartBeat {
+  0%,100% {
+    transform: scale(1);
+  }
+
+  15% {
+    transform: scale(1.15);
+  }
+
+  30% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(110px) scale(.3);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: .8;
+  }
+
+  100% {
+    transform: translateY(-180px) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes buttonShine {
+  0% {
+    left: -100%;
+  }
+
+  35%,100% {
+    left: 150%;
+  }
+}
+</style>
+
+
+<div class="event-card checklist-event">
+
+  <!-- PARTICLES -->
+  <div class="checklist-particles" id="checklistParticles"></div>
+
+  <div class="checklist-content">
+
+    <h3 style="
+      font-family: reybold;
+      font-size: 36px;
+      margin: 5px 0 15px;
+    ">
+    برنامه ی مراقبت روزانه 📌  
+  </h3>
+
+    <p style="
+      font-family: rey;
+      font-size: 20px;
+      margin: 0 auto;
+      max-width: 430px;
+    ">
+    یه سایت برای مراقبت از اون قلب کوچولوت پرنسسم 🫠
+      <br>
+      دونه دونه انجامشون میدی و تیک میزنی 💗💖
+    </p>
+
+    <div style="margin-top: 25px;">
+      <a
+        href="https://nima123gh.github.io/html/Checklist/index.html"
+        class="checklist-button"
+      >
+        💗 بزن روی این دکمه دست پا کوچولوم
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+/* Checklist floating particles */
+
+const particleContainer =
+  document.getElementById("checklistParticles");
+
+for (let i = 0; i < 35; i++) {
+
+  const particle = document.createElement("div");
+
+  particle.className = "check-particle";
+
+  particle.style.left =
+    Math.random() * 100 + "%";
+
+  particle.style.top =
+    (30 + Math.random() * 70) + "%";
+
+  particle.style.animationDuration =
+    (4 + Math.random() * 6) + "s";
+
+  particle.style.animationDelay =
+    (Math.random() * 6) + "s";
+
+  const size =
+    2 + Math.random() * 5;
+
+  particle.style.width = size + "px";
+  particle.style.height = size + "px";
+
+  particleContainer.appendChild(particle);
+}
+</script>
+```
 
 
 <div class="event-card nightsky-event">
@@ -521,8 +855,6 @@
       <p class="event-date" style="color:#ffd6ff;padding-top: 30px;text-shadow: 0 0 100px #ffc9ff">📅 مهر 19</p>
       <a href="/html/rozdokhtar.html" class="eventrozdokhtarurl"><span style="animation: pulse 0.5s infinite; font-family: reybold; text-decoration:none; " class="heart2">&#x2764</span></a>
     </div>
-
-    
 </section>
 
 
