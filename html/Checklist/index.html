@@ -8,6 +8,7 @@
 <script type="importmap">
 { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
 </script>
+
 <style>
   :root {
     --bg1: #ffe0ec; --bg2: #e3f2ff; --bg3: #fff6d9;
@@ -141,6 +142,39 @@
     .blob { animation: none; }
     .app { transition: none; }
   }
+  /* ===== سکه / فروشگاه / نامه‌ها ===== */
+.eco-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:14px 20px 0}
+.eco-pill{background:#fff;border:2px solid #fdeef4;border-radius:99px;padding:6px 14px;font-weight:800;font-size:.85rem;box-shadow:0 4px 12px rgba(224,68,111,.08)}
+.eco-pill.bump{animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
+.eco-btn{font-family:inherit;position:relative;cursor:pointer;border:none;border-radius:99px;padding:8px 16px;font-weight:800;font-size:.85rem;color:#fff;background:linear-gradient(135deg,#ff8fb3,#ff6b9d);box-shadow:0 6px 14px rgba(224,68,111,.3);transition:transform .2s}
+.eco-btn:hover{transform:translateY(-2px)}
+.eco-dot{position:absolute;top:-3px;left:-3px;width:13px;height:13px;border-radius:50%;background:#3ddc84;border:2px solid #fff;display:none}
+.modal-back{position:fixed;inset:0;background:rgba(90,68,82,.45);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal-back.show{display:flex}
+.modal{background:#fff;width:100%;max-width:440px;max-height:85vh;overflow:auto;border-radius:28px;padding:20px;box-shadow:0 25px 70px rgba(224,68,111,.3);animation:pop .35s cubic-bezier(.34,1.56,.64,1);color:var(--text)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.modal-head h2{font-size:1.1rem;font-weight:800}
+.modal-x{border:none;background:#fff0f6;color:var(--accent-dark);width:34px;height:34px;border-radius:50%;font-size:1rem;cursor:pointer}
+.shop-balance{background:linear-gradient(135deg,#fff6d9,#ffe9a8);border-radius:16px;padding:10px;text-align:center;font-weight:800;margin-bottom:8px}
+.shop-slot{font-size:.8rem;font-weight:800;color:var(--muted);margin:14px 4px 6px}
+.shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.shop-item{background:#fff8fb;border:2px solid #fdeef4;border-radius:20px;padding:12px 8px;text-align:center}
+.shop-item.on{border-color:#3ddc84;background:#f0fff6}
+.si-icon{font-size:2rem}
+.si-name{font-size:.82rem;font-weight:700;margin:4px 0 8px}
+.si-btn{font-family:inherit;font-weight:700;font-size:.78rem;border:none;border-radius:99px;padding:6px 12px;cursor:pointer;color:#fff;background:linear-gradient(135deg,#ff8fb3,#ff6b9d)}
+.si-btn:disabled{background:#e6d6de;cursor:not-allowed}
+.si-btn.own{background:linear-gradient(135deg,#4ce69a,#2ecc71)}
+.letter{border:2px solid #fdeef4;border-radius:20px;padding:14px;margin-bottom:10px;background:#fff8fb}
+.letter.open{cursor:pointer;background:#fffdf3;border-color:#ffe9a8}
+.letter-title{font-weight:800;font-size:.95rem}
+.letter-sub{font-size:.78rem;color:var(--muted);margin-top:4px}
+.letter-bar{height:8px;background:#f3e4ec;border-radius:99px;margin-top:8px;overflow:hidden}
+.letter-bar i{display:block;height:100%;background:linear-gradient(90deg,#ff8fb3,#ff6b9d)}
+.letter-text{display:none;margin-top:10px;font-size:.9rem;line-height:2;white-space:pre-wrap}
+.letter.expanded .letter-text{display:block}
+.eco-toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(30px);background:#5a4452;color:#fff;padding:10px 20px;border-radius:99px;font-weight:700;font-size:.9rem;opacity:0;pointer-events:none;transition:all .35s;z-index:60}
+.eco-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 <base target="_blank">
 </head>
@@ -252,7 +286,7 @@
     const k = dateKey(viewing);
     if (unsub) { unsub(); unsub = null; }
     state[k] = loadLocal(k) || defaultState();
-    if (firebaseReady) {
+    if (firebaseReady && !TEST_MODE) {
       unsub = onSnapshot(doc(db, "checklists", k), (snap) => {
         if (snap.exists()) { state[k] = { ...defaultState(), ...snap.data() }; render(); }
       });
@@ -1205,13 +1239,14 @@
     if (allDone && !allDonePrev) { spawnBurst(); happyBounce = 1; }
     allDonePrev = allDone;
     heartHappy = allDone;
+    economyTick(s, k, allDone);
 
     setWaterCount(s.water);
     requestAnimationFrame(resize3D); // after layout
 
     const noteEl = document.getElementById("dailyNote");
     if (noteEl.value !== s.note) noteEl.value = s.note;
-  }
+  } 
 
   let noteTimer = null;
   document.getElementById("dailyNote").addEventListener("input", (e) => {
@@ -1237,8 +1272,421 @@
     const dy = (e.clientY - (r.top + r.height/2)) / window.innerHeight;
     appEl.style.transform = `rotateY(${dx * 5}deg) rotateX(${-dy * 5}deg)`;
   });
+  
+    /* ================= 🪙 سکه، فروشگاه و نامه‌ها ================= */
+  const COIN_PER_TASK = 10;
+  const COIN_ALL_BONUS = 20;
+  const TEST_MODE = false; // ⚠️ set to false before publishing
 
+  // ✍️ متن نامه‌ها رو خودت عوض کن
+  const LETTERS = [
+    { id: "l3",  days: 3,  title: "نامه‌ی ۳ روزه 💌",  text: "سه روز پشت هم مراقب خودت بودی!\n بهت افتخار میکنم فرشته کوچولومممم😘 اینکه به این برنامه وفادار بودی بشدت منو خوشحال میکنه چون که سلامت تو از هرچیزی توی این دنیا مهم تره 💗💓 بدون من توی همه ی سختی هات پشتتم و نمیزارم آخ بگی💞🥰 عمر بابا همیشه مراقب دست و پا های کوچولوتم که چیزیت نشه قربونت بشم من🫠💖" },
+    { id: "l7",  days: 7,  title: "نامه‌ی ۷ روزه 💗",  text: "یک هفته‌ی کامل! بهت افتخار می‌کنم.\nاینجا متن نامه‌ی خودت رو بنویس ❤️" },
+    { id: "l14", days: 14, title: "نامه‌ی ۱۴ روزه 💖", text: "دو هفته‌ی بی‌نقص!\n سعلاممممم قلب و جون و روح من💓🫠 باورم نمیشه به اینجا رسیدی. من برات بمیرم خب ؟؟؟🍰🫠 دختر کوچولوی من ازت خیلی ممنونم که برنامتو جدی گرفتی و در کنار همه ی سختی هایی که میدونم داری ، در کنار من به این مسیر ادامه دادی و مراقب این قلب کوچولوت بودی 🫠🎀 میخواستم بدونی که تو دلیله نفس کشیدنامی عسل. میخواستم بدونی من بدون تو میمیرم و تمام رگ هام وصله به تپش همین قلبت 🫀🥰 خوشگله بابا، میخواستم بدونی که همیشه دستام برات بازه و میتونی بیای تو بغلم تا اون موهای نازتو شونه کنم .و بپرستم همه ی بی نقصی هاتو 🌌✨🫠" },
+    { id: "l30", days: 30, title: "نامه‌ی ۳۰ روزه 👑", text: "یک ماه کامل مراقبت از خودت. تو فوق‌العاده‌ای!\nاینجا متن نامه‌ی خودت رو بنویس ❤️" }
+  ];
+
+  // 🛍️ آیتم‌های فروشگاه (قیمت‌ها رو راحت می‌تونی عوض کنی)
+  const SHOP = [
+    { id: "gold",      slot: "skin",  icon: "💛", name: "قلب طلایی",       price: 100 },
+    { id: "crystal",   slot: "skin",  icon: "💎", name: "قلب کریستالی",    price: 250 },
+    { id: "galaxy",    slot: "skin",  icon: "🌌", name: "قلب کهکشانی",     price: 500 },
+    { id: "halo",      slot: "head",  icon: "😇", name: "هاله فرشته",      price: 150 },
+    { id: "crown",     slot: "head",  icon: "👑", name: "تاج پرنسس",        price: 300 },
+    { id: "wings",     slot: "back",  icon: "🕊️", name: "بال‌های فرشته",   price: 400 },
+    { id: "aura_gold", slot: "aura",  icon: "✨", name: "هاله طلایی",      price: 120 },
+    { id: "aura_blue", slot: "aura",  icon: "🩵", name: "هاله آبی",        price: 120 },
+    { id: "orbit",     slot: "orbit", icon: "💗", name: "قلب‌های چرخان",   price: 200 }
+  ];
+  const SLOT_LABEL = { skin: "پوسته ی قلب", head: "کلاه", back: "پشت", aura: "هاله", orbit: "چرخان" };
+  const PRICE = Object.fromEntries(SHOP.map(i => [i.id, i.price]));
+
+  /* ---------- پروفایل (سکه‌ها، خریدها، نامه‌ها) ---------- */
+    const PROFILE_LS = TEST_MODE ? "carechecklist_profile_TEST" : "carechecklist_profile";
+  let profile = { awarded: {}, owned: [], equipped: {}, unlocked: [], seen: [] };
+  try { Object.assign(profile, JSON.parse(localStorage.getItem(PROFILE_LS) || "{}")); } catch (e) {}
+
+  function saveProfile() {
+    try { localStorage.setItem(PROFILE_LS, JSON.stringify(profile)); } catch (e) {}
+    if (firebaseReady && !TEST_MODE) setDoc(doc(db, "checklists", "_profile"), profile).catch(e => console.error("profile save error:", e));
+  }
+  function getCoins() {
+    if (TEST_MODE) return 999999;
+    const earned = Object.values(profile.awarded).reduce((a, b) => a + b, 0);
+    const spent = profile.owned.reduce((a, id) => a + (PRICE[id] || 0), 0);
+    return earned - spent;
+  }
+  function computeStreak() {
+    const days = new Set(Object.keys(profile.awarded).filter(x => x.endsWith(":all")).map(x => x.slice(0, -4)));
+    const d = new Date(); d.setHours(0, 0, 0, 0);
+    if (!days.has(dateKey(d))) d.setDate(d.getDate() - 1); // امروز هنوز تموم نشده، استریک نمی‌پره
+    let n = 0;
+    while (days.has(dateKey(d))) { n++; d.setDate(d.getDate() - 1); }
+    return n;
+  }
+  function checkLetters() {
+    const st = computeStreak();
+    let fresh = false;
+    LETTERS.forEach(L => {
+      if (st >= L.days && !profile.unlocked.includes(L.id)) { profile.unlocked.push(L.id); fresh = true; }
+    });
+    if (fresh) { toast("💌 یه نامه‌ی جدید برات باز شد!"); spawnBurst(); }
+    return fresh;
+  }
+
+  /* ---------- UI: نوار سکه/استریک + مودال ---------- */
+  const mk = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+
+  const ecoBar = mk("div", "eco-bar", `
+    <div class="eco-pill" id="ecoCoinPill">🪙 <span id="ecoCoins">۰</span></div>
+    <div class="eco-pill">🔥 <span id="ecoStreak">۰</span> روز</div>
+    <button class="eco-btn" id="btnShop" type="button">🛍️ فروشگاه</button>
+    <button class="eco-btn" id="btnLetters" type="button">💌 نامه‌ها<span class="eco-dot" id="ecoDot"></span></button>`);
+  document.querySelector(".progress-wrap").after(ecoBar);
+
+  const backdrop = mk("div", "modal-back", `
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-head"><h2 id="modalTitle"></h2><button class="modal-x" id="modalX" type="button" aria-label="بستن">✕</button></div>
+      <div id="modalBody"></div>
+    </div>`);
+  const toastEl = mk("div", "eco-toast");
+  toastEl.setAttribute("role", "status");
+  document.body.append(backdrop, toastEl);
+
+  const coinPill = document.getElementById("ecoCoinPill");
+  const modalBody = document.getElementById("modalBody");
+  let currentBuilder = null, toastT = null;
+
+  function toast(msg) {
+    toastEl.textContent = msg; toastEl.classList.add("show");
+    clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove("show"), 2300);
+  }
+  function openModal(title, builder) {
+    currentBuilder = builder;
+    document.getElementById("modalTitle").textContent = title;
+    modalBody.innerHTML = ""; builder(modalBody);
+    backdrop.classList.add("show");
+  }
+  function refreshModal() { if (currentBuilder) { modalBody.innerHTML = ""; currentBuilder(modalBody); } }
+  function closeModal() { backdrop.classList.remove("show"); currentBuilder = null; }
+  document.getElementById("modalX").addEventListener("click", closeModal);
+  backdrop.addEventListener("click", e => { if (e.target === backdrop) closeModal(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+  function renderEconomyUI() {
+    document.getElementById("ecoCoins").textContent = fa(Math.max(getCoins(), 0));
+    document.getElementById("ecoStreak").textContent = fa(computeStreak());
+    document.getElementById("ecoDot").style.display = profile.unlocked.some(id => !profile.seen.includes(id)) ? "block" : "none";
+  }
+
+  /* ---------- دادن سکه (از داخل render صدا زده می‌شه) ---------- */
+  function economyTick(s, k, allDone) {
+    let gain = 0;
+    TASKS.forEach(t => {
+      const done = t.type === "water" ? s[t.id] >= t.goal : !!s[t.id];
+      const key = k + ":" + t.id;
+      if (done && profile.awarded[key] == null) { profile.awarded[key] = COIN_PER_TASK; gain += COIN_PER_TASK; }
+    });
+    if (allDone && profile.awarded[k + ":all"] == null) { profile.awarded[k + ":all"] = COIN_ALL_BONUS; gain += COIN_ALL_BONUS; }
+    if (gain) {
+      saveProfile();
+      toast("+" + fa(gain) + " 🪙");
+      coinPill.classList.remove("bump"); void coinPill.offsetWidth; coinPill.classList.add("bump");
+      checkLetters(); saveProfile();
+    }
+    renderEconomyUI();
+  }
+
+  /* ---------- فروشگاه ---------- */
+  function buildShop(box) {
+    const coins = getCoins();
+    box.appendChild(mk("div", "shop-balance", `موجودی : ${fa(Math.max(coins, 0))} 🪙`));
+    Object.keys(SLOT_LABEL).forEach(slot => {
+      box.appendChild(mk("div", "shop-slot", SLOT_LABEL[slot]));
+      const grid = mk("div", "shop-grid");
+      SHOP.filter(i => i.slot === slot).forEach(item => {
+        const owned = profile.owned.includes(item.id);
+        const on = profile.equipped[item.slot] === item.id;
+        const card = mk("div", "shop-item" + (on ? " on" : ""), `<div class="si-icon">${item.icon}</div><div class="si-name">${item.name}</div>`);
+        const btn = mk("button", "si-btn" + (owned ? " own" : ""));
+        btn.type = "button";
+        if (!owned) {
+          btn.textContent = fa(item.price) + " 🪙";
+          btn.disabled = coins < item.price;
+          btn.addEventListener("click", () => buyItem(item));
+        } else {
+          btn.textContent = on ? "در حال استفاده ✓" : "بپوش";
+          btn.addEventListener("click", () => toggleEquip(item));
+        }
+        card.appendChild(btn); grid.appendChild(card);
+      });
+      box.appendChild(grid);
+    });
+  }
+  function buyItem(item) {
+    if (getCoins() < item.price || profile.owned.includes(item.id)) return;
+    profile.owned.push(item.id);
+    profile.equipped[item.slot] = item.id;
+    saveProfile(); applyCosmetics(); renderEconomyUI();
+    closeModal();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    spawnBurst(); toast(item.icon + " " + item.name + " مال توئه!");
+  }
+  function toggleEquip(item) {
+    if (profile.equipped[item.slot] === item.id) delete profile.equipped[item.slot];
+    else profile.equipped[item.slot] = item.id;
+    saveProfile(); applyCosmetics(); refreshModal();
+  }
+
+  /* ---------- نامه‌ها ---------- */
+  function buildLetters(box) {
+    const st = computeStreak();
+    box.appendChild(mk("div", "shop-balance", `🔥 استریک فعلی: ${fa(st)} روز`));
+    LETTERS.forEach(L => {
+      const open = profile.unlocked.includes(L.id);
+      if (!open) {
+        const left = Math.max(L.days - st, 0);
+        const pct = Math.min(100, Math.round((st / L.days) * 100));
+        box.appendChild(mk("div", "letter", `
+          <div class="letter-title">🔒 نامه‌ی ${fa(L.days)} روزه</div>
+          <div class="letter-sub">${fa(left)} روز پشت‌سرهم دیگه مونده</div>
+          <div class="letter-bar"><i style="width:${pct}%"></i></div>`));
+      } else {
+        const card = mk("div", "letter open");
+        const title = mk("div", "letter-title"); title.textContent = "✉️ " + L.title;
+        const text = mk("div", "letter-text"); text.textContent = L.text;
+        card.append(title, text);
+        card.addEventListener("click", () => {
+          card.classList.toggle("expanded");
+          if (!profile.seen.includes(L.id)) { profile.seen.push(L.id); saveProfile(); renderEconomyUI(); }
+        });
+        box.appendChild(card);
+      }
+    });
+  }
+  document.getElementById("btnShop").addEventListener("click", () => openModal("🛍️ فروشگاه قلب", buildShop));
+  document.getElementById("btnLetters").addEventListener("click", () => openModal("💌 نامه‌های قفل‌شده", buildLetters));
+
+  /* ================= 💛 ظاهر قلب (آیتم‌ها) ================= */
+  const snapMat = m => ({ color: m.color.getHex(), map: m.map, emissive: m.emissive.getHex(), ei: m.emissiveIntensity, emap: m.emissiveMap, metal: m.metalness, rough: m.roughness, cc: m.clearcoat, sheen: m.sheen });
+  const restoreMat = (m, o) => { m.color.setHex(o.color); m.map = o.map; m.emissive.setHex(o.emissive); m.emissiveIntensity = o.ei; m.emissiveMap = o.emap; m.metalness = o.metal; m.roughness = o.rough; m.clearcoat = o.cc; m.sheen = o.sheen; m.needsUpdate = true; };
+  const paintMat = (m, c) => { m.map = c.map || null; m.emissiveMap = c.emap || null; m.color.setHex(c.color); m.emissive.setHex(c.emissive); m.emissiveIntensity = c.ei; m.metalness = c.metal; m.roughness = c.rough; m.clearcoat = c.cc; m.sheen = 0; m.needsUpdate = true; };
+  const ORIG = { muscle: snapMat(muscleMat), atrial: snapMat(atrialMat), haloMap: halo.material.map };
+
+  let galaxyTex = null;
+  function makeGalaxyTex() {
+    const c = document.createElement("canvas"); c.width = c.height = 512;
+    const g = c.getContext("2d");
+    const bg = g.createLinearGradient(0, 0, 512, 512);
+    bg.addColorStop(0, "#1a0b3d"); bg.addColorStop(.5, "#3b1670"); bg.addColorStop(1, "#0f2a6b");
+    g.fillStyle = bg; g.fillRect(0, 0, 512, 512);
+    ["#ff6fb5", "#6fa8ff", "#b18cff"].forEach(col => {
+      for (let i = 0; i < 5; i++) {
+        const x = Math.random() * 512, y = Math.random() * 512, r = 60 + Math.random() * 90;
+        const gr = g.createRadialGradient(x, y, 0, x, y, r);
+        gr.addColorStop(0, col + "66"); gr.addColorStop(1, col + "00");
+        g.fillStyle = gr; g.fillRect(0, 0, 512, 512);
+      }
+    });
+    g.fillStyle = "#fff";
+    for (let i = 0; i < 380; i++) {
+      g.globalAlpha = 0.4 + Math.random() * 0.6;
+      g.beginPath(); g.arc(Math.random() * 512, Math.random() * 512, Math.random() * 1.6 + .3, 0, Math.PI * 2); g.fill();
+    }
+    g.globalAlpha = 1;
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace; t.wrapS = THREE.RepeatWrapping; t.repeat.set(2, 1);
+    return t;
+  }
+
+  function setSkin(id) {
+    restoreMat(muscleMat, ORIG.muscle); restoreMat(atrialMat, ORIG.atrial);
+    if (id === "gold") {
+      paintMat(muscleMat, { color: 0xffc936, emissive: 0x6b4300, ei: .9, metal: .45, rough: .28, cc: 1 });
+      paintMat(atrialMat, { color: 0xf0b02a, emissive: 0x5a3800, ei: .9, metal: .45, rough: .30, cc: 1 });
+    } else if (id === "crystal") {
+      paintMat(muscleMat, { color: 0xffb0cc, emissive: 0xff5f8f, ei: .35, metal: .1, rough: .06, cc: 1 });
+      paintMat(atrialMat, { color: 0xffc4d8, emissive: 0xff7fa5, ei: .30, metal: .1, rough: .08, cc: 1 });
+    } else if (id === "galaxy") {
+      if (!galaxyTex) galaxyTex = makeGalaxyTex();
+      paintMat(muscleMat, { color: 0xffffff, map: galaxyTex, emap: galaxyTex, emissive: 0xffffff, ei: .75, metal: 0, rough: .4, cc: .6 });
+      paintMat(atrialMat, { color: 0xcfb8ff, map: galaxyTex, emap: galaxyTex, emissive: 0xb9a0ff, ei: .6, metal: 0, rough: .4, cc: .6 });
+    }
+  }
+
+    /* ---------- هاله‌ها (نسخه‌ی پررنگ) ---------- */
+  const AURAS = {
+    aura_gold: { rgb: [255, 196, 50], hex: 0xffc432 },
+    aura_blue: { rgb: [70, 170, 255], hex: 0x46aaff }
+  };
+  const auraTex = {};
+  function auraTexture(r, g, b) {
+    const c = document.createElement("canvas"); c.width = c.height = 256;
+    const x = c.getContext("2d");
+    const gr = x.createRadialGradient(128, 128, 0, 128, 128, 128);
+    gr.addColorStop(0,   `rgba(${r},${g},${b},.35)`);
+    gr.addColorStop(.35, `rgba(${r},${g},${b},.80)`);
+    gr.addColorStop(.60, `rgba(${r},${g},${b},.35)`);
+    gr.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+    x.fillStyle = gr; x.fillRect(0, 0, 256, 256);
+    return new THREE.CanvasTexture(c);
+  }
+  const auraGlow = new THREE.Sprite(new THREE.SpriteMaterial({
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+  }));
+  auraGlow.scale.set(6.2, 6.2, 1); auraGlow.position.set(0, .45, -1.0); auraGlow.visible = false;
+  const auraRing = new THREE.Mesh(
+    new THREE.RingGeometry(1.7, 1.8, 96),
+    new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide })
+  );
+  auraRing.position.set(0, .45, -.8); auraRing.visible = false;
+  hScene.add(auraGlow, auraRing);
+
+  const LIGHT_ORIG = { glow: 0xff3158, rim: 0xff6f8f, fill: 0xffa8b9 };
+  function setAura(id) {
+    const A = AURAS[id];
+    auraGlow.visible = auraRing.visible = !!A;
+    if (A) {
+      if (!auraTex[id]) auraTex[id] = auraTexture(...A.rgb);
+      auraGlow.material.map = auraTex[id]; auraGlow.material.needsUpdate = true;
+      auraRing.material.color.setHex(A.hex);
+      heartGlow.color.setHex(A.hex); rimLight.color.setHex(A.hex); fillLight.color.setHex(A.hex);
+    } else {
+      heartGlow.color.setHex(LIGHT_ORIG.glow); rimLight.color.setHex(LIGHT_ORIG.rim); fillLight.color.setHex(LIGHT_ORIG.fill);
+    }
+    lifeParticles.forEach(p => p.material.color.setHex(A ? A.hex : 0xff9caf));
+  }
+
+  /* --- تاج --- */
+  const goldMat = new THREE.MeshPhysicalMaterial({ color: 0xffc933, metalness: .5, roughness: .25, emissive: 0x8a5a00, emissiveIntensity: .6, clearcoat: 1, side: THREE.DoubleSide });
+  const gemMat = new THREE.MeshPhysicalMaterial({ color: 0xff2d55, emissive: 0xaa0020, emissiveIntensity: .8, roughness: .1, clearcoat: 1 });
+  const crown = new THREE.Group();
+  crown.add(new THREE.Mesh(new THREE.CylinderGeometry(.62, .55, .28, 32, 1, true), goldMat));
+  for (let i = 0; i < 5; i++) {
+    const a = (i / 5) * Math.PI * 2;
+    const spike = new THREE.Mesh(new THREE.ConeGeometry(.13, .42, 12), goldMat);
+    spike.position.set(Math.cos(a) * .58, .34, Math.sin(a) * .58);
+    const gem = new THREE.Mesh(new THREE.SphereGeometry(.07, 12, 12), gemMat);
+    gem.position.set(Math.cos(a) * .58, .58, Math.sin(a) * .58);
+    crown.add(spike, gem);
+  }
+  crown.position.set(.6, 4.45, -.12); crown.rotation.z = -.1; crown.visible = false;
+
+  /* --- هاله فرشته --- */
+  const haloRing = new THREE.Mesh(new THREE.TorusGeometry(.55, .05, 12, 48), new THREE.MeshBasicMaterial({ color: 0xffe27a }));
+  haloRing.position.set(.6, 4.85, -.12); haloRing.rotation.x = Math.PI / 2 + .15; haloRing.visible = false;
+
+  /* --- بال‌ها --- */
+  const featherMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, emissive: 0xffe9f0, emissiveIntensity: .25, roughness: .5 });
+  function makeWing(side) {
+    const w = new THREE.Group();
+    for (let i = 0; i < 5; i++) {
+      const L = 1.6 - i * .16;
+      const pivot = new THREE.Group();
+      pivot.rotation.z = side * (.7 - i * .3);
+      const f = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), featherMat);
+      f.scale.set(L * .5, .09, .28);
+      f.position.set(side * L * .5, 0, -i * .02);
+      pivot.add(f); w.add(pivot);
+    }
+    w.position.set(side * .95, 1.2, -.5);
+    return w;
+  }
+  const wings = new THREE.Group();
+  const wingL = makeWing(-1), wingR = makeWing(1);
+  wings.add(wingL, wingR); wings.visible = false;
+
+  /* --- قلب‌های چرخان --- */
+  const orbitGroup = new THREE.Group();
+  const orbitTex = emojiTexture("💗");
+  const orbitSprites = [];
+  for (let i = 0; i < 6; i++) {
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: orbitTex, transparent: true }));
+    sp.scale.setScalar(.55);
+    orbitGroup.add(sp); orbitSprites.push(sp);
+  }
+  orbitGroup.visible = false;
+
+  heartGroup.add(crown, haloRing, wings, orbitGroup);
+
+  function applyCosmetics() {
+    const e = profile.equipped || {};
+    setSkin(e.skin);
+    crown.visible = e.head === "crown";
+    haloRing.visible = e.head === "halo";
+    wings.visible = e.back === "wings";
+    orbitGroup.visible = e.orbit === "orbit";
+    setAura(e.aura);
+  }
+
+  // انیمیشن آیتم‌ها (جدا از حلقه‌ی اصلی)
+  function cosmeticsLoop(ms) {
+    const t = ms / 1000;
+    const camZ = (crown.visible || haloRing.visible) ? 10.4 : (wings.visible ? 9.7 : 9.0);
+    hCam.position.z += (camZ - hCam.position.z) * .06;
+    if (crown.visible) crown.position.y = 4.45 + Math.sin(t * 1.6) * .03;
+    if (haloRing.visible) haloRing.position.y = 4.85 + Math.sin(t * 1.6) * .05;
+    if (wings.visible) { const f = Math.sin(t * 3) * .12; wingL.rotation.z = -f; wingR.rotation.z = f; }
+    if (orbitGroup.visible) {
+      orbitSprites.forEach((sp, i) => {
+        const a = t * .9 + i * Math.PI / 3;
+        sp.position.set(Math.cos(a) * 2.4, 1 + Math.sin(t * 1.3 + i) * .25, Math.sin(a) * 1.2);
+      });
+    }
+        if (auraGlow.visible) {
+      const k = .5 + .5 * Math.sin(t * 2);
+      auraGlow.material.opacity = .75 + .25 * k;
+      auraGlow.scale.setScalar(6.2 + .5 * k);
+      const w = (t * .6) % 1;               // موج حلقه که از قلب پخش می‌شه
+      auraRing.scale.setScalar(1 + w * .55);
+      auraRing.material.opacity = .7 * (1 - w);
+    }
+    requestAnimationFrame(cosmeticsLoop);
+  }
+  requestAnimationFrame(cosmeticsLoop);
+
+  /* ---------- همگام‌سازی پروفایل با فایربیس ---------- */
+  function mergeProfile(r) {
+    profile.awarded = { ...(r.awarded || {}), ...profile.awarded };
+    const union = (a, b) => [...new Set([...(a || []), ...(b || [])])];
+    profile.owned = union(profile.owned, r.owned);
+    profile.unlocked = union(profile.unlocked, r.unlocked);
+    profile.seen = union(profile.seen, r.seen);
+    if (r.equipped) profile.equipped = r.equipped;
+  }
+  if (firebaseReady) {
+    onSnapshot(doc(db, "checklists", "_profile"), snap => {
+      if (snap.metadata.hasPendingWrites) return;
+      if (!snap.exists()) { if (Object.keys(profile.awarded).length) saveProfile(); return; }
+      const r = snap.data();
+      mergeProfile(r);
+      checkLetters();
+      try { localStorage.setItem(PROFILE_LS, JSON.stringify(profile)); } catch (e) {}
+      applyCosmetics(); renderEconomyUI(); refreshModal();
+      const n = o => Object.keys(o || {}).length;
+      if (n(profile.awarded) > n(r.awarded) || profile.owned.length > (r.owned || []).length ||
+          profile.unlocked.length > (r.unlocked || []).length || profile.seen.length > (r.seen || []).length) saveProfile();
+    }, err => console.error("profile listen error:", err));
+  }
+
+
+    if (TEST_MODE) {
+    const tb = mk("button", "eco-btn", "🧪 +30 day streak");
+    tb.type = "button"; tb.style.background = "#5a4452";
+    tb.addEventListener("click", () => {
+      const d = new Date(); d.setHours(0, 0, 0, 0);
+      for (let i = 0; i < 30; i++) { profile.awarded[dateKey(d) + ":all"] = 0; d.setDate(d.getDate() - 1); }
+      checkLetters(); saveProfile(); renderEconomyUI(); refreshModal();
+    });
+    const rb = mk("button", "eco-btn", "🧪 Reset test");
+    rb.type = "button"; rb.style.background = "#5a4452";
+    rb.addEventListener("click", () => { localStorage.removeItem(PROFILE_LS); location.reload(); });
+    ecoBar.append(tb, rb);
+  }
+  applyCosmetics();
+  renderEconomyUI();
   load();
+
 </script>
 </body>
 </html>
