@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#2b0a4d">
+<title>تولدت مبارک 🎂</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap" rel="stylesheet">
+<noscript><style>.reveal,.up,.w{opacity:1!important;transform:none!important;animation:none!important}.gbox .prize{opacity:1!important;transform:translateX(-50%) translateY(-58px)!important}</style></noscript>
+
+<style>
+:root{
+  --font:"Vazirmatn","Vazir",Tahoma,"Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:#14081f;color:#fff;line-height:1.9;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+
+/* ───────── ابزارهای مشترک ───────── */
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60}
+.progress{position:fixed;top:0;inset-inline-start:0;height:3px;width:calc(var(--p,0)*100%);z-index:70;background:linear-gradient(90deg,#ff7eb6,#ffd166,#8ec5ff);box-shadow:0 0 12px rgba(255,150,200,.8)}
+.layer{position:absolute;inset:-80px 0;pointer-events:none;z-index:0}
+
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+.up{opacity:0;transform:translateY(22px);animation:up .9s ease forwards;animation-delay:var(--d,0s)}
+@keyframes up{to{opacity:1;transform:none}}
+
+/* ───────── بخش اول: تبریک ───────── */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 20px 110px;overflow:hidden;--par:0}
+.hero .bg{position:absolute;inset:0;background:linear-gradient(180deg,#2b0a4d 0%,#6a1b7d 38%,#c2417f 72%,#3b1466 100%)}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:200px;background:linear-gradient(transparent,#0b1030);z-index:2;pointer-events:none}
+.blob{position:absolute;border-radius:50%;width:75vmax;height:75vmax;opacity:.75;animation:drift 16s ease-in-out infinite alternate;will-change:transform}
+.b1{left:-25vmax;top:-20vmax;background:radial-gradient(circle,rgba(255,120,190,.6),transparent 62%)}
+.b2{right:-30vmax;top:8vh;background:radial-gradient(circle,rgba(130,110,255,.55),transparent 62%);animation-duration:20s}
+.b3{left:8vmax;bottom:-38vmax;background:radial-gradient(circle,rgba(255,200,120,.45),transparent 62%);animation-duration:18s}
+@keyframes drift{to{transform:translate3d(8vmax,6vmax,0) scale(1.15)}}
+
+.balloons{position:absolute;inset:0;pointer-events:none;z-index:1}
+.balloon{position:absolute;bottom:-170px;left:var(--x);width:calc(54px*var(--s));height:calc(66px*var(--s));border-radius:50% 50% 48% 48%/55% 55% 45% 45%;
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.75),rgba(255,255,255,0) 28%),var(--c);
+  box-shadow:inset -6px -8px 14px rgba(0,0,0,.18);opacity:.92;animation:rise var(--dur) linear var(--delay) infinite;will-change:transform}
+.balloon::before{content:"";position:absolute;left:50%;bottom:-5px;width:9px;height:9px;transform:translateX(-50%) rotate(45deg);background:var(--c);filter:brightness(.82);border-radius:2px}
+.balloon::after{content:"";position:absolute;left:50%;top:100%;margin-top:3px;width:1.5px;height:calc(62px*var(--s));background:linear-gradient(rgba(255,255,255,.6),transparent)}
+@keyframes rise{
+  0%{transform:translate3d(0,0,0) rotate(-3deg)}
+  25%{transform:translate3d(18px,-35vh,0) rotate(3deg)}
+  50%{transform:translate3d(-14px,-70vh,0) rotate(-3deg)}
+  75%{transform:translate3d(16px,-105vh,0) rotate(3deg)}
+  100%{transform:translate3d(-8px,-145vh,0) rotate(-2deg)}
+}
+.sparks{position:absolute;inset:0;pointer-events:none;z-index:1}
+.spark{position:absolute;color:#fff;opacity:0;animation:twinkle 3s ease-in-out infinite;text-shadow:0 0 10px rgba(255,255,255,.9)}
+
+.hero .inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:4px}
+.pill{display:inline-block;padding:6px 20px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-weight:600;margin-bottom:8px}
+.title{font-size:clamp(3.3rem,17vw,7rem);font-weight:900;line-height:1.25;display:flex;flex-wrap:wrap;justify-content:center;gap:0 .32em;filter:drop-shadow(0 8px 28px rgba(255,100,170,.55))}
+.w{display:inline-block;opacity:0;transform:translateY(-70px) scale(.6) rotate(-6deg);
+  background:linear-gradient(100deg,#fff 20%,#ffd9ee 40%,#ffe7a3 55%,#fff 75%);background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+  animation:drop .95s cubic-bezier(.34,1.56,.64,1) forwards,shine 5s linear infinite;
+  animation-delay:calc(.5s + var(--i)*.32s),2s}
+@keyframes drop{to{opacity:1;transform:none}}
+@keyframes shine{to{background-position:-220% 0}}
+.name{font-size:clamp(1.4rem,6vw,2.1rem);font-weight:600;margin-top:2px}
+.hb{display:inline-block;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+.lead{max-width:21em;font-size:1.02rem;opacity:.95;margin-top:6px}
+
+.cake{margin-top:14px;background:none;border:0;cursor:pointer;display:block;animation:cakefloat 4s ease-in-out infinite;filter:drop-shadow(0 12px 22px rgba(0,0,0,.35));-webkit-appearance:none}
+.cake svg{display:block;width:min(52vw,190px);height:auto;overflow:visible}
+.cake:active{transform:scale(.97)}
+@keyframes cakefloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.fl{transform-box:fill-box;transform-origin:50% 100%;animation:flicker .38s ease-in-out infinite alternate}
+.flame{transform-box:fill-box;transform-origin:50% 100%;transition:opacity .35s,transform .35s}
+.cake.out .flame{opacity:0;transform:scale(.25)}
+@keyframes flicker{from{transform:scale(1,1) rotate(-3deg)}to{transform:scale(.9,1.1) rotate(3deg)}}
+.smk{fill:rgba(255,255,255,.8);opacity:0;transform-box:fill-box;transform-origin:center}
+.cake.out .smk{animation:smoke 1.8s ease-out forwards}
+@keyframes smoke{0%{opacity:.75;transform:translateY(0) scale(.6)}100%{opacity:0;transform:translateY(-46px) scale(2.6)}}
+.wish{font-size:.92rem;opacity:.92;margin-top:4px;min-height:1.9em;transition:opacity .3s}
+
+.cue{position:absolute;left:0;right:0;bottom:26px;text-align:center;z-index:4}
+.cue span{display:inline-flex;flex-direction:column;align-items:center;font-size:.9rem;opacity:0;animation:up .9s ease forwards 3.4s}
+.arr{font-size:1.3rem;line-height:1;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+/* ───────── کارت و جعبه‌ی کادو ───────── */
+.gift,.finale{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:110px 16px;overflow:hidden;--par:0}
+.gift::before{content:"";position:absolute;inset:0 0 auto 0;height:170px;background:linear-gradient(var(--prev),transparent);z-index:2;pointer-events:none}
+.card{position:relative;z-index:5;width:min(92vw,440px);padding:34px 24px 30px;border-radius:30px;text-align:center;
+  background:var(--card);border:1px solid var(--bd);box-shadow:var(--shadow);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.card h2{font-size:clamp(1.5rem,6.2vw,2rem);font-weight:800;line-height:1.5;margin:6px 0 6px}
+.card p{font-size:1.02rem;line-height:2.05;opacity:.93}
+.tag{display:inline-block;padding:3px 16px;border-radius:999px;background:var(--tag-bg);color:var(--tag-c);font-weight:600;font-size:.88rem}
+.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:22px}
+.card .note{margin-top:14px;font-size:.84rem;line-height:1.9;opacity:.75}
+
+.gbox{position:relative;width:112px;height:104px;margin:36px auto 18px}
+.gbox .body{position:absolute;bottom:0;left:0;right:0;height:64px;border-radius:8px 8px 14px 14px;background:linear-gradient(var(--box1),var(--box2));box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.gbox .body::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:18px;transform:translateX(-50%);background:var(--rib)}
+.gbox .lid{position:absolute;bottom:58px;left:-7px;right:-7px;height:30px;border-radius:9px;background:linear-gradient(var(--box2),var(--box1));z-index:3;transform-origin:left bottom;transition:transform .9s cubic-bezier(.34,1.56,.64,1);box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.gbox .lid::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:18px;transform:translateX(-50%);background:var(--rib)}
+.gbox .lid::after{content:"";position:absolute;left:50%;top:-13px;width:24px;height:16px;transform:translateX(-50%);border-radius:50% 50% 40% 40%;background:var(--rib);box-shadow:-15px 2px 0 -3px var(--rib),15px 2px 0 -3px var(--rib)}
+.gbox .prize{position:absolute;left:50%;bottom:44px;font-size:46px;line-height:1;transform:translateX(-50%) scale(.3);opacity:0;z-index:2;transition:transform .9s cubic-bezier(.34,1.56,.64,1) .25s,opacity .5s .25s;filter:drop-shadow(0 0 16px var(--glow))}
+.gbox.open .lid{transform:translate(-8px,-40px) rotate(-26deg)}
+.gbox.open .prize{opacity:1;transform:translateX(-50%) translateY(-60px) scale(1);animation:prizebob 3s ease-in-out 1.2s infinite}
+@keyframes prizebob{0%,100%{transform:translateX(-50%) translateY(-60px) scale(1)}50%{transform:translateX(-50%) translateY(-70px) scale(1.06)}}
+
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:12px 28px;border-radius:999px;border:0;cursor:pointer;font-weight:800;font-size:1.02rem;color:var(--btn-c);background:var(--btn);box-shadow:0 10px 28px var(--glow);transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translateY(-2px) scale(1.03)}
+.btn:active{transform:scale(.97)}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-120%);animation:shimmer 3.4s ease-in-out infinite}
+@keyframes shimmer{60%,100%{transform:translateX(120%)}}
+.btn.ghost{background:rgba(255,255,255,.12);color:inherit;border:1px solid rgba(255,255,255,.35);box-shadow:none}
+.btn.ghost::after{display:none}
+
+/* ───────── کادوی ۱: وب‌سایت · آسمون شب ───────── */
+.gift-site{--prev:#0b1030;
+  --card:rgba(24,22,88,.38);--bd:rgba(170,190,255,.3);--shadow:0 24px 70px rgba(60,70,210,.4);
+  --btn:linear-gradient(135deg,#a8d6ff,#bda7ff);--btn-c:#15123f;--glow:rgba(150,170,255,.6);
+  --tag-bg:rgba(160,180,255,.18);--tag-c:#c9d6ff;--box1:#5d6dff;--box2:#8e99ff;--rib:#ffe9a8;
+  background:linear-gradient(180deg,#0b1030 0%,#17124a 45%,#2a1a63 100%)}
+.sky{transform:translate3d(0,calc(var(--par)*-40px),0)}
+.star{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:#fff;opacity:.2;animation:twinkle var(--t) ease-in-out infinite;box-shadow:0 0 6px rgba(255,255,255,.8)}
+@keyframes twinkle{0%,100%{opacity:.12;transform:scale(.7)}50%{opacity:1;transform:scale(1.3)}}
+.shoot{position:absolute;width:130px;height:2px;border-radius:2px;background:linear-gradient(90deg,#fff,rgba(255,255,255,0));opacity:0;transform:rotate(-33deg);animation:shoot var(--dur) linear infinite;animation-delay:var(--dl)}
+@keyframes shoot{
+  0%{opacity:0;transform:translate3d(0,0,0) rotate(-33deg)}
+  3%{opacity:1}
+  14%{opacity:0;transform:translate3d(-60vw,38vh,0) rotate(-33deg)}
+  100%{opacity:0;transform:translate3d(-60vw,38vh,0) rotate(-33deg)}
+}
+.moon{position:absolute;top:110px;right:12%;width:62px;height:62px;border-radius:50%;box-shadow:inset -18px -4px 0 0 #fff0b8;transform:rotate(-20deg);filter:drop-shadow(0 0 18px rgba(255,235,170,.55));animation:bob 7s ease-in-out infinite}
+
+/* ───────── کادوی ۲: کتاب · کتابخونه‌ی گرم ───────── */
+.gift-book{--prev:#2a1a63;
+  --card:rgba(48,24,8,.5);--bd:rgba(255,210,140,.32);--shadow:0 24px 70px rgba(20,8,0,.5);
+  --btn:linear-gradient(135deg,#ffe0a3,#ffb866);--btn-c:#3b1f08;--glow:rgba(255,184,102,.5);
+  --tag-bg:rgba(255,210,140,.18);--tag-c:#ffe2b0;--box1:#a8452f;--box2:#d46a4b;--rib:#ffe6a8;
+  background:linear-gradient(180deg,#2b170a 0%,#6b3f1c 35%,#a8692d 62%,#4a2810 100%);color:#fff3dc}
+.beam{position:absolute;top:-10%;bottom:-10%;width:42%;background:linear-gradient(100deg,transparent 20%,rgba(255,220,160,.2) 50%,transparent 80%);transform:rotate(14deg);animation:beam 9s ease-in-out infinite alternate}
+.beam.b-a{left:6%}.beam.b-b{left:48%;animation-delay:-4s;opacity:.7}
+@keyframes beam{from{opacity:.35;transform:rotate(14deg) translateX(-14px)}to{opacity:1;transform:rotate(14deg) translateX(18px)}}
+.mote{position:absolute;bottom:-12px;width:var(--s);height:var(--s);border-radius:50%;background:#ffd98a;box-shadow:0 0 10px 2px rgba(255,200,110,.7);opacity:0;animation:mote var(--dur) linear infinite}
+@keyframes mote{0%{transform:translate3d(0,0,0);opacity:0}10%{opacity:.9}90%{opacity:.6}100%{transform:translate3d(var(--dx),-95vh,0);opacity:0}}
+.pagefx{position:absolute;top:-50px;width:var(--sz);height:calc(var(--sz)*1.3);border-radius:2px;background:linear-gradient(135deg,#fff7e0,#efd9a8);box-shadow:0 0 0 1px rgba(120,80,30,.25);opacity:.85;animation:pagefall var(--dur) linear infinite}
+@keyframes pagefall{
+  0%{transform:translate3d(0,0,0) rotateZ(0) rotateX(0)}
+  50%{transform:translate3d(var(--dx),60vh,0) rotateZ(180deg) rotateX(270deg)}
+  100%{transform:translate3d(calc(var(--dx)*-1),125vh,0) rotateZ(360deg) rotateX(540deg)}
+}
+.shelf{position:absolute;left:0;right:0;bottom:80px;display:flex;align-items:flex-end;justify-content:center;gap:2px;opacity:.5;overflow:hidden;transform:translate3d(0,calc(var(--par)*18px),0)}
+.shelf::after{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background:#2a1508}
+.spine{position:relative;flex:none;border-radius:3px 3px 0 0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset -3px 0 6px rgba(0,0,0,.28);transform-origin:bottom}
+.spine::after{content:"";position:absolute;left:0;right:0;top:16%;height:3px;background:rgba(255,215,140,.55)}
+
+/* ───────── کادوی ۳: بازی · غروب و فانوس ───────── */
+.gift-game{--prev:#4a2810;min-height:112vh;min-height:112svh;padding-bottom:calc(34vh + 20px);
+  --card:rgba(34,12,52,.5);--bd:rgba(255,180,150,.32);--shadow:0 24px 70px rgba(20,0,30,.55);
+  --btn:linear-gradient(135deg,#ffd27a,#ff8f6b);--btn-c:#3a1030;--glow:rgba(255,140,100,.55);
+  --tag-bg:rgba(255,170,130,.18);--tag-c:#ffd2bf;--box1:#c23a6b;--box2:#ee6a94;--rib:#ffe08a;
+  background:linear-gradient(180deg,#1b1038 0%,#3d1d5e 34%,#a53f6e 62%,#ff8f5a 82%,#ffc27a 100%)}
+.gift-game .btn{border-radius:12px;box-shadow:0 5px 0 #9c2f55,0 14px 30px rgba(255,120,100,.4)}
+.gift-game .btn:active{transform:translateY(4px);box-shadow:0 1px 0 #9c2f55,0 6px 14px rgba(255,120,100,.4)}
+.glow{position:absolute;left:-20%;right:-20%;bottom:8%;height:60%;background:radial-gradient(ellipse at 50% 100%,rgba(255,205,130,.6),transparent 62%)}
+.gstars .star{opacity:.15}
+.lantern{position:absolute;bottom:-80px;left:inherit;width:calc(26px*var(--s));height:calc(34px*var(--s));border-radius:40% 40% 46% 46%/30% 30% 70% 70%;background:linear-gradient(#ffd884,#ff9a3c);box-shadow:0 0 22px 8px rgba(255,170,70,.55),inset 0 -6px 10px rgba(255,255,255,.35);opacity:0;animation:lift var(--dur) linear infinite}
+.lantern::before{content:"";position:absolute;left:50%;top:-5px;width:60%;height:5px;transform:translateX(-50%);background:#7a3b1a;border-radius:2px}
+@keyframes lift{0%{transform:translate3d(0,0,0);opacity:0}8%{opacity:.95}85%{opacity:.9}100%{transform:translate3d(var(--dx),-118vh,0);opacity:0}}
+.fly{position:absolute;width:5px;height:5px;border-radius:50%;background:#eaff9c;box-shadow:0 0 10px 4px rgba(220,255,120,.7);animation:wander var(--w) ease-in-out infinite,blink var(--bl) ease-in-out infinite}
+@keyframes wander{0%,100%{transform:translate(0,0)}25%{transform:translate(var(--a),var(--b))}50%{transform:translate(var(--c),var(--a))}75%{transform:translate(var(--b),var(--d))}}
+@keyframes blink{0%,100%{opacity:.1}50%{opacity:1}}
+.hills{position:absolute;left:0;right:0;bottom:0;width:100%;height:46vh;min-height:270px;display:block;z-index:3;pointer-events:none}
+.hills .ly{transition:none}
+.hills .l1{transform:translateY(calc(var(--par)*14px))}
+.hills .l2{transform:translateY(calc(var(--par)*26px))}
+.hills .l3{transform:translateY(calc(var(--par)*40px))}
+.win{animation:winglow 2.6s ease-in-out infinite alternate}
+@keyframes winglow{from{opacity:.75}to{opacity:1}}
+.sm{fill:rgba(255,255,255,.35);transform-box:fill-box;transform-origin:center;animation:chim 4s ease-out infinite}
+@keyframes chim{0%{opacity:.6;transform:translate(0,0) scale(.6)}100%{opacity:0;transform:translate(-14px,-34px) scale(2.2)}}
+
+/* ───────── پایان ───────── */
+.finale{background:linear-gradient(180deg,#14081f 0%,#2a0b3a 60%,#14081f 100%);text-align:center}
+.hf{position:absolute;bottom:-50px;left:var(--x);font-size:var(--fs);opacity:0;animation:hfloat var(--dur) linear infinite}
+@keyframes hfloat{0%{transform:translate3d(0,0,0);opacity:0}10%{opacity:.85}100%{transform:translate3d(var(--dx),-108vh,0) rotate(20deg);opacity:0}}
+.finale .inner{position:relative;z-index:5;max-width:420px}
+.bigheart{position:relative;display:inline-block;font-size:5.2rem;line-height:1;cursor:pointer;animation:pulse 1.6s ease-in-out infinite;background:none;border:0;margin-bottom:22px;filter:drop-shadow(0 0 28px rgba(255,100,160,.7))}
+.bigheart::before,.bigheart::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(255,120,170,.6);animation:ring 2.6s ease-out infinite;pointer-events:none}
+.bigheart::after{animation-delay:1.3s}
+@keyframes ring{0%{transform:scale(.7);opacity:.9}100%{transform:scale(2.1);opacity:0}}
+.finale h2{font-size:clamp(1.7rem,7vw,2.3rem);font-weight:900;line-height:1.5;margin-bottom:8px;background:linear-gradient(100deg,#fff,#ffd0e6,#ffe7a3);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.finale p{font-size:1.04rem;line-height:2.1;opacity:.92}
+.finale .actions{margin-top:26px}
+.finale .btn{--btn:linear-gradient(135deg,#ff9ac4,#ffd0a0);--btn-c:#40122e;--glow:rgba(255,130,180,.5)}
+
+@media (min-width:760px){
+  .card{padding:42px 38px 36px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important}
+}
+</style>
+</head>
+
+<body>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div class="progress" id="prog" aria-hidden="true"></div>
+
+<!-- ═════════════ ۱) تبریک ═════════════ -->
+<header class="hero" id="hero">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="blob b1" aria-hidden="true"></div>
+  <div class="blob b2" aria-hidden="true"></div>
+  <div class="blob b3" aria-hidden="true"></div>
+  <div class="balloons" id="balloons" aria-hidden="true"></div>
+  <div class="sparks" id="sparks" aria-hidden="true"></div>
+
+  <div class="inner">
+    <span class="pill up" style="--d:.1s">🎂 ۸ آبان</span>
+
+    <h1 class="title">
+      <span class="w" style="--i:0">تولدت</span>
+      <span class="w" style="--i:1">مبارک</span>
+    </h1>
+
+    <!-- ✏️ اسمی که دوست داری رو اینجا عوض کن -->
+    <div class="name up" style="--d:1.5s">عسل کوچولوی باباااا <span class="hb">💗</span></div>
+
+    <p class="lead up" style="--d:1.9s">امروز قشنگ ترین روز دنیاسست یعنی تولد تو. برات سه تا کادو اماده کردم برو پایین تا ببینیشوننن🎁</p>
+
+    <div class="up" style="--d:2.4s">
+    <button class="cake" id="cake" aria-label="کیک تولدته دخترم. بزن تا شمع‌ها رو فوت کنیییییییی">
+      <svg viewBox="0 0 220 210" aria-hidden="true">
+        <defs>
+          <linearGradient id="gC1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd1e8"/><stop offset="1" stop-color="#ff8fc0"/></linearGradient>
+          <linearGradient id="gC2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2f8"/><stop offset="1" stop-color="#ffbcd9"/></linearGradient>
+          <radialGradient id="gFl" cx=".5" cy=".75" r=".65"><stop offset="0" stop-color="#fff7c2"/><stop offset=".55" stop-color="#ffc400"/><stop offset="1" stop-color="#ff6a00"/></radialGradient>
+        </defs>
+        <ellipse cx="110" cy="198" rx="104" ry="11" fill="rgba(255,255,255,.3)"/>
+        <rect x="22" y="130" width="176" height="64" rx="14" fill="url(#gC1)"/>
+        <path d="M22 138 Q22 128 34 128 H186 Q198 128 198 138 V146 Q187 160 176 146 Q165 160 154 146 Q143 164 132 146 Q121 160 110 146 Q99 164 88 146 Q77 160 66 146 Q55 162 44 146 Q33 156 22 146 Z" fill="#fff"/>
+        <rect x="52" y="88" width="116" height="46" rx="12" fill="url(#gC2)"/>
+        <path d="M52 98 Q52 88 64 88 H156 Q168 88 168 98 V104 Q159 116 150 104 Q141 118 132 104 Q123 116 114 104 Q105 118 96 104 Q87 116 78 104 Q69 114 60 104 Q56 108 52 104 Z" fill="#fff"/>
+        <g opacity=".9">
+          <rect x="40" y="166" width="7" height="3" rx="1.5" fill="#7ee0ff" transform="rotate(25 43 167)"/>
+          <rect x="70" y="174" width="7" height="3" rx="1.5" fill="#ffd166" transform="rotate(-20 73 175)"/>
+          <rect x="104" y="168" width="7" height="3" rx="1.5" fill="#b58cff" transform="rotate(40 107 169)"/>
+          <rect x="140" y="176" width="7" height="3" rx="1.5" fill="#6ee7b7" transform="rotate(-35 143 177)"/>
+          <rect x="172" y="168" width="7" height="3" rx="1.5" fill="#ff6b9d" transform="rotate(15 175 169)"/>
+          <rect x="86" y="120" width="6" height="3" rx="1.5" fill="#ff6b9d" transform="rotate(30 89 121)"/>
+          <rect x="128" y="122" width="6" height="3" rx="1.5" fill="#7ee0ff" transform="rotate(-25 131 123)"/>
+        </g>
+        <!-- شمع‌ها -->
+        <rect x="80" y="54" width="8" height="38" rx="2" fill="#7ee0ff"/>
+        <rect x="106" y="50" width="8" height="42" rx="2" fill="#ffd166"/>
+        <rect x="132" y="54" width="8" height="38" rx="2" fill="#b58cff"/>
+        <g transform="translate(84 54)"><g class="flame"><g class="fl"><circle cx="0" cy="-10" r="15" fill="rgba(255,200,80,.3)"/><path d="M0 -21 C7 -11 8 -4 0 2 C-8 -4 -7 -11 0 -21 Z" fill="url(#gFl)"/></g></g><circle class="smk" cx="0" cy="-6" r="4"/></g>
+        <g transform="translate(110 50)"><g class="flame"><g class="fl" style="animation-delay:-.15s"><circle cx="0" cy="-10" r="15" fill="rgba(255,200,80,.3)"/><path d="M0 -21 C7 -11 8 -4 0 2 C-8 -4 -7 -11 0 -21 Z" fill="url(#gFl)"/></g></g><circle class="smk" cx="0" cy="-6" r="4" style="animation-delay:.15s"/></g>
+        <g transform="translate(136 54)"><g class="flame"><g class="fl" style="animation-delay:-.3s"><circle cx="0" cy="-10" r="15" fill="rgba(255,200,80,.3)"/><path d="M0 -21 C7 -11 8 -4 0 2 C-8 -4 -7 -11 0 -21 Z" fill="url(#gFl)"/></g></g><circle class="smk" cx="0" cy="-6" r="4" style="animation-delay:.3s"/></g>
+      </svg>
+    </button>
+    </div>
+    <div class="wish up" id="wish" style="--d:2.8s"> روی کیک بزن پرنسس بابا، شمع‌ها رو فوت کن و آرزو کن نفس من💓 ✨</div>
+  </div>
+
+  <a class="cue" href="#g1" aria-label="برو پایین"><span>کادوهات اون پایینن<i class="arr">⌄</i></span></a>
+</header>
+
+<!-- ═════════════ ۲) کادوی اول: وب‌سایت (آسمون شب) ═════════════ -->
+<section class="gift gift-site" id="g1" data-colors="#a8d6ff,#bda7ff,#ffffff,#ffe9a8">
+  <div class="layer sky" aria-hidden="true">
+    <div id="stars"></div>
+    <div id="shoots"></div>
+    <div class="moon"></div>
+  </div>
+
+  <div class="card reveal">
+    <div class="gbox" aria-hidden="true"><span class="prize">🌌</span><div class="lid"></div><div class="body"></div></div>
+    <span class="tag reveal" style="--d:.15s">کادوی اول</span>
+    <h2 class="reveal" style="--d:.25s">سایت : معمای عشقمون</h2>
+    <p class="reveal" style="--d:.35s">یه داسستسان کوچولو راجب بهم رسیدنمون اخع من فدای چشمات بشم 🫠✨</p>
+    <div class="actions reveal" style="--d:.45s">
+      <!-- ✏️ لینک سایتی که می‌خوای کادوی اول باشه رو اینجا بذار -->
+      <a class="btn" href="/html/Riddle/index.html" target="_blank" rel="noopener">برو توی سایت 🌌</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ ۳) کادوی دوم: کتاب (کتابخونه‌ی گرم) ═════════════ -->
+<section class="gift gift-book" id="g2" data-colors="#ffd27a,#ffb347,#fff3d6,#e07a5f">
+  <div class="layer" aria-hidden="true">
+    <div class="beam b-a"></div><div class="beam b-b"></div>
+    <div id="motes"></div>
+    <div id="pages"></div>
+  </div>
+  <div class="shelf" id="shelf" aria-hidden="true"></div>
+
+  <div class="card reveal">
+    <div class="gbox" aria-hidden="true"><span class="prize">📖</span><div class="lid"></div><div class="body"></div></div>
+    <span class="tag reveal" style="--d:.15s">کادوی دوم</span>
+    <h2 class="reveal" style="--d:.25s">کتاب : 10 دلیلی که من چرا عاشقتممم</h2>
+    <p class="reveal" style="--d:.35s">تلاشمو کردم برات یه داستانی بنویسم که تا میتونه خوشحالت کنههه. امیدوارم دوست داشته باشی گیلاسس کوچولوم 💞😘📖</p>
+    <div class="actions reveal" style="--d:.45s">
+      <!-- ✏️ فایل PDF رو بذار توی پوشه‌ی files با همین اسم (یا مسیر رو عوض کن) -->
+      <a class="btn" href="/html/Birthday/book.pdf" download>دانلود کتاب (PDF) 📥</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ ۴) کادوی سوم: بازی (غروب و فانوس) ═════════════ -->
+<section class="gift gift-game" id="g3" data-colors="#ffb36b,#ff7aa2,#ffe08a,#ffffff">
+  <div class="layer" aria-hidden="true">
+    <div class="glow"></div>
+    <div class="gstars" id="gstars"></div>
+    <div id="lanterns"></div>
+  </div>
+  <div class="layer" style="z-index:4" aria-hidden="true"><div id="flies"></div></div>
+
+  <svg class="hills" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <g class="ly l1">
+      <path d="M0 262 C180 232 330 202 520 216 C700 231 780 201 900 176 C1020 151 1180 191 1300 216 C1380 231 1420 236 1440 241 V420 H0 Z" fill="#3a1a52"/>
+      <!-- خونه‌ی روی تپه -->
+      <g transform="translate(860 140)">
+        <rect x="-26" y="14" width="52" height="34" fill="#1a0a28"/>
+        <polygon points="-33,16 0,-13 33,16" fill="#120620"/>
+        <rect x="14" y="-10" width="8" height="16" fill="#120620"/>
+        <circle class="sm" cx="18" cy="-12" r="4"/>
+        <circle class="sm" cx="18" cy="-12" r="4" style="animation-delay:-1.4s"/>
+        <circle class="sm" cx="18" cy="-12" r="4" style="animation-delay:-2.7s"/>
+        <circle cx="-2" cy="32" r="16" fill="rgba(255,205,120,.28)"/>
+        <rect class="win" x="-8" y="26" width="12" height="12" rx="1" fill="#ffd27a"/>
+      </g>
+    </g>
+    <g class="ly l2">
+      <path d="M0 316 C220 270 420 262 640 296 C860 330 1060 286 1240 270 C1330 262 1400 270 1440 278 V420 H0 Z" fill="#2a1240"/>
+    </g>
+    <g class="ly l3">
+      <path d="M0 368 C260 340 480 336 720 360 C960 384 1200 350 1440 346 V420 H0 Z" fill="#14081f"/>
+    </g>
+  </svg>
+
+  <div class="card reveal">
+    <div class="gbox" aria-hidden="true"><span class="prize">🏮</span><div class="lid"></div><div class="body"></div></div>
+    <span class="tag reveal" style="--d:.15s">کادوی سوم</span>
+    <h2 class="reveal" style="--d:.25s">بازی : دو تکه</h2>
+    <p class="reveal" style="--d:.35s">یه بازی ساختم که باید فقط با هم بازیش کنیم و توش باید به هم کمک کنیم که مراحلو رد کنیم و تو توش یه غورباقه ی نازنازی ای ای ننعععههه 🫠☄🎀</p>
+    <div class="actions reveal" style="--d:.45s">
+      <!-- ✏️ فایل بازی (zip) رو بذار توی پوشه‌ی files. اگه فایل بزرگه، لینک GitHub Release رو اینجا بذار -->
+      <a class="btn" href="/html/Birthday/TW.rar" download>دانلود بازی 🎮</a>
+    </div>
+    <!-- ✏️ این توضیح رو با شرایط بازی خودت هماهنگ کن (مثلاً فقط ویندوز) -->
+    <p class="note reveal" style="--d:.55s">بعد از دانلود، فایل رو از حالت فشرده دربیار و اجراش کن.</p>
+  </div>
+</section>
+
+<!-- ═════════════ ۵) پایان ═════════════ -->
+<section class="finale" id="finale" data-colors="#ff6b9d,#ffd166,#ffffff,#b58cff">
+  <div class="layer" id="hearts" aria-hidden="true"></div>
+  <div class="inner">
+    <button class="bigheart reveal" id="bigheart" aria-label="قلب">💗</button>
+    <h2 class="reveal" style="--d:.15s">بازم تولدت کلیکلیکلی مبارککک باشههههه</h2>
+    <p class="reveal" style="--d:.3s">امیدوارم سالی که شروع میشه پر از خنده، آرامش و همه‌ی چیزایی باشه که دوست داری. من همیشه کنارتم و خیلیخیلی دوستت دارم، میمیرمممم من براتتتت 🫠 💗</p>
+    <div class="actions reveal" style="--d:.45s">
+      <a class="btn" href="../index.html">برگرد به صفحه‌ی اصلی</a>
+      <button class="btn ghost" id="replay" type="button">دوباره از اول 🎈</button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(s,r){return (r||document).querySelector(s)};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var rand = function(a,b){return a+Math.random()*(b-a)};
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+
+  function make(parent,cls,n,fn){
+    if(!parent) return;
+    var f=document.createDocumentFragment();
+    for(var i=0;i<n;i++){var d=document.createElement('div');d.className=cls;fn(d,i);f.appendChild(d)}
+    parent.appendChild(f);
+  }
+
+  /* ───────── کانفتی ───────── */
+  var PALETTE=['#ff6b9d','#ffd166','#7ee0ff','#b58cff','#6ee7b7','#ffffff','#ff8f6b'];
+  var cv=$('#confetti'), cx=cv.getContext('2d'), W=0, H=0, parts=[], raf=0;
+  function resize(){
+    var d=Math.min(window.devicePixelRatio||1,2);
+    W=window.innerWidth;H=window.innerHeight;
+    cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0);
+  }
+  window.addEventListener('resize',resize);resize();
+
+  function burst(x,y,n,colors,spread,angle,power){
+    if(reduce) return;
+    colors=colors||PALETTE; spread=spread==null?Math.PI*2:spread; angle=angle==null?-Math.PI/2:angle; power=power||11;
+    for(var i=0;i<n;i++){
+      var a=angle+(Math.random()-.5)*spread, v=power*(.4+Math.random()*.8);
+      parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,w:6+Math.random()*6,h:4+Math.random()*5,
+        r:Math.random()*6.28,vr:(Math.random()-.5)*.35,c:colors[i%colors.length],life:0,max:140+Math.random()*80,circ:Math.random()<.25});
+    }
+    if(!raf) raf=requestAnimationFrame(tick);
+  }
+  function tick(){
+    cx.clearRect(0,0,W,H);
+    for(var i=parts.length-1;i>=0;i--){
+      var p=parts[i];p.life++;p.vy+=.28;p.vx*=.985;p.vy*=.985;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;
+      var a=1-p.life/p.max;
+      if(a<=0||p.y>H+30){parts.splice(i,1);continue}
+      cx.save();cx.globalAlpha=a;cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;
+      if(p.circ){cx.beginPath();cx.arc(0,0,p.w/2.2,0,6.283);cx.fill()}else{cx.fillRect(-p.w/2,-p.h/2,p.w,p.h)}
+      cx.restore();
+    }
+    if(parts.length){raf=requestAnimationFrame(tick)}else{cx.clearRect(0,0,W,H);raf=0}
+  }
+  function celebrate(){
+    var w=window.innerWidth,h=window.innerHeight;
+    burst(0,h,90,PALETTE,.7,-1.05,17);
+    burst(w,h,90,PALETTE,.7,-2.09,17);
+    setTimeout(function(){burst(w*.5,h*.88,120,PALETTE,1.3,-Math.PI/2,19)},550);
+  }
+
+  /* ───────── بخش تبریک ───────── */
+  var BALLOON=['#ff6b9d','#ffd166','#7ee0ff','#b58cff','#ff8f6b','#6ee7b7','#fff1a8'];
+  make($('#balloons'),'balloon',reduce?6:16,function(d,i){
+    d.style.setProperty('--x',rand(2,90)+'%');
+    d.style.setProperty('--s',rand(.7,1.25).toFixed(2));
+    d.style.setProperty('--c',BALLOON[i%BALLOON.length]);
+    d.style.setProperty('--dur',rand(13,24).toFixed(1)+'s');
+    d.style.setProperty('--delay',(-rand(0,24)).toFixed(1)+'s');
+  });
+  make($('#sparks'),'spark',26,function(d){
+    d.textContent='✦';
+    d.style.left=rand(0,100)+'%';d.style.top=rand(0,100)+'%';
+    d.style.fontSize=rand(8,20)+'px';
+    d.style.animationDelay=rand(0,4)+'s';d.style.animationDuration=rand(2,4.5)+'s';
+  });
+
+  var cake=$('#cake'), wish=$('#wish'), out=false;
+  cake.addEventListener('click',function(e){
+    e.stopPropagation();
+    out=!out;cake.classList.toggle('out',out);
+    var r=cake.getBoundingClientRect();
+    if(out){
+      burst(r.left+r.width/2,r.top+r.height*.3,100,PALETTE,Math.PI*2,-Math.PI/2,12);
+      wish.textContent='ای من فدای اون فوت کردنت بشم فرشته کوچولوم 🫠🫠🫠🥰💓';
+    }else{
+      wish.textContent='شمع‌ها دوباره روشن شدن 🕯️ بزن تا خاموش کنی';
+    }
+  });
+  $('#hero').addEventListener('pointerdown',function(e){
+    if(e.target.closest('a,button')) return;
+    burst(e.clientX,e.clientY,34,PALETTE,Math.PI*2,-Math.PI/2,8);
+  });
+
+  /* ───────── کادوی ۱: آسمون شب ───────── */
+  make($('#stars'),'star',reduce?40:90,function(d){
+    d.style.setProperty('--s',rand(1,3.2).toFixed(1)+'px');
+    d.style.setProperty('--t',rand(2,6).toFixed(1)+'s');
+    d.style.left=rand(0,100)+'%';d.style.top=rand(0,100)+'%';
+    d.style.animationDelay=(-rand(0,6)).toFixed(1)+'s';
+  });
+  make($('#shoots'),'shoot',3,function(d,i){
+    d.style.top=rand(8,38)+'%';d.style.left=rand(45,92)+'%';
+    d.style.setProperty('--dl',(i*3.4+rand(0,2)).toFixed(1)+'s');
+    d.style.setProperty('--dur',rand(8,12).toFixed(1)+'s');
+  });
+
+  /* ───────── کادوی ۲: کتابخونه ───────── */
+  make($('#motes'),'mote',34,function(d){
+    d.style.left=rand(0,100)+'%';
+    d.style.setProperty('--s',rand(2,5).toFixed(1)+'px');
+    d.style.setProperty('--dur',rand(10,22).toFixed(1)+'s');
+    d.style.setProperty('--dx',rand(-50,50).toFixed(0)+'px');
+    d.style.animationDelay=(-rand(0,22)).toFixed(1)+'s';
+  });
+  make($('#pages'),'pagefx',9,function(d){
+    d.style.left=rand(2,96)+'%';
+    d.style.setProperty('--sz',rand(14,24).toFixed(0)+'px');
+    d.style.setProperty('--dur',rand(12,21).toFixed(1)+'s');
+    d.style.setProperty('--dx',rand(-70,70).toFixed(0)+'px');
+    d.style.animationDelay=(-rand(0,20)).toFixed(1)+'s';
+  });
+  var SPINE=['#7b2d26','#3d5a40','#2f4858','#8a5a2b','#5b3a6b','#b5832f','#4a2f27','#2b4a52'];
+  make($('#shelf'),'spine',64,function(d){
+    d.style.height=rand(70,135).toFixed(0)+'px';
+    d.style.width=rand(14,28).toFixed(0)+'px';
+    d.style.background=SPINE[Math.floor(rand(0,SPINE.length))];
+    if(Math.random()<.12) d.style.transform='rotate('+rand(-9,9).toFixed(1)+'deg)';
+  });
+
+  /* ───────── کادوی ۳: غروب و فانوس ───────── */
+  make($('#gstars'),'star',32,function(d){
+    d.style.setProperty('--s',rand(1,2.6).toFixed(1)+'px');
+    d.style.setProperty('--t',rand(2,6).toFixed(1)+'s');
+    d.style.left=rand(0,100)+'%';d.style.top=rand(4,42)+'%';
+    d.style.animationDelay=(-rand(0,6)).toFixed(1)+'s';
+  });
+  make($('#lanterns'),'lantern',12,function(d){
+    d.style.left=rand(3,95)+'%';
+    d.style.setProperty('--s',rand(.7,1.3).toFixed(2));
+    d.style.setProperty('--dur',rand(16,30).toFixed(1)+'s');
+    d.style.setProperty('--dx',rand(-50,50).toFixed(0)+'px');
+    d.style.animationDelay=(-rand(0,30)).toFixed(1)+'s';
+  });
+  make($('#flies'),'fly',34,function(d){
+    d.style.left=rand(0,100)+'%';d.style.top=rand(50,95)+'%';
+    d.style.setProperty('--a',rand(-60,60).toFixed(0)+'px');
+    d.style.setProperty('--b',rand(-50,50).toFixed(0)+'px');
+    d.style.setProperty('--c',rand(-60,60).toFixed(0)+'px');
+    d.style.setProperty('--d',rand(-40,40).toFixed(0)+'px');
+    d.style.setProperty('--w',rand(8,16).toFixed(1)+'s');
+    d.style.setProperty('--bl',rand(1.6,4).toFixed(1)+'s');
+    d.style.animationDelay=(-rand(0,10)).toFixed(1)+'s,'+(-rand(0,4)).toFixed(1)+'s';
+  });
+
+  /* ───────── پایان ───────── */
+  var HEARTS=['💗','💖','💕','✨','💞'];
+  make($('#hearts'),'hf',18,function(d,i){
+    d.textContent=HEARTS[i%HEARTS.length];
+    d.style.setProperty('--x',rand(2,94)+'%');
+    d.style.setProperty('--fs',rand(16,34).toFixed(0)+'px');
+    d.style.setProperty('--dur',rand(10,20).toFixed(1)+'s');
+    d.style.setProperty('--dx',rand(-60,60).toFixed(0)+'px');
+    d.style.animationDelay=(-rand(0,20)).toFixed(1)+'s';
+  });
+  $('#bigheart').addEventListener('click',function(e){
+    var r=e.currentTarget.getBoundingClientRect();
+    burst(r.left+r.width/2,r.top+r.height/2,80,['#ff6b9d','#ff9ac4','#ffd0e6','#ffd166','#fff'],Math.PI*2,-Math.PI/2,11);
+  });
+  $('#replay').addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
+    setTimeout(celebrate,reduce?0:1100);
+  });
+
+  /* ───────── اسکرول: نوار پیشرفت و پارالکس ───────── */
+  var prog=$('#prog'), secs=[$('#hero')].concat($$('.gift'),[$('#finale')]), ticking=false;
+  function onScroll(){
+    if(ticking) return; ticking=true;
+    requestAnimationFrame(function(){
+      var max=document.documentElement.scrollHeight-window.innerHeight, vh=window.innerHeight;
+      prog.style.setProperty('--p',max>0?(window.scrollY/max).toFixed(4):0);
+      if(!reduce){
+        secs.forEach(function(s){
+          var r=s.getBoundingClientRect();
+          if(r.bottom<-vh||r.top>vh*2) return;
+          s.style.setProperty('--par',(((r.top+r.height/2)-vh/2)/vh).toFixed(3));
+        });
+      }
+      ticking=false;
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  onScroll();
+
+  /* ───────── ظاهر شدن با اسکرول + باز شدن جعبه‌ی کادو ───────── */
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+    },{threshold:.15});
+    $$('.reveal').forEach(function(el){io.observe(el)});
+
+    var gio=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        gio.unobserve(e.target);
+        var sec=e.target.closest('.gift'), box=$('.gbox',sec);
+        setTimeout(function(){
+          box.classList.add('open');
+          var r=box.getBoundingClientRect();
+          burst(r.left+r.width/2,r.top+8,80,sec.dataset.colors.split(','),Math.PI*1.1,-Math.PI/2,11);
+        },600);
+      });
+    },{threshold:.5});
+    $$('.gift .card').forEach(function(c){gio.observe(c)});
+  }else{
+    $$('.reveal').forEach(function(el){el.classList.add('in')});
+    $$('.gbox').forEach(function(b){b.classList.add('open')});
+  }
+
+  /* ───────── شروع: فشفشه‌ها ───────── */
+  setTimeout(celebrate,reduce?0:1000);
+})();
+</script>
+</body>
+</html>
