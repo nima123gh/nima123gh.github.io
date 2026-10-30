@@ -431,6 +431,541 @@
   
   <section class="section" id="events">
     <h2 style="font-size: 40px; font-family: reybold;">🎉 ایونت ها 🎉</h2>
+
+<!-- ═══════════════════════════════════════════════════════════
+     🎁 ایونت قفل‌دار تولد (سه‌بعدی و اینتراکتیو)
+     این بلوک رو بذار اول بخش «ایونت ها» (بعد از <h2>🎉 ایونت ها 🎉</h2>)
+     ═══════════════════════════════════════════════════════════ -->
+<style>
+.event-card.bday3d-event{
+  position:relative;overflow:hidden;max-width:520px;margin:40px auto;padding:32px 18px 34px;
+  border-radius:30px;direction:rtl;text-align:center;color:#fff;
+  background:
+    radial-gradient(120% 60% at 50% 0%,rgba(255,196,120,.24),transparent 60%),
+    radial-gradient(90% 60% at 50% 100%,rgba(255,90,170,.30),transparent 65%),
+    linear-gradient(160deg,#2a0f4a 0%,#4b1466 45%,#7a1e6a 75%,#33103f 100%);
+  border:1.5px solid rgba(255,210,122,.6);
+  box-shadow:0 0 0 1px rgba(255,255,255,.06) inset,0 0 40px rgba(255,170,90,.25),0 20px 50px rgba(40,0,60,.45);
+  animation:b3dGlow 5s ease-in-out infinite;
+}
+.event-card.bday3d-event:hover{transform:none}
+.bday3d-event::after{content:"";position:absolute;top:-30%;bottom:-30%;width:40%;left:-60%;pointer-events:none;z-index:6;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.14),transparent);transform:skewX(-18deg);animation:b3dSweep 7s ease-in-out infinite}
+.b3d-stars{position:absolute;inset:0;pointer-events:none;z-index:0}
+.b3d-star{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9);opacity:.15;animation:b3dTwinkle 3s ease-in-out infinite}
+.b3d-inner{position:relative;z-index:2}
+.b3d-pill{display:inline-block;padding:4px 16px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,214,150,.5);
+  font-family:rey,Tahoma,sans-serif;font-size:15px;color:#ffe3b3;margin-bottom:8px}
+.bday3d-event h3.b3d-title{margin:4px 0 10px;font-family:reybold,Tahoma,sans-serif;font-size:clamp(25px,7.4vw,34px);line-height:1.5;color:#fff}
+.b3d-title .g{background:linear-gradient(100deg,#fff 10%,#ffe3a3 40%,#ffb3d4 70%,#fff);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 16px rgba(255,150,200,.55))}
+.bday3d-event p.b3d-sub{margin:0 auto;max-width:380px;font-family:rey,Tahoma,sans-serif;font-size:19px;line-height:1.9;color:#ffeaf4;transition:opacity .4s}
+
+.b3d-stage{position:relative;height:clamp(300px,80vw,360px);margin:6px auto 2px}
+.b3d-stage canvas{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab;outline:none}
+.b3d-stage canvas:active{cursor:grabbing}
+.b3d-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:110px;pointer-events:none;
+  animation:b3dFloat 3s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(255,150,200,.6))}
+.b3d-ready .b3d-fallback{display:none}
+.b3d-tip{position:absolute;bottom:0;left:0;right:0;font-family:rey,Tahoma,sans-serif;font-size:14px;color:rgba(255,255,255,.78);pointer-events:none;transition:opacity .6s}
+
+.b3d-form{max-width:360px;margin:10px auto 0;display:flex;flex-direction:column;gap:12px;transition:opacity .5s,transform .5s}
+.b3d-form.gone{opacity:0;transform:translateY(12px);pointer-events:none}
+.b3d-form.shake{animation:b3dShake .5s}
+.b3d-field{position:relative}
+.b3d-field .k{position:absolute;top:50%;right:16px;transform:translateY(-50%);font-size:20px;pointer-events:none;z-index:2}
+.b3d-field input{width:100%;padding:15px 46px;border-radius:16px;border:1.5px solid rgba(255,214,150,.55);background:rgba(255,255,255,.1);
+  color:#fff;font-size:18px;text-align:center;outline:none;direction:ltr;letter-spacing:.12em;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  transition:border-color .25s,box-shadow .25s,background .25s;font-family:inherit}
+.b3d-field input::placeholder{color:rgba(255,255,255,.55);letter-spacing:0;font-family:rey,Tahoma,sans-serif;direction:rtl}
+.b3d-field input:focus{border-color:#ffd27a;background:rgba(255,255,255,.16);box-shadow:0 0 0 4px rgba(255,210,122,.2),0 0 24px rgba(255,190,110,.35)}
+.b3d-btn,.b3d-link{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  padding:14px 22px;border:0;border-radius:16px;cursor:pointer;text-decoration:none;font-family:reybold,Tahoma,sans-serif;font-size:22px;color:#4a1240;
+  background:linear-gradient(135deg,#ffe29a,#ffb86b 55%,#ff9bbf);box-shadow:0 10px 26px rgba(255,160,100,.45),0 0 0 1px rgba(255,255,255,.35) inset;
+  transition:transform .2s,box-shadow .2s}
+.b3d-btn:hover,.b3d-link:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 34px rgba(255,160,100,.6),0 0 30px rgba(255,200,140,.5)}
+.b3d-btn:active,.b3d-link:active{transform:scale(.97)}
+.b3d-btn::after,.b3d-link::after{content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg);animation:b3dShine 3.2s infinite}
+.b3d-err{min-height:1.7em;font-family:rey,Tahoma,sans-serif;font-size:16px;color:#ffb3c9}
+.b3d-hintline{font-family:rey,Tahoma,sans-serif;font-size:15px;color:rgba(255,236,214,.8)}
+
+.b3d-reveal{max-width:380px;margin:4px auto 0;opacity:0;transform:translateY(16px) scale(.96);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.9,.3,1)}
+.b3d-reveal[hidden]{display:none}
+.b3d-reveal.show{opacity:1;transform:none}
+.bday3d-event .b3d-reveal h4{margin:0 0 6px;font-family:reybold,Tahoma,sans-serif;font-size:27px;color:#ffe9b8;text-shadow:0 0 22px rgba(255,170,200,.8)}
+.bday3d-event .b3d-reveal p{margin:0 0 16px;font-family:rey,Tahoma,sans-serif;font-size:18px;line-height:1.9;color:#fff}
+.b3d-link{font-size:24px;padding:17px 22px;animation:b3dPulseBtn 1.8s ease-in-out infinite}
+
+@keyframes b3dGlow{0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.06) inset,0 0 36px rgba(255,170,90,.22),0 20px 50px rgba(40,0,60,.45)}
+  50%{box-shadow:0 0 0 1px rgba(255,255,255,.06) inset,0 0 64px rgba(255,150,170,.42),0 20px 50px rgba(40,0,60,.45)}}
+@keyframes b3dSweep{0%,55%{left:-60%}100%{left:130%}}
+@keyframes b3dTwinkle{0%,100%{opacity:.1;transform:scale(.7)}50%{opacity:1;transform:scale(1.4)}}
+@keyframes b3dFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+@keyframes b3dShake{0%,100%{transform:translateX(0)}15%{transform:translateX(-9px)}30%{transform:translateX(8px)}45%{transform:translateX(-7px)}60%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+@keyframes b3dShine{0%{left:-100%}40%,100%{left:150%}}
+@keyframes b3dPulseBtn{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.b3d-opened .b3d-fallback{animation:b3dFloat 1.2s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){
+  .event-card.bday3d-event,.bday3d-event *,.bday3d-event::after{animation-duration:.001ms!important;animation-iteration-count:1!important}
+}
+</style>
+
+<div class="event-card bday3d-event" id="b3dCard">
+  <div class="b3d-stars" id="b3dStars" aria-hidden="true"></div>
+  <div class="b3d-inner">
+    <span class="b3d-pill">✨ ۸ آبان ✨</span>
+    <h3 class="b3d-title"><span class="g">ایونت : کادوی تولد</span> 🎁</h3>
+    <p class="b3d-sub" id="b3dSub">کادو ها برات قفل شده دخترم باید رمز بزنی تا بتونی ببینیییی 🔐</p>
+
+    <div class="b3d-stage" id="b3dStage">
+      <div class="b3d-fallback" aria-hidden="true">🎁</div>
+      <canvas id="b3dCanvas" role="img" aria-label="جعبه‌ی کادوی قفل‌شده"></canvas>
+    </div>
+
+    <form class="b3d-form" id="b3dForm" autocomplete="off">
+      <div class="b3d-field">
+        <span class="k">🔑</span>
+        <input id="b3dPwd" type="password" placeholder="رمز رو اینجا بنویس" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="رمز">
+      </div>
+      <button type="submit" class="b3d-btn">باز کن 🎀</button>
+      <div class="b3d-err" id="b3dErr" role="alert"></div>
+      <div class="b3d-hintline" id="b3dHint"></div>
+    </form>
+
+    <div class="b3d-reveal" id="b3dReveal" hidden>
+      <h4>تولدت مبارک عسل کوچولوی بابااا 💗</h4>
+      <p>قفل رو باز کردی! حالا میتونی کادو هاتو ببینییی. فقط مراقب باش داری میدویی لیز نخوریییی 🎁✨</p>
+      <a class="b3d-link" id="b3dLink" href="#" target="_blank" rel="noopener">بدو برو سراغ کادوهات 🎁</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ═══════════ ⚙️ تنظیمات (اینا رو عوض کن) ═══════════ */
+// ✏️ لینکی که بعد از باز شدن قفل نشون داده میشه
+var GIFT_URL = 'Birthday/birthdayGifts.html';
+// ✏️ هشِ رمز (SHA-256 به‌صورت base64). رمز فعلی: 8aban  ← حتماً عوضش کن
+var PASSWORD_HASH = 'doRgOddtK3RPFF1xtnaZmMOcwVcA3NYC4+99sY36icg=';
+// ✏️ راهنمایی‌ای که زیر دکمه نشون داده میشه
+var HINT = '';
+/* ═══════════════════════════════════════════════════ */
+
+var THREE_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+var $ = function(id){return document.getElementById(id)};
+var card=$('b3dCard'); if(!card) return;
+var stage=$('b3dStage'), canvas=$('b3dCanvas'), form=$('b3dForm'), pwd=$('b3dPwd'), err=$('b3dErr'),
+    sub=$('b3dSub'), reveal=$('b3dReveal'), link=$('b3dLink'), hint=$('b3dHint'), tip=$('b3dTip'), stars=$('b3dStars');
+var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!tip) tip={style:{}};
+link.href = GIFT_URL;
+hint.textContent = HINT;
+
+for(var si=0; si<28; si++){
+  var d=document.createElement('i'); d.className='b3d-star';
+  d.style.left=Math.random()*100+'%'; d.style.top=Math.random()*100+'%';
+  var z=1+Math.random()*2.4; d.style.width=d.style.height=z+'px';
+  d.style.animationDelay=(-Math.random()*5)+'s'; d.style.animationDuration=(2.5+Math.random()*3)+'s';
+  stars.appendChild(d);
+}
+
+/* ═══════════ منطق قفل ═══════════ */
+function norm(s){
+  return String(s||'').trim().toLowerCase()
+    .replace(/[۰-۹]/g,function(c){return String(c.charCodeAt(0)-0x06F0)})
+    .replace(/[٠-٩]/g,function(c){return String(c.charCodeAt(0)-0x0660)});
+}
+function sha(text){
+  if(!(window.crypto && crypto.subtle)) return Promise.reject(new Error('nosubtle'));
+  return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)).then(function(buf){
+    var b=new Uint8Array(buf), bin=''; for(var i=0;i<b.length;i++) bin+=String.fromCharCode(b[i]);
+    return btoa(bin);
+  });
+}
+var opened=false, busy=false, S=null;
+
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  if(opened||busy) return;
+  var v=norm(pwd.value);
+  if(!v){ fail('اول رمز رو بنویس 🔑'); return; }
+  busy=true;
+  sha(v).then(function(h){
+    busy=false;
+    if(h===PASSWORD_HASH) success(); else fail('رمز درست نیستتتت ای ننه بجم دوباره تلاش کننن😘💓');
+  }).catch(function(){ busy=false; fail('این صفحه باید با https باز بشه تا قفل کار کنه 🔒'); });
+});
+function fail(msg){
+  err.textContent=msg;
+  form.classList.remove('shake'); void form.offsetWidth; form.classList.add('shake');
+  if(S) S.reject();
+}
+function success(){
+  opened=true; err.textContent=''; pwd.blur(); pwd.disabled=true;
+  card.classList.add('b3d-opened');
+  form.classList.add('gone');
+  sub.textContent='قفل باز شد! 🎉🎉';
+  tip.textContent='روی قلب بزن 💗';
+  if(S) S.open();
+  setTimeout(showReveal, S ? 2700 : 900);
+}
+function showReveal(){
+  form.style.display='none';
+  reveal.hidden=false; void reveal.offsetWidth; reveal.classList.add('show');
+}
+function hideTip(){ tip.style.opacity='0'; }
+
+/* ═══════════ بارگذاری Three.js (تنبل) ═══════════ */
+function loadThree(cb){
+  if(window.THREE) return cb(true);
+  var s=document.createElement('script'); s.src=THREE_SRC; s.async=true;
+  s.onload=function(){cb(!!window.THREE)}; s.onerror=function(){cb(false)};
+  document.head.appendChild(s);
+}
+var started=false, visibleNow=false;
+function init(ok){
+  if(!ok) return;
+  try{
+    S=createScene();
+    card.classList.add('b3d-ready');
+    S.setVisible(visibleNow);
+    if(opened) S.open();
+  }catch(e){ S=null; if(window.console) console.warn('3D unavailable',e); }
+}
+if('IntersectionObserver' in window){
+  new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      visibleNow=en.isIntersecting;
+      if(visibleNow && !started){ started=true; loadThree(init); }
+      if(S) S.setVisible(visibleNow);
+    });
+  },{rootMargin:'250px'}).observe(stage);
+}else{ started=true; visibleNow=true; loadThree(init); }
+
+/* ═══════════ صحنه‌ی سه‌بعدی ═══════════ */
+function createScene(){
+  var T=window.THREE, W=0, H=0;
+  var renderer=new T.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  renderer.setClearColor(0x000000,0);
+  var scene=new T.Scene();
+  var camera=new T.PerspectiveCamera(38,1,.5,60);
+  var camZ=8.8, look=new T.Vector3(0,1.75,0);
+
+  function ctex(w,h,fn){var c=document.createElement('canvas');c.width=w;c.height=h;fn(c.getContext('2d'),w,h);return new T.CanvasTexture(c);}
+  function radial(stops){return ctex(128,128,function(g,w,h){var r=g.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2);
+    stops.forEach(function(s){r.addColorStop(s[0],s[1])});g.fillStyle=r;g.fillRect(0,0,w,h);});}
+  var glowT=radial([[0,'rgba(255,255,255,1)'],[.3,'rgba(255,255,255,.6)'],[1,'rgba(255,255,255,0)']]);
+  var shadowT=radial([[0,'rgba(0,0,0,.6)'],[.6,'rgba(0,0,0,.25)'],[1,'rgba(0,0,0,0)']]);
+  var innerT=radial([[0,'#fff6cf'],[.55,'#ffd27a'],[1,'#ff9a4a']]);
+  var beamT=ctex(8,256,function(g,w,h){var gr=g.createLinearGradient(0,0,0,h);
+    gr.addColorStop(0,'rgba(255,230,170,0)');gr.addColorStop(.55,'rgba(255,214,140,.35)');gr.addColorStop(1,'rgba(255,240,200,.95)');
+    g.fillStyle=gr;g.fillRect(0,0,w,h);});
+  function paper(base,dot){return ctex(256,256,function(g,w,h){g.fillStyle=base;g.fillRect(0,0,w,h);g.fillStyle=dot;
+    for(var y=0;y<4;y++)for(var x=0;x<4;x++){g.beginPath();g.arc(x*64+(y%2?32:0)+16,y*64+32,6,0,6.283);g.fill();}});}
+
+  /* نورها */
+  scene.add(new T.AmbientLight(0xffffff,.6));
+  var key=new T.DirectionalLight(0xfff1dc,.85); key.position.set(3,6,5); scene.add(key);
+  var rim=new T.PointLight(0xff6fb5,1.3,14); rim.position.set(-4,3,-2); scene.add(rim);
+  var warm=new T.PointLight(0xffc36b,1.0,12); warm.position.set(3.5,1.5,3.5); scene.add(warm);
+
+  /* مواد */
+  var gold=new T.MeshPhongMaterial({color:0xffc75a,specular:0xfff0b8,shininess:90,emissive:0x2a1800});
+  var bodyMat=new T.MeshStandardMaterial({map:paper('#e8487f','rgba(255,255,255,.34)'),roughness:.45,metalness:.05});
+  var lidMat=new T.MeshStandardMaterial({map:paper('#f0629a','rgba(255,255,255,.4)'),roughness:.42,metalness:.05});
+  var innerMat=new T.MeshBasicMaterial({map:innerT});
+
+  /* ایستگاه (podium) */
+  var podium=new T.Mesh(new T.CylinderGeometry(2.3,2.5,.22,64),new T.MeshStandardMaterial({color:0x3a1250,roughness:.5,metalness:.3}));
+  podium.position.y=-.11; scene.add(podium);
+  var prim=new T.Mesh(new T.TorusGeometry(2.3,.045,12,96),gold); prim.rotation.x=Math.PI/2; scene.add(prim);
+  var pring=new T.Mesh(new T.RingGeometry(1.75,2.2,64),new T.MeshBasicMaterial({color:0xff5fa2,transparent:true,opacity:.22,blending:T.AdditiveBlending,depthWrite:false,side:T.DoubleSide}));
+  pring.rotation.x=-Math.PI/2; pring.position.y=.01; scene.add(pring);
+  var shadow=new T.Mesh(new T.PlaneGeometry(3.8,3.8),new T.MeshBasicMaterial({map:shadowT,transparent:true,depthWrite:false}));
+  shadow.rotation.x=-Math.PI/2; shadow.position.y=.02; scene.add(shadow);
+
+  /* گرد و غبار طلایی */
+  function dust(n,color,size,r0,r1,ymax){
+    var p=new Float32Array(n*3);
+    for(var i=0;i<n;i++){var a=Math.random()*6.283,r=r0+Math.random()*(r1-r0);p[i*3]=Math.cos(a)*r;p[i*3+1]=Math.random()*ymax;p[i*3+2]=Math.sin(a)*r*.8;}
+    var g=new T.BufferGeometry(); g.setAttribute('position',new T.BufferAttribute(p,3));
+    var pts=new T.Points(g,new T.PointsMaterial({color:color,size:size,map:glowT,transparent:true,depthWrite:false,blending:T.AdditiveBlending,opacity:.9}));
+    scene.add(pts); return pts;
+  }
+  var dustA=dust(reduce?40:110,0xffd27a,.14,1.6,3.4,4.4), dustB=dust(reduce?20:50,0xff7fb8,.18,1.4,3.2,4.4);
+
+  /* جعبه */
+  var root=new T.Group(); scene.add(root);
+  var pick=[];
+  function tag(m,kind){m.userData.kind=kind;pick.push(m);return m;}
+
+  var body=tag(new T.Mesh(new T.BoxGeometry(2,1.4,2),[bodyMat,bodyMat,innerMat,bodyMat,bodyMat,bodyMat]),'box');
+  body.position.y=.7; root.add(body);
+  var rA=tag(new T.Mesh(new T.BoxGeometry(.34,1.42,2.04),gold),'box'); rA.position.y=.7; root.add(rA);
+  var rB=tag(new T.Mesh(new T.BoxGeometry(2.04,1.42,.34),gold),'box'); rB.position.y=.7; root.add(rB);
+
+  var lid=new T.Group(); lid.position.y=1.625; root.add(lid);
+  lid.add(tag(new T.Mesh(new T.BoxGeometry(2.2,.45,2.2),lidMat),'lid'));
+  lid.add(tag(new T.Mesh(new T.BoxGeometry(.34,.47,2.24),gold),'lid'));
+  lid.add(tag(new T.Mesh(new T.BoxGeometry(2.24,.474,.34),gold),'lid'));
+  var bow=new T.Group(); bow.position.y=.33; lid.add(bow);
+  var loopG=new T.TorusGeometry(.26,.075,12,28);
+  [[-.28,.5],[.28,-.5]].forEach(function(c){
+    var a=tag(new T.Mesh(loopG,gold),'lid'); a.position.set(c[0],.16,0); a.scale.set(1,1.25,.7); a.rotation.z=c[1]; bow.add(a);
+    var b=tag(new T.Mesh(loopG,gold),'lid'); b.position.set(0,.16,c[0]); b.scale.set(1,1.25,.7); b.rotation.set(0,Math.PI/2,c[1]); bow.add(b);
+  });
+  var knot=tag(new T.Mesh(new T.SphereGeometry(.14,16,12),gold),'lid'); knot.position.y=.05; bow.add(knot);
+
+  /* درخشش داخل جعبه + پرتو نور */
+  var innerGlow=new T.Mesh(new T.PlaneGeometry(1.9,1.9),new T.MeshBasicMaterial({map:glowT,color:0xffd27a,transparent:true,opacity:0,blending:T.AdditiveBlending,depthWrite:false}));
+  innerGlow.rotation.x=-Math.PI/2; innerGlow.position.y=1.43; root.add(innerGlow);
+  function beam(rt,rb,op){var m=new T.Mesh(new T.CylinderGeometry(rt,rb,4.2,32,1,true),
+    new T.MeshBasicMaterial({map:beamT,transparent:true,opacity:0,blending:T.AdditiveBlending,depthWrite:false,side:T.DoubleSide}));
+    m.position.y=3.5; m.userData.op=op; root.add(m); return m;}
+  var beams=[beam(1.5,.95,.5),beam(1.1,.7,.4)];
+
+  /* قفل */
+  var lock=new T.Group(); lock.position.set(0,.78,1.03); root.add(lock);
+  var lb=tag(new T.Mesh(new T.BoxGeometry(.62,.5,.24),gold),'lock'); lb.position.z=.12; lock.add(lb);
+  var kh=new T.Mesh(new T.CircleGeometry(.065,20),new T.MeshBasicMaterial({color:0x2a1000})); kh.position.set(0,.03,.243); lock.add(kh);
+  var ks=new T.Mesh(new T.PlaneGeometry(.04,.13),new T.MeshBasicMaterial({color:0x2a1000})); ks.position.set(0,-.06,.243); lock.add(ks);
+  var shO=new T.Group(); shO.position.set(-.19,.25,.12); lock.add(shO);
+  var shI=new T.Group(); shI.position.x=.19; shO.add(shI);
+  shI.add(tag(new T.Mesh(new T.TorusGeometry(.19,.05,12,24,Math.PI),gold),'lock'));
+  [-.19,.19].forEach(function(x){var l=tag(new T.Mesh(new T.CylinderGeometry(.05,.05,.2,12),gold),'lock'); l.position.set(x,-.08,0); shI.add(l);});
+  var lockGlow=new T.Sprite(new T.SpriteMaterial({map:glowT,color:0xffd27a,transparent:true,blending:T.AdditiveBlending,depthWrite:false,opacity:.5}));
+  lockGlow.scale.set(1.2,1.2,1); lockGlow.position.set(0,.12,.3); lock.add(lockGlow);
+
+  /* قلب سه‌بعدی */
+  var pts=[]; for(var i=0;i<=120;i++){var t=i/120*Math.PI*2; pts.push(new T.Vector2(16*Math.pow(Math.sin(t),3),13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t)));}
+  var hs=new T.Shape(pts);
+  var hg=new T.ExtrudeGeometry(hs,{depth:5,bevelEnabled:true,bevelThickness:2.5,bevelSize:2,bevelSegments:6,curveSegments:1});
+  hg.center(); hg.scale(.045,.045,.045);
+  var heart=tag(new T.Mesh(hg,new T.MeshPhysicalMaterial({color:0xff3d7f,roughness:.25,metalness:.1,clearcoat:1,clearcoatRoughness:.15,emissive:0x7a0a3a,emissiveIntensity:.6})),'heart');
+  heart.position.set(0,1.5,0); heart.scale.setScalar(0); root.add(heart);
+  var heartGlow=new T.Sprite(new T.SpriteMaterial({map:glowT,color:0xff5fa2,transparent:true,blending:T.AdditiveBlending,depthWrite:false,opacity:0}));
+  heartGlow.scale.set(3.4,3.4,1); heart.add(heartGlow);
+  var hLight=new T.PointLight(0xff6fa8,0,7); heart.add(hLight);
+
+  /* بادکنک‌ها */
+  var BCOL=[0xff5fa2,0xffd27a,0xb58cff,0x6ee7b7,0xff7a8a,0x7ee0ff];
+  var BT=[[-2.25,2.5,.4],[-1.6,3.65,-.4],[-2.35,3.55,-1],[2.25,2.7,.3],[1.6,3.75,-.5],[2.35,3.45,-1]];
+  var balloons=BT.map(function(p,i){
+    var g=new T.Group(); g.visible=false; g.scale.setScalar(0); scene.add(g);
+    var m=new T.Mesh(new T.SphereGeometry(.34,24,18),new T.MeshPhongMaterial({color:BCOL[i],specular:0xffffff,shininess:80}));
+    m.scale.y=1.2; g.add(m);
+    var kn=new T.Mesh(new T.ConeGeometry(.06,.1,10),new T.MeshPhongMaterial({color:BCOL[i]})); kn.position.y=-.43; kn.rotation.x=Math.PI; g.add(kn);
+    var sg=new T.BufferGeometry().setFromPoints([new T.Vector3(0,-.48,0),new T.Vector3(.05,-.85,0),new T.Vector3(-.05,-1.2,0),new T.Vector3(0,-1.55,0)]);
+    g.add(new T.Line(sg,new T.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.55})));
+    return {g:g,t:p,ph:Math.random()*6.28,d:1.25+i*.13};
+  });
+
+  /* کانفتی (InstancedMesh) */
+  var N=260, cg=new T.PlaneGeometry(.13,.08), cm=new T.MeshBasicMaterial({side:T.DoubleSide});
+  var conf=new T.InstancedMesh(cg,cm,N); conf.frustumCulled=false; scene.add(conf);
+  var dummy=new T.Object3D(), tmpC=new T.Color();
+  var P={x:new Float32Array(N),y:new Float32Array(N),z:new Float32Array(N),vx:new Float32Array(N),vy:new Float32Array(N),vz:new Float32Array(N),
+    rx:new Float32Array(N),ry:new Float32Array(N),rz:new Float32Array(N),vrx:new Float32Array(N),vry:new Float32Array(N),vrz:new Float32Array(N),
+    life:new Float32Array(N),max:new Float32Array(N),alive:new Uint8Array(N)};
+  var PAL=['#ff5fa2','#ffd27a','#7ee0ff','#b58cff','#6ee7b7','#ffffff','#ff8f6b'], cur=0;
+  dummy.scale.set(0,0,0); dummy.updateMatrix();
+  for(var ci=0;ci<N;ci++){conf.setMatrixAt(ci,dummy.matrix);conf.setColorAt(ci,tmpC.set('#ffffff'));}
+  function burst(x,y,z,n,power,spread){
+    if(reduce) n=Math.round(n*.35);
+    for(var k=0;k<n;k++){
+      var i=cur; cur=(cur+1)%N;
+      var a=Math.random()*6.283, sp=(.35+Math.random()*.65)*power;
+      P.x[i]=x;P.y[i]=y;P.z[i]=z;
+      P.vx[i]=Math.cos(a)*sp*spread; P.vz[i]=Math.sin(a)*sp*spread*.7; P.vy[i]=sp*(.7+Math.random()*.6);
+      P.rx[i]=Math.random()*6;P.ry[i]=Math.random()*6;P.rz[i]=Math.random()*6;
+      P.vrx[i]=(Math.random()-.5)*14;P.vry[i]=(Math.random()-.5)*14;P.vrz[i]=(Math.random()-.5)*14;
+      P.life[i]=0;P.max[i]=1.8+Math.random()*1.4;P.alive[i]=1;
+      conf.setColorAt(i,tmpC.set(PAL[(Math.random()*PAL.length)|0]));
+    }
+    conf.instanceColor.needsUpdate=true;
+  }
+  function updConf(dt){
+    var dirty=false;
+    for(var i=0;i<N;i++){
+      if(!P.alive[i]) continue;
+      P.life[i]+=dt; dirty=true;
+      if(P.life[i]>=P.max[i]){P.alive[i]=0;dummy.scale.set(0,0,0);dummy.updateMatrix();conf.setMatrixAt(i,dummy.matrix);continue;}
+      var drag=1-1.1*dt; P.vx[i]*=drag; P.vz[i]*=drag; P.vy[i]=P.vy[i]*drag-7*dt;
+      P.x[i]+=P.vx[i]*dt;P.y[i]+=P.vy[i]*dt;P.z[i]+=P.vz[i]*dt;
+      P.rx[i]+=P.vrx[i]*dt;P.ry[i]+=P.vry[i]*dt;P.rz[i]+=P.vrz[i]*dt;
+      var rem=P.max[i]-P.life[i], s=rem<.4?rem/.4:1; if(P.y[i]<-1.4) s=0;
+      dummy.position.set(P.x[i],P.y[i],P.z[i]); dummy.rotation.set(P.rx[i],P.ry[i],P.rz[i]); dummy.scale.setScalar(s); dummy.updateMatrix();
+      conf.setMatrixAt(i,dummy.matrix);
+    }
+    if(dirty) conf.instanceMatrix.needsUpdate=true;
+  }
+
+  /* وضعیت و انیمیشن */
+  function clamp(v,a,b){return v<a?a:v>b?b:v}
+  function eOutCubic(x){return 1-Math.pow(1-x,3)}
+  function eOutBack(x){var c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)}
+  var st={ot:-1,did:{},intro:0,rejectT:-1,jig:0,lockWig:0,glow:0,flash:0,punch:0,lockPhys:null,lidPhys:null,lockT:0,heartPop:0};
+  var rotY=0,velY=0,tilt=0,tiltT=0,dragging=false,lastX=0,lastY=0,downT=0,moved=0,lastMoveT=0,hoverX=0,hoverY=0;
+  var visible=false,running=false,last=0,time=0;
+
+  function update(dt,t){
+    /* ورودی */
+    st.intro=Math.min(1,st.intro+dt/1.0);
+    var is=eOutBack(st.intro);
+    var s=is; if(st.jig>0){st.jig=Math.max(0,st.jig-dt*2.2);var w=Math.sin((1-st.jig)*18)*st.jig*.07;root.scale.set(s*(1+w),s*(1-w),s*(1+w));}else root.scale.setScalar(s);
+    /* چرخش */
+    if(!dragging){rotY+=(velY+(reduce?0:(st.ot>=0?.5:.35)))*dt;velY*=Math.max(0,1-3*dt);}
+    tilt+=(tiltT-tilt)*Math.min(1,dt*8);
+    root.rotation.y=rotY; root.rotation.x=tilt;
+    root.position.y=reduce?0:Math.sin(t*1.4)*.05;
+    /* رد شدن رمز */
+    if(st.rejectT>=0){st.rejectT+=dt;var k=Math.exp(-st.rejectT*5);root.position.x=Math.sin(st.rejectT*38)*.18*k;lock.rotation.z=Math.sin(st.rejectT*30)*.5*k;if(st.rejectT>1)st.rejectT=-1;}
+    else{root.position.x=0;}
+    if(st.lockWig>0&&st.rejectT<0){st.lockWig=Math.max(0,st.lockWig-dt*2);lock.rotation.z=Math.sin((1-st.lockWig)*26)*.35*st.lockWig;}
+    else if(st.rejectT<0&&!st.lockPhys&&st.ot<0){lock.rotation.z=Math.sin(t*1.8)*.03;}
+    lockGlow.material.opacity=st.ot<0?.35+.2*Math.sin(t*3):0;
+
+    /* مراحل باز شدن */
+    if(st.ot>=0){
+      st.ot+=dt; var ot=st.ot;
+      if(ot<.75){
+        shO.position.y=.25+eOutCubic(clamp(ot/.25,0,1))*.14;
+        shO.rotation.y=eOutBack(clamp((ot-.15)/.45,0,1))*1.9;
+      }
+      if(ot>=.75&&!st.did.drop){st.did.drop=1;st.lockPhys={vy:1.2,vz:1.0,y:lock.position.y,z:lock.position.z,rx:0};burst(0,1.1,1.4,24,2.6,1);}
+      if(ot>=1.0&&!st.did.lid){
+        st.did.lid=1; st.lidPhys={vx:-1.6,vy:5.2,vz:.9,rx:3.1,rz:-4.2,t:0};
+        st.flash=1; st.punch=1;
+        burst(0,1.7,0,130,7.5,.85); innerGlow.visible=true;
+      }
+      if(ot>=1.45&&!st.did.side){st.did.side=1;burst(-1.9,.6,1.2,60,6.2,.7);burst(1.9,.6,1.2,60,6.2,.7);}
+      st.glow=clamp((ot-1)/1.2,0,1);
+      if(ot>=1.15) heartUpdate(ot-1.15,t);
+      balloons.forEach(function(b){balloonUpdate(b,ot-1.0,t);});
+    }
+    /* فیزیک قفل */
+    if(st.lockPhys){
+      var lp=st.lockPhys; st.lockT+=dt;
+      lp.vy-=12*dt; lp.y+=lp.vy*dt; lp.z+=lp.vz*dt; lp.vz*=1-1.5*dt; lp.rx+=3*dt*(lp.y>.3?1:.2);
+      if(lp.y<.3){lp.y=.3;lp.vy=-lp.vy*.35;if(Math.abs(lp.vy)<.4)lp.vy=0;}
+      lock.position.set(0,lp.y,lp.z); lock.rotation.x=lp.rx*(lp.y>.3?1:.1);
+      if(st.lockT>1.6){var sc=Math.max(0,1-(st.lockT-1.6)/.3);lock.scale.setScalar(sc);if(sc<=0)lock.visible=false;}
+    }
+    /* فیزیک درپوش */
+    if(st.lidPhys){
+      var l=st.lidPhys; l.t+=dt; l.vy-=9.5*dt;
+      lid.position.x+=l.vx*dt;lid.position.y+=l.vy*dt;lid.position.z+=l.vz*dt;lid.rotation.x+=l.rx*dt;lid.rotation.z+=l.rz*dt;
+      if(l.t>1.05){var ls=Math.max(0,1-(l.t-1.05)/.4);lid.scale.setScalar(ls);if(ls<=0){lid.visible=false;st.lidPhys=null;}}
+    }
+    /* پرتو و درخشش */
+    innerGlow.material.opacity=st.glow*(.75+.15*Math.sin(t*3));
+    beams.forEach(function(b,i){b.material.opacity=st.glow*b.userData.op*(.8+.2*Math.sin(t*2.2+i));});
+    /* نورها */
+    st.flash=Math.max(0,st.flash-dt*1.6); st.punch=Math.max(0,st.punch-dt*1.8);
+    warm.intensity=1.0+st.glow*1.1+st.flash*3;
+    /* گرد و غبار */
+    dustA.rotation.y+=dt*.08; dustB.rotation.y-=dt*.06;
+    dustA.position.y=Math.sin(t*.5)*.08; dustB.position.y=Math.cos(t*.45)*.08;
+    pring.material.opacity=.18+.08*Math.sin(t*2)+st.glow*.2;
+    /* دوربین */
+    camera.position.x+=((hoverX*.5)-camera.position.x)*Math.min(1,dt*3);
+    camera.position.y+=((2.7-hoverY*.3)-camera.position.y)*Math.min(1,dt*3);
+    camera.position.z=camZ-st.punch*.6;
+    camera.lookAt(look);
+    updConf(dt);
+  }
+  function heartUpdate(ht,t){
+    var sc=eOutBack(clamp(ht/1.1,0,1));
+    var pulse=1+(st.did.heart?.08*Math.max(0,Math.sin(t*6)):0)+st.heartPop*.25;
+    st.heartPop=Math.max(0,st.heartPop-.04);
+    heart.scale.setScalar(sc*pulse);
+    heart.position.y=1.5+eOutCubic(clamp(ht/1.3,0,1))*1.5+Math.sin(t*1.6)*.06*clamp(ht-1.2,0,1);
+    heart.rotation.y=ht*.9;
+    heartGlow.material.opacity=.6*st.glow*(.8+.2*Math.sin(t*6));
+    hLight.intensity=st.glow*1.7;
+    if(ht>1.1)st.did.heart=1;
+  }
+  function balloonUpdate(b,bt,t){
+    var lt=bt-(b.d-1.0); if(lt<0) return; b.g.visible=true;
+    var e=eOutCubic(clamp(lt/1.5,0,1)), sc=eOutBack(clamp(lt/.7,0,1));
+    var sw=clamp(lt-1.5,0,1);
+    b.g.position.set(b.t[0]*e+Math.sin(t*.9+b.ph)*.1*sw, 1.5+(b.t[1]-1.5)*e+Math.sin(t*1.1+b.ph)*.12*sw, b.t[2]*e);
+    b.g.scale.setScalar(sc); b.g.rotation.z=Math.sin(t*1.2+b.ph)*.1;
+  }
+
+  /* ورودی کاربر */
+  var ray=new T.Raycaster(), ndc=new T.Vector2();
+  function picked(e){
+    var r=canvas.getBoundingClientRect();
+    ndc.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);
+    ray.setFromCamera(ndc,camera);
+    var hits=ray.intersectObjects(pick,false);
+    for(var i=0;i<hits.length;i++){
+      var o=hits[i].object,vis=true; while(o){if(!o.visible){vis=false;break;}o=o.parent;}
+      if(vis) return hits[i].object.userData.kind;
+    }
+    return null;
+  }
+  function tap(e){
+    var kind=picked(e);
+    if(st.ot<0){
+      if(kind==='lock'){st.lockWig=1;st.rejectT=-1;try{pwd.focus({preventScroll:true});}catch(_){pwd.focus();}burst(0,1.0,1.4,10,2.2,1);}
+      else if(kind){st.jig=1;burst(0,1.7,0,14,3,.6);}
+    }else{
+      if(kind==='heart'){st.heartPop=1;burst(0,3.0,0,50,5.5,1);}
+      else{burst(0,1.9,0,26,4.5,.9);}
+    }
+  }
+  canvas.addEventListener('pointerdown',function(e){
+    dragging=true;moved=0;downT=performance.now();lastX=e.clientX;lastY=e.clientY;lastMoveT=downT;hideTip();
+    try{canvas.setPointerCapture(e.pointerId);}catch(_){}
+  });
+  canvas.addEventListener('pointermove',function(e){
+    var r=canvas.getBoundingClientRect();hoverX=clamp(((e.clientX-r.left)/r.width-.5)*2,-1,1);hoverY=clamp(((e.clientY-r.top)/r.height-.5)*2,-1,1);
+    if(!dragging) return;
+    var dx=e.clientX-lastX,dy=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;moved+=Math.abs(dx)+Math.abs(dy);
+    rotY+=dx*.012;tiltT=clamp(tiltT+dy*.004,-.25,.3);
+    var now=performance.now();velY=clamp(dx*.012/Math.max(.008,(now-lastMoveT)/1000),-9,9);lastMoveT=now;
+  });
+  function up(e){
+    if(!dragging) return; dragging=false;tiltT=0;
+    if(e.type==='pointerup'&&moved<8&&performance.now()-downT<450) tap(e);
+  }
+  canvas.addEventListener('pointerup',up);
+  canvas.addEventListener('pointercancel',up);
+  canvas.addEventListener('pointerleave',function(){hoverX=0;hoverY=0;});
+
+  /* اندازه و حلقه‌ی رندر */
+  function resize(){
+    var w=stage.clientWidth,h=stage.clientHeight; if(!w||!h||(w===W&&h===H)) return;
+    W=w;H=h;renderer.setSize(w,h,false);camera.aspect=w/h;camZ=Math.max(8.8,8.6/camera.aspect);camera.updateProjectionMatrix();
+  }
+  if(window.ResizeObserver) new ResizeObserver(resize).observe(stage); else window.addEventListener('resize',resize);
+  resize(); camera.position.set(0,2.7,camZ); camera.lookAt(look);
+
+  function frame(now){
+    if(!visible||document.hidden){running=false;return;}
+    requestAnimationFrame(frame);
+    var dt=Math.min(.05,(now-last)/1000||0);last=now;time+=dt;
+    resize();update(dt,time);renderer.render(scene,camera);
+  }
+  function kick(){if(running)return;running=true;last=performance.now();requestAnimationFrame(frame);}
+  document.addEventListener('visibilitychange',function(){if(visible&&!document.hidden)kick();});
+
+  return {
+    setVisible:function(v){visible=v;if(v)kick();},
+    open:function(){if(st.ot<0){st.ot=0;hideTip();}},
+    reject:function(){st.rejectT=0;st.lockWig=0;}
+  };
+}
+})();
+</script>
+
+
   
 <!-- ✨ CHECKLIST EVENT -->
 <style>
