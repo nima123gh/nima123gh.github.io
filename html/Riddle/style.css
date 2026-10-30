@@ -1,0 +1,814 @@
+/* =========================================================
+   Every World Leads To You — stylesheet
+   Organized in sections:
+     1. Tokens
+     2. Reset & base
+     3. Atmosphere (gradients, canvas, cursor glow, vignette, idle quotes)
+     4. Header: constellation progress + scene counter + controls
+     5. Scene stage (shared text/typewriter/eyebrow styles)
+     6. Choices & continue affordance
+     7. Ending (heart, close line, actions)
+     8. Letter modal
+     9. Tap sparkles
+    10. Utility & accessibility
+    11. Responsive
+   ========================================================= */
+
+/* ---------- 1. Tokens ---------- */
+
+:root {
+  --bg-deep: #090b14;
+  --bg-mid: #12162a;
+
+  --accent-gold: #e3b778;
+  --accent-gold-soft: rgba(227, 183, 120, 0.35);
+  --accent-rose: #d89aa0;
+
+  --text-primary: #f1ece3;
+  --text-muted: rgba(241, 236, 227, 0.58);
+  --text-faint: rgba(241, 236, 227, 0.34);
+
+  --glass-bg: rgba(255, 255, 255, 0.045);
+  --glass-bg-strong: rgba(255, 255, 255, 0.075);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.35);
+
+  --font-display: 'Aref Ruqaa', 'Vazirmatn', serif;
+  --font-ui: 'Vazirmatn', 'Aref Ruqaa', sans-serif;
+
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-scene: 650ms;
+}
+
+/* ---------- 2. Reset & base ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  font-family: var(--font-ui);
+  color: var(--text-primary);
+  background: linear-gradient(180deg, var(--bg-deep), var(--bg-mid));
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+p {
+  margin: 0;
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ---------- 3. Atmosphere ---------- */
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  transition: opacity 2.2s var(--ease-soft);
+}
+
+body::before {
+  background:
+    radial-gradient(ellipse 60% 40% at 18% -8%, rgba(227, 183, 120, 0.12), transparent 60%),
+    radial-gradient(ellipse 55% 45% at 88% 108%, rgba(216, 154, 160, 0.09), transparent 55%);
+  opacity: 1;
+}
+
+body::after {
+  background: radial-gradient(ellipse 70% 50% at 50% 12%, rgba(248, 243, 231, 0.08), transparent 62%);
+  opacity: 0;
+}
+
+body.theme--night {
+  background: linear-gradient(180deg, #05060d, #0a0d1c);
+}
+
+body.theme--night::before {
+  opacity: 0;
+}
+
+body.theme--night::after {
+  opacity: 1;
+}
+
+#particle-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+}
+
+#cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 420px;
+  height: 420px;
+  margin-left: -210px;
+  margin-top: -210px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(227, 183, 120, 0.07), transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+#vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+#idle-quote-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.idle-quote {
+  position: absolute;
+  bottom: 8%;
+  max-width: min(68vw, 280px);
+  text-align: center;
+  white-space: normal;
+  transform: translate(-50%, 0);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--text-faint);
+  opacity: 0;
+  transition: opacity 2.5s ease, transform 9s linear;
+}
+
+.idle-quote--visible {
+  opacity: 1;
+  transform: translate(-50%, -140px);
+}
+
+/* ---------- 4. Header: progress + controls ---------- */
+
+#app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem clamp(1.2rem, 4vw, 2.6rem) 0;
+  pointer-events: auto;
+}
+
+#constellation-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-width: 160px;
+}
+
+#constellation {
+  width: clamp(120px, 18vw, 180px);
+  height: auto;
+  overflow: visible;
+  transform: scaleX(-1);
+}
+
+.constellation-path {
+  fill: none;
+  stroke: var(--accent-gold);
+  stroke-width: 1;
+  opacity: 0.65;
+  transition: stroke-dashoffset 900ms var(--ease-soft);
+}
+
+.constellation-node {
+  fill: rgba(241, 236, 227, 0.28);
+  transition: fill 500ms ease, r 500ms ease;
+}
+
+.constellation-node--done {
+  fill: var(--accent-gold);
+}
+
+.constellation-node--active {
+  fill: var(--text-primary);
+  animation: nodePulse 2.4s ease-in-out infinite;
+}
+
+@keyframes nodePulse {
+
+  0%,
+  100% {
+    r: 3.2;
+    filter: drop-shadow(0 0 2px var(--accent-gold-soft));
+  }
+
+  50% {
+    r: 4.4;
+    filter: drop-shadow(0 0 6px var(--accent-gold-soft));
+  }
+}
+
+#constellation-label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  min-height: 1em;
+}
+
+#scene-counter {
+  position: absolute;
+  left: 50%;
+  top: 1.6rem;
+  transform: translateX(-50%);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  margin: 0;
+}
+
+#controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--text-muted);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: color 300ms ease, background 300ms ease, transform 300ms ease;
+}
+
+.icon-btn svg {
+  width: 17px;
+  height: 17px;
+}
+
+.icon-btn:hover {
+  color: var(--text-primary);
+  background: var(--glass-bg-strong);
+  transform: translateY(-1px);
+}
+
+.icon-btn--active {
+  color: var(--accent-gold);
+}
+
+#music-btn .icon-mute {
+  opacity: 1;
+  transition: opacity 250ms ease;
+}
+
+#music-btn .icon-waves {
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+#music-btn.icon-btn--active .icon-mute {
+  opacity: 0;
+}
+
+#music-btn.icon-btn--active .icon-waves {
+  opacity: 1;
+}
+
+/* ---------- 5. Scene stage ---------- */
+
+.scene {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem 4rem;
+}
+
+.scene-inner {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.scene.scene--in .scene-inner {
+  animation: sceneIn 1300ms var(--ease-soft) forwards;
+}
+
+.scene.scene--out .scene-inner {
+  animation: sceneOut var(--dur-scene) var(--ease-soft) forwards;
+}
+
+@keyframes sceneIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sceneOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.scene-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  color: var(--accent-gold);
+  opacity: 0.85;
+  margin-bottom: 1.4rem;
+}
+
+.scene-text {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.4rem, 1rem + 1.6vw, 2.2rem);
+  line-height: 1.9;
+  color: var(--text-primary);
+  max-width: 30em;
+  min-height: 1.6em;
+  transition: opacity 560ms ease;
+}
+
+.scene-text--fading {
+  opacity: 0;
+}
+
+.scene-text.is-typing::after {
+  content: '|';
+  display: inline-block;
+  margin-inline-start: 2px;
+  color: var(--accent-gold);
+  animation: caretBlink 1s steps(1) infinite;
+}
+
+@keyframes caretBlink {
+
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.scene-inner--opening .scene-text,
+.scene-text--ending {
+  font-weight: 700;
+  font-size: clamp(1.55rem, 1rem + 2.2vw, 2.6rem);
+}
+
+.scene-text--close {
+  opacity: 0;
+  transform: translateY(8px);
+  font-size: clamp(1.05rem, 0.9rem + 0.8vw, 1.3rem);
+  color: var(--text-muted);
+  margin-top: 1.4rem;
+  transition: opacity 1600ms var(--ease-soft), transform 1600ms var(--ease-soft);
+}
+
+.scene-text--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ---------- 6. Choices & continue affordance ---------- */
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 2.4rem;
+}
+
+.choice-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.95rem 1.5rem;
+  min-width: 190px;
+  border-radius: 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 800ms var(--ease-soft), transform 800ms var(--ease-soft),
+    background 250ms ease, border-color 250ms ease;
+}
+
+.choice-btn--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.choice-btn:hover,
+.choice-btn:focus-visible {
+  background: var(--glass-bg-strong);
+  border-color: var(--accent-gold-soft);
+}
+
+.choice-key {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold-soft);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+}
+
+.choice-label {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  text-align: start;
+}
+
+.continue-affordance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 2.6rem;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 900ms var(--ease-soft), transform 900ms var(--ease-soft), color 250ms ease;
+}
+
+.continue-affordance--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.continue-affordance:hover,
+.continue-affordance:focus-visible {
+  color: var(--accent-gold);
+}
+
+.continue-chevron {
+  font-size: 0.9rem;
+  animation: chevronDrift 2.2s ease-in-out infinite;
+}
+
+@keyframes chevronDrift {
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+
+
+/* ---------- 7. Ending ---------- */
+
+.ending-heart {
+  margin-top: 1.6rem;
+  font-size: 1.8rem;
+  color: var(--accent-rose);
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 1600ms var(--ease-soft), transform 1600ms var(--ease-soft);
+}
+
+.ending-heart--visible {
+  opacity: 1;
+  transform: scale(1);
+  animation: heartBeat 3.4s ease-in-out 1600ms infinite;
+}
+
+@keyframes heartBeat {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.ending-actions {
+  margin-top: 2.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1200ms var(--ease-soft), transform 1200ms var(--ease-soft);
+}
+
+.ending-actions--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.letter-trigger {
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--accent-gold-soft);
+  box-shadow: var(--shadow-soft);
+  transition: background 250ms ease, transform 250ms ease;
+}
+
+.letter-trigger:hover,
+.letter-trigger:focus-visible {
+  background: var(--glass-bg-strong);
+  transform: translateY(-1px);
+}
+
+.replay-link {
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  color: var(--text-faint);
+  transition: color 250ms ease;
+}
+
+.replay-link:hover,
+.replay-link:focus-visible {
+  color: var(--accent-gold);
+}
+
+
+/* ---------- 8. Letter modal ---------- */
+
+.letter-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(5, 6, 13, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 400ms var(--ease-soft);
+}
+
+/* Shown only once JS clears the `hidden` attribute — this keeps the
+   closed modal fully out of layout, tab order, and the a11y tree,
+   while still allowing the opacity transition to play on the way in/out. */
+.letter-modal:not([hidden]) {
+  display: flex;
+}
+
+.letter-modal--visible {
+  opacity: 1;
+}
+
+.letter-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 82vh;
+  overflow-y: auto;
+  padding: clamp(2rem, 5vw, 3rem);
+  border-radius: 22px;
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+  transform: translateY(16px) scale(0.98);
+  transition: transform 450ms var(--ease-soft);
+}
+
+.letter-modal--visible .letter-card {
+  transform: translateY(0) scale(1);
+}
+
+.letter-close {
+  position: absolute;
+  top: 1rem;
+  inset-inline-end: 1.1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--text-faint);
+  border-radius: 50%;
+  transition: color 250ms ease, background 250ms ease;
+}
+
+.letter-close:hover,
+.letter-close:focus-visible {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.letter-kicker {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--accent-gold);
+  opacity: 0.85;
+  margin-bottom: 1.4rem;
+}
+
+.letter-content {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.5rem);
+  line-height: 1.85;
+  color: var(--text-primary);
+}
+
+.letter-content p {
+  margin-bottom: 1.1rem;
+}
+
+.letter-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- 9. Tap sparkles ---------- */
+
+.sparkle {
+  position: fixed;
+  z-index: 50;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0);
+  animation: sparkleBurst 700ms ease-out forwards;
+}
+
+@keyframes sparkleBurst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  18% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.3);
+  }
+}
+
+/* ---------- 10. Utility & accessibility ---------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .scene-inner,
+  .choice-btn,
+  .continue-affordance,
+  .ending-heart,
+  .ending-actions,
+  .scene-text--close {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .continue-chevron,
+  .constellation-node--active {
+    animation: none !important;
+  }
+}
+
+/* ---------- 11. Responsive ---------- */
+
+@media (max-width: 640px) {
+  #app-header {
+    padding: 1.1rem 1.1rem 0;
+  }
+
+  #scene-counter {
+    display: none;
+  }
+
+  #constellation {
+    width: 120px;
+  }
+
+  .choices {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .choice-btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .scene {
+    padding: 5.5rem 1.2rem 3rem;
+  }
+
+  .letter-card {
+    padding: 1.8rem 1.5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  #constellation-wrap {
+    min-width: 110px;
+  }
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>هر دنیاzیی به تو ختم می‌شود</title>
+  <meta name="description" content="داستانی تعاملی دربارهٔ این‌که هر راهی، باز هم به همان آدم می‌رسد." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Handjet:wght,ELSH@100..900,2&family=Nanum+Gothic:wght@800&family=Open+Sans:ital,wght@1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- background atmosphere -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <div id="cursor-glow" aria-hidden="true"></div>
+  <div id="vignette" aria-hidden="true"></div>
+  <div id="idle-quote-layer" aria-hidden="true"></div>
+
+  <!-- top chrome: progress + controls -->
+  <header id="app-header">
+    <div id="constellation-wrap">
+      <svg id="constellation" viewBox="0 0 260 36" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+      <span id="constellation-label"></span>
+    </div>
+
+    <p id="scene-counter" aria-live="off"></p>
+
+    <div id="controls" role="group" aria-label="کنترل‌های تجربه">
+      <button id="restart-btn" type="button" class="icon-btn" aria-label="شروع دوباره از ابتدا">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6M20 20v-6h-6M5.5 15a8 8 0 0 0 13.9 2.9M18.5 9a8 8 0 0 0-13.9-2.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button id="music-btn" type="button" class="icon-btn" aria-label="پخش موسیقیِ آرام" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path class="icon-speaker" d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/>
+          <path class="icon-waves" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path class="icon-mute" d="M15.5 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button id="fullscreen-btn" type="button" class="icon-btn" aria-label="ورود به حالتِ تمام‌صفحه">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- main story stage -->
+  <main id="scene" class="scene" aria-live="polite" tabindex="-1"></main>
+
+  <p id="sr-hint" class="sr-only">
+    برای انتخاب از کلیدهای عددی استفاده کن؛ اینتر یا اسپیس برای ادامه؛
+    M برای موسیقی؛ F برای حالتِ تمام‌صفحه.
+  </p>
+
+  <!-- final letter -->
+  <div id="letter-modal" class="letter-modal" hidden>
+    <div class="letter-card" role="dialog" aria-modal="true" aria-labelledby="letter-title">
+      <button id="letter-close" type="button" class="letter-close" aria-label="بستنِ نامه">&times;</button>
+      <p id="letter-title" class="letter-kicker">نامه‌ای، تاشده و کوچک</p>
+      <div id="letter-content" class="letter-content"></div>
+    </div>
+  </div>
+
+  <script src="utils.js"></script>
+  <script src="story.js"></script>
+  <script src="animations.js"></script>
+  <script src="ui.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
